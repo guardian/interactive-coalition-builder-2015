@@ -1,19 +1,15 @@
 define([
     'd3',
     'reqwest',
-    'json!data/sampleData.json',
+    'charts/mirrorlineInit.js',
     'text!templates/appTemplate.html'
 ], function(
     d3,
     reqwest,
-    sampleData,
+    mirrorlineChart,
     templateHTML
 ) {
    'use strict';
-
-    function logResponse(resp) {
-        console.log(resp);
-    }
 
     function handleRequestError(err, msg) {
         console.error('Failed: ', err, msg);
@@ -30,19 +26,19 @@ define([
         // DOM template example
         el.innerHTML = templateHTML;
         
-        // Load local JSON data
-        console.log(sampleData);
-
         // Load remote JSON data
-        var key = '1hy65wVx-pjwjSt2ZK7y4pRDlX9wMXFQbwKN0v3XgtXM';
-        var url = 'http://interactive.guim.co.uk/spreadsheetdata/'+key+'.json';
+        var key = '1YilVzArect3kcE1rzJvYivXkfs1oL0MLCrvC9GjPF6E',
+            url = 'http://interactive.guim.co.uk/spreadsheetdata/'+key+'.json';
 
         reqwest({
             url: url,
             type: 'json',
             crossOrigin: true
         })
-        .then(logResponse)
+        .then(function(data) {
+            //console.log(data);
+            mirrorlineChart.render(data);
+        })
         .fail(handleRequestError)
         .always(afterRequest);
     }

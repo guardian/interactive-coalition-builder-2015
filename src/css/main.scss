@@ -13,7 +13,9 @@ $guss-webfonts-base-url: '//pasteup.guim.co.uk/fonts/';
 @import 'bower_components/pasteup-palette/src/_palette';
 
 @import 'modules/grid';
-@import 'modules/sparkline';
+@import 'modules/mirrorlines';
+//@import 'modules/coalitionlist';
+//@import 'modules/draggablecircles';
 
 
 // font
@@ -56,4 +58,13 @@ $c-dup:    #D46A4C;//$c-others;
 $c-sf:     #008800;
 $c-sdlp:   #99FF66;
 
-
+// background-color:
+// TODO: use sass to iterate a color map
+.bgc-con    { background-color: $c-con }
+.bgc-grn    { background-color: $c-grn }
+.bgc-lab    { background-color: $c-lab }
+.bgc-snp    { background-color: $c-snp }
+.bgc-dup    { background-color: $c-dup }
+.bgc-ldem   { background-color: $c-ldem }
+.bgc-ukip   { background-color: $c-ukip }
+.bgc-others { background-color: $c-others }
