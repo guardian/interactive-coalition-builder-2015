@@ -2,11 +2,13 @@ define([
     'd3',
     'reqwest',
     'charts/mirrorlineInit.js',
+    'charts/partycircleInit.js',
     'text!templates/appTemplate.html'
 ], function(
     d3,
     reqwest,
     mirrorlineChart,
+    partycircleChart,
     templateHTML
 ) {
    'use strict';
@@ -36,8 +38,8 @@ define([
             crossOrigin: true
         })
         .then(function(data) {
-            //console.log(data);
             mirrorlineChart.render(data);
+            partycircleChart.render(data);
         })
         .fail(handleRequestError)
         .always(afterRequest);
