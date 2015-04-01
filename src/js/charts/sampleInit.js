@@ -1,6 +1,6 @@
 define([
     'd3',
-    'data/sampleData.json'
+    'json!data/sampleData.json'
 ], function(
     d3,
     sampleData

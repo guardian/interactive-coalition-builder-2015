@@ -1,6 +1,6 @@
 define([
     'd3',
-    'charts/mirrorlineDraw'
+    'charts/mirrorlineDraw.js'
 ], function(
     d3,
     CoalitionsMirrorLineChart

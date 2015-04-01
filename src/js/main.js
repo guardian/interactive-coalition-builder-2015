@@ -2,12 +2,14 @@ define([
     'd3',
     'reqwest',
     'charts/mirrorlineInit.js',
+    'charts/coalitionlistInit.js',
     'charts/partycircleInit.js',
     'text!templates/appTemplate.html'
 ], function(
     d3,
     reqwest,
     mirrorlineChart,
+    coalitionlistChart,
     partycircleChart,
     templateHTML
 ) {
@@ -39,6 +41,7 @@ define([
         })
         .then(function(data) {
             mirrorlineChart.render(data);
+            coalitionlistChart.render(data);
             partycircleChart.render(data);
         })
         .fail(handleRequestError)

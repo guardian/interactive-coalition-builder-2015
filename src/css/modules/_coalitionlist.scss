@@ -1,0 +1,44 @@
+#listChart {
+    .ul-no-style {
+        list-style: none;
+        padding-left: 0;
+    }
+
+    .ul-party li {
+        font-family: $ff-data;
+        text-align: center;
+        display: inline-block;
+        width: calc(480px / 9);
+        border-top: 5px solid;
+        cursor: pointer;
+        opacity: 0.75;
+    }
+    .ul-party li:hover,
+    .ul-party .active {
+        opacity: 1;
+        box-shadow: 0px -3px dimgrey;
+    }
+
+    .ul-coalition {
+        height: 30px;
+    }
+    .ul-coalition li {
+        display: none;
+        height: 30px;
+    }
+    .ul-coalition .active {
+        display: inline-block;
+    }
+
+    //temp
+    .btn-add {
+        font-size: 30px;
+        font-weight: bold;
+        margin-top: -2px;
+        margin-left: 15px;
+    }
+}
+
+
+.row { overflow: hidden; }
+.col { float: left; }
