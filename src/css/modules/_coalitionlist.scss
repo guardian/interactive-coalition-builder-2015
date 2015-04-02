@@ -1,44 +1,81 @@
 #listChart {
+    // font:
+    .f-default {
+        color: $c-grey3;
+        font-style: italic;
+        margin-top: 25px;
+        height: 37px;
+    }
+
+    // list: ul, li 
     .ul-no-style {
         list-style: none;
         padding-left: 0;
     }
 
+    .ul-party {
+        @extend .ul-no-style;
+    }
     .ul-party li {
-        font-family: $ff-data;
+        font-family: $f-data;
         text-align: center;
         display: inline-block;
-        width: calc(480px / 9);
+        width: calc(326px / 7);//calc(480px / 9);
         border-top: 5px solid;
         cursor: pointer;
         opacity: 0.75;
-    }
+    }   
     .ul-party li:hover,
     .ul-party .active {
-        opacity: 1;
-        box-shadow: 0px -3px dimgrey;
+            opacity: 1;
+            box-shadow: 0px -3px dimgrey;
     }
 
     .ul-coalition {
+        @extend .ul-no-style;
         height: 30px;
     }
     .ul-coalition li {
-        display: none;
+        display: inline-block;
+        width: 0;
         height: 30px;
     }
-    .ul-coalition .active {
-        display: inline-block;
-    }
 
-    //temp
-    .btn-add {
+    // btn, TEMP!
+    .btn {
+        font-family: sans-serif;
         font-size: 30px;
         font-weight: bold;
-        margin-top: -2px;
+        margin-top: 7px;
         margin-left: 15px;
+        
+        cursor: pointer;
+        color: $c-grey3;
+        &:hover { color: black; }
     }
 }
 
 
 .row { overflow: hidden; }
 .col { float: left; }
+
+.pos-r { position: relative; }
+.pos-a-majorityline { 
+    position: absolute; 
+    left: 326px;
+    height: 100%;
+    border-left: 2px dotted black;
+}
+
+.d-n { display: none; }
+.d-b { display: block; }
+
+
+//TEMP!
+.h1 {    
+    display: inline-block;
+    border-top: 3px solid black;
+}
+.mt-120 {
+    margin-top: 120px;
+}

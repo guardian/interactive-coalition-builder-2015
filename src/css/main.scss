@@ -19,7 +19,9 @@ $ff-s-h:  $f-serif-headline;        //: 'Guardian Egyptian Web';
 $ff-s-t:  $f-serif-text;            //: 'Guardian Text Egyptian Web';
 $ff-ss-h: $f-sans-serif-headline;   //: 'Guardian Sans Web';
 $ff-ss-t: $f-sans-serif-text;       //: 'Guardian Text Sans Web';
-$ff-data: $f-data;                  //: 'Guardian Agate Sans 1 Web';
+//$ff-data: $f-data;                  //: 'Guardian Agate Sans 1 Web';
+
+.ff-ss-data { font-family: $f-data; }
 
 $fz-12: 12px;
 $fz-14: 14px;

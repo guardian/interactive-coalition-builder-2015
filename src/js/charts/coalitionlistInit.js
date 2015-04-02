@@ -17,96 +17,119 @@ define([
         { key: "ukip"  , name: "Ukip" },
         { key: "libdem", name: "LD" },
         { key: "con"   , name: "Con" }
-    ],
-    parties = [],
-    curParties = [],
-    allParties = []; 
+        ],
+        parties = [],
+        curCoalition = [],
+        allCoalitions = []; 
 
     function render(rawData) {
 
         /* data */
         var data = rawData.sheets.RESULT[0];
-        // add seat
+        // add seat and active
         partyData.forEach(function(d) {
             d.seat = data[d.key]; 
             d.active = false; 
-            
+
             parties.push(d.key);
         });
 
         /* view */
-        var eParties = d3.select(".js-parties"),
-            eCoalition = d3.select(".js-coalition-cur");
-
-        partyData.forEach(function(d) {
-            // party list for selection
-            eParties
-            .append("li")
-            .attr("data-party", d.key)
-            .classed("c-"+d.key, true)
-            .text(d.name);
-            
-            // party list for chart
-            eCoalition
-            .append("li")
-            .classed("bgc-"+d.key, true)
-            .style("width", d.seat+"px");
-        });
-        // coalition list
-        // ...
+        // init party list
+        d3.select(".js-parties")
+        .selectAll("li")
+        .data(partyData).enter()
+        .append("li")
+        .attr("data-party", function(d) { return d.key; })
+        .attr("class", function(d) { return "c-" + d.key; })
+        .text(function(d) { return d.name; });
+        
+        // init coalition list
+        d3.select(".js-coalition-cur")
+        .selectAll("li")
+        .data(partyData).enter()
+        .append("li")
+        .attr("class", function(d) { return d.key + " bgc-" + d.key; });
 
         /* interaction */
         d3.selectAll(".js-parties li")
         .on("click", onPartyClick);
-        d3.select(".js-add")
+        d3.select(".js-btn-add")
         .on("click", onAddClick);
     }
-    
-    function onAddClick() {
-        // add cur coalition to the list
-        var curCoalition = document.querySelector(".js-coalition-cur"),
-            cloneCurCoalition = curCoalition.cloneNode(true);
-        
-        document.querySelector(".js-coalition-all")
-                .appendChild(cloneCurCoalition);
 
-        // reset cur coalition        
+    function onAddClick() {
+        // copy cur coalition
+        var cur, curClone;
+        cur = document.querySelector(".js-coalition-cur");
+        curClone = cur.cloneNode(true);
+        curClone.className = "ul-no-style ul-coalition";
+        
+        // add cur coaltion to the list
+        /* data */
+        allCoalitions.push(curCoalition);
+        console.log(curCoalition);
+        console.log(allCoalitions);
+        /* view */
+        document.querySelector(".js-coalition-all")
+        .appendChild(curClone);
+
+        // reset cur coalition
+        /* data */        
         partyData.forEach(function(d) {
             d.active = false;
         });
-        d3.selectAll(".js-parties li").classed("active", false);
-        updateCurCoalition(); 
+        /* view */
+        resetPartyAndCurCoalition();
     }
+    
 
     function onPartyClick() {
         /* data */
         var party = this.dataset.party,
             iParties = parties.indexOf(party),
-            iCurParties = curParties.indexOf(party),
+            iCurParties = curCoalition.indexOf(party),
             flag = partyData[iParties].active;
-        // update partyData and curParties
+        // update partyData and curCoalition
         partyData[iParties].active = flag ? false : true;
         if (iCurParties === -1) {
-            curParties.push(party);
+            curCoalition.push(party);
         } else {
-            curParties.splice(iCurParties, 1);
+            curCoalition.splice(iCurParties, 1);
         }   
-        console.log(curParties);
+        //console.log(curCoalition);
 
         /* view */
-        // toggle the class of a party
-        d3.select(this).classed("active", !d3.select(this).classed("active"));
-        updateCurCoalition(); 
+        var len = curCoalition.length;
+        if (len === 0) {
+            console.log(len);
+            d3.select(".js-toggle-empty").classed("d-n", false);
+            d3.select(".js-toggle-chart").classed("d-n", true);
+        } else {
+            console.log(document.querySelector("js-toggle-chart"));
+            d3.select(".js-toggle-empty").classed("d-n", true);
+            d3.select(".js-toggle-chart").classed("d-n", false);
+        }
+        // chart
+        d3.select(this).classed("active", !d3.select(this).classed("active")); //toggle
+        updateCurCoalition(party); 
     }
 
-    function updateCurCoalition() {
+    function updateCurCoalition(party) {
+        d3.select(".js-coalition-cur ." + party)
+        .transition()
+        .style("width", function(d) {
+            return d.active ? d.seat + "px" : 0;
+        });
+    }
+    
+    function resetPartyAndCurCoalition() {
+        curCoalition = [];
+        d3.selectAll(".js-parties li")
+        .classed("active", false);
         d3.selectAll(".js-coalition-cur li")
-          .data(partyData)
-          .classed("active", function(d) {
-              return d.active;
-          });
+        .style("width", "0px");
     }
-
 
     return {
         render: render
