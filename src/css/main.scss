@@ -4,24 +4,26 @@
  */
 
 $guss-webfonts-base-url: '//pasteup.guim.co.uk/fonts/';
+
 @import 'bower_components/guss-webfonts/src/_webfonts.scss';
 @import 'bower_components/guss-typography/_typography.scss';
+@import 'bower_components/guss-colours/_colours';
+@import 'bower_components/pasteup-palette/src/_palette';
+
 @include guss-webfonts();
 @include guss-typography-defaults;
 
-@import 'bower_components/guss-colours/_colours';
-@import 'bower_components/pasteup-palette/src/_palette';
 
 // font
 // inheritance from guss-typography
 // https://github.com/guardian/guss-typography 
-$ff-s-h:  $f-serif-headline;        //: 'Guardian Egyptian Web';
-$ff-s-t:  $f-serif-text;            //: 'Guardian Text Egyptian Web';
-$ff-ss-h: $f-sans-serif-headline;   //: 'Guardian Sans Web';
-$ff-ss-t: $f-sans-serif-text;       //: 'Guardian Text Sans Web';
-//$ff-data: $f-data;                  //: 'Guardian Agate Sans 1 Web';
-
-.ff-ss-data { font-family: $f-data; }
+/*
+ * $ff-s-h:  $f-serif-headline;        //: 'Guardian Egyptian Web';
+ * $ff-s-t:  $f-serif-text;            //: 'Guardian Text Egyptian Web';
+ * $ff-ss-h: $f-sans-serif-headline;   //: 'Guardian Sans Web';
+ * $ff-ss-t: $f-sans-serif-text;       //: 'Guardian Text Sans Web';
+ * $ff-data: $f-data;                  //: 'Guardian Agate Sans 1 Web';
+ *  */
 
 $fz-12: 12px;
 $fz-14: 14px;
@@ -29,38 +31,87 @@ $fz-18: 18px;
 $fz-20: 20px;
 $fz-22: 22px;
 
+
 // color:
 // inheritance from pasteup-palette
 // http://guardian.github.io/pasteup-palette/demo/
 // blue
 $c-brand:   map-get($pasteup-palette, 'guardian-brand');
-$c-brand-l: map-get($pasteup-palette, 'guardian-brand-light');
-$c-brand-d: map-get($pasteup-palette, 'guardian-brand-dark');
 // grey
 $c-grey1:   map-get($pasteup-palette, 'neutral-1'); //darker
 $c-grey2:   map-get($pasteup-palette, 'neutral-2');
 $c-grey3:   map-get($pasteup-palette, 'neutral-3'); //lighter
-
 // parties
 $partyColors: (
-    con:    #005789,
-    green:  #33A22B,
-    lab:    #E31F26,
-    snp:    #FCDD03,
-    libdem: #FFB900,
-    ukip:   #7D0069,
-    pc:     #868686,
-    others: #B3B3B4,
-    dup:    #D46A4C
+con:    #005789,
+lab:    #E31F26,
+snp:    #FCDD03,
+libdem: #FFB900,
+ukip:   #7D0069,
+pc:     #868686,
+green:  #33A22B,
+others: #B3B3B4,
+dup:    #99002e,
+sf:     #7eaa58,
+sdlp:   #008587,
+ind:    #B3B3B4
 );
-
 @each $party, $color in $partyColors {
     .c-#{$party}   { color: $color; }
     .bgc-#{$party} { background-color: $color; }
 }
 
-@import 'modules/grid';
 
-@import 'modules/mirrorlines';
+@import 'modules/grid';
 @import 'modules/coalitionlist';
 @import 'modules/partycircles';
+
+
+h1 {
+    font-family: $f-serif-headline;
+    font-size: 32px;
+    font-weight: normal;
+    color: black;
+    line-height: 38px;
+}
+
+@media (min-width: 980px) {
+    h1 {
+        font-size: 48px;
+        line-height: 54px;
+}}
+
+img {
+    width: 64px;
+    border-radius: 64px;
+    border: 1px solid #eee;
+}
+
+.pos-r {
+    position: relative;
+}
+.pos-a {
+    position: absolute;
+    animation: movement 2s infinite;
+}
+.pos-a[data-party="con"],
+.pos-a[data-party="lab"] {
+    animation: movement 1.5s infinite;
+}
+@keyframes movement {
+    0% {
+        transform: translate3d(10px, 0px, 0px);
+        animation-timing-function: ease-in;
+    }
+    50% {
+        transform: translate3d(10px, 10px, 0px);
+        animation-timing-function: ease-out;
+    }
+    100% {
+        transform: translate3d(10px, 0px, 0px);
+    }
+}
+
+.row-sum {
+    height: 30px;
+}

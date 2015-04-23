@@ -1,42 +1,59 @@
-.interactiveWrapper{
-	margin:0 10px;
-	max-width:680px;
-	position: relative;
-	border-top: 1px solid #dfdfdf;
+// GNM hacks 
+body {
+    margin: 0;
+}
+.is-immersive .l-footer {
+    display: block;
+}
+figure.interactive {
+    margin: 0;
+    min-height: 480px;
+}
+
+
+// Grid
+.interactive-wrapper{
+    background-color: white;
+    margin:0 10px;
+    max-width:680px;
+    position: relative;
 }
 
 @media(min-width:480px){
-	.interactiveWrapper{
-		margin:0 20px;
-	}
+    .interactive-wrapper{
+        margin:0 20px;
+    }
 }
 
 @media(min-width:660px){
-	.interactiveWrapper{
-		margin:0 auto;
-	}
+    .interactive-wrapper{
+        margin:0 auto;
+    }
 }
 
 @media(min-width:740px){
-	.interactiveWrapper{
-		max-width:740px;
-	}
+    .interactive {
+        background-color: rgba(51, 51, 51, 0.0470588);
+    }
+    .interactive-wrapper{
+        max-width:740px;
+    }
 }
 
 @media(min-width:980px){
-	.interactiveWrapper{
-		max-width:980px;
-	}
+    .interactive-wrapper{
+        max-width:980px;
+    }
 }
 
 @media(min-width:1140px){
-	.interactiveWrapper{
-		max-width:1140px;
-	}
+    .interactive-wrapper{
+        max-width:1140px;
+    }
 }
 
 @media(min-width:1300px){
-	.interactiveWrapper{
-		max-width:1300px;
-	}
+    .interactive-wrapper{
+        max-width:1300px;
+    }
 }

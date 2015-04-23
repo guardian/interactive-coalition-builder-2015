@@ -1,61 +1,17 @@
-<div class="gvis-wrapper">
-    
-    <h1 class="h1">Sparklines X Toggle</h1>
-    <div id="seatsCharts">
-        <div id="seats" class="seats-chart"></div>
-        <div id="legend">
-            <div>
-                <ul class="left ul__party ff-ss-data">
-                    <li rel="lab"><span class="rect bgc-lab"></span>Lab</li>
-                    <li rel="snp"><span class="rect bgc-snp"></span>SNP</li>
-                    <li class="deselected" rel="green"><span class="rect bgc-green"></span>Grn</li>
-                    <li class="deselected" rel="others"><span class="rect bgc-others"></span>Others</li>
-                    <li class="deselected" rel="pc"><span class="rect bgc-others"></span>PC</li>
-                    <li class="deselected" rel="dup"><span class="rect bgc-others"></span>DUP</li>
-                    <li class="deselected" rel="ukip"><span class="rect bgc-ukip"></span>Ukip</li>
-                    <li class="deselected" rel="libdem"><span class="rect bgc-libdem"></span>LD</li>
-                    <li class="deselected" rel="con"><span class="rect bgc-con"></span>Con</li>
-                </ul>
-            </div>
-            <div>
-                <ul class="right ul__party ff-ss-data">
-                    <li class="deselected" rel="lab">Lab<span class="rect bgc-lab"></span></li>
-                    <li class="deselected" rel="snp">SNP<span class="rect bgc-snp"></span></li>
-                    <li class="deselected" rel="green">Grn<span class="rect bgc-green"></span></li>
-                    <li class="deselected" rel="dup">DUP<span class="rect bgc-others"></span></li>
-                    <li class="deselected" rel="pc">PC<span class="rect bgc-others"></span></li>
-                    <li class="deselected" rel="others">Others<span class="rect bgc-others"></span></li>
-                    <li class="deselected" rel="ukip">Ukip<span class="rect bgc-ukip"></span></li>
-                    <li rel="libdem">LD<span class="rect bgc-libdem"></span></li>
-                    <li rel="con">Con<span class="rect bgc-con"></span></li>
-                </ul>
-            </div>
-        </div> 
-    </div>
+<div class="interactive-wrapper">
 
-    <h1 class="h1 mt-120">Coalition List X Toggle</h1>
-    <div id="listChart">
-        <div class="js-toggle-empty f-default">Click parties to form a coalition ...</div>
-        <ul class="js-toggle-chart d-n ul-coalition js-coalition-cur"></ul>
-        <div class="row">
-            <ul class="col ul-party js-parties"></ul>
-            <div class="col btn js-btn-add">+</div>
-            <div class="col btn js-btn-delete">x</div>
-        </div>
-        <div class="pos-r js-coalition-all">
-            <div class="pos-a-majorityline"></div>
-        </div>
-    </div>
-    
-    <h1 class="h1 mt-120">Circles X Drag and Drop</h1> 
-    <div id="circlesChart">
-        <div class="rect-gov">
-            <p>
-                Coalition: 
-                <b id="txtParties"></b>
-                <b id="txtSeats"></b>
-            </p>
-        </div>    
-    </div>
-    
+    <h1>Build the government, yo!</h1>
+    <p class="row-sum">Seat count: <span class="js-sum">0</span></p>   
+    <div class="pos-r" id="playground">
+        <div class="pos-a" data-party="con"><img src="@@assetPath@@/imgs/con2.png" alt=""></div>
+        <div class="pos-a" data-party="lab"><img src="@@assetPath@@/imgs/lab2.png" alt=""></div>
+        <div class="pos-a" data-party="snp"><img src="@@assetPath@@/imgs/snp2.png" alt=""></div>
+        <div class="pos-a" data-party="ld"><img src="@@assetPath@@/imgs/ld2.png" alt=""></div>
+        <div class="pos-a" data-party="ukip"><img src="@@assetPath@@/imgs/others.png" alt=""></div>
+        <div class="pos-a" data-party="grn"><img src="@@assetPath@@/imgs/others.png" alt=""></div>
+        <!--
+        <div class="pos-a-"><img src="@@assetPath@@/imgs/.png"></div>
+        -->
+    </div> 
+
 </div>

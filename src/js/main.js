@@ -1,16 +1,16 @@
 define([
     'd3',
     'reqwest',
-    'charts/mirrorlineInit.js',
-    'charts/coalitionlistInit.js',
-    'charts/partycircleInit.js',
+    //'charts/coalitionlistInit.js',
+    //'charts/partycircleInit.js',
+    'charts/partyleaderInit.js',
     'text!templates/appTemplate.html'
 ], function(
     d3,
     reqwest,
-    mirrorlineChart,
-    coalitionlistChart,
-    partycircleChart,
+    //coalitionlistChart,
+    //partycircleChart,
+    partyleaderChart,
     templateHTML
 ) {
    'use strict';
@@ -40,9 +40,10 @@ define([
             crossOrigin: true
         })
         .then(function(data) {
-            mirrorlineChart.render(data);
-            coalitionlistChart.render(data);
-            partycircleChart.render(data);
+            //mirrorlineChart.render(data);
+            //coalitionlistChart.render(data);
+            //partycircleChart.render(data);
+            partyleaderChart.render(data);
         })
         .fail(handleRequestError)
         .always(afterRequest);
