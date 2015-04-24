@@ -10,7 +10,7 @@
   "license": "Apache 2.0",
   "config": {
     "port": 9000,
-    "s3_folder": "2015/mar/coalition-builder"
+    "s3_folder": "2015/apr/coalition-builder/"
   },
   "devDependencies": {
     "grunt": "^0.4.5",

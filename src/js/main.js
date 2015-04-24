@@ -1,15 +1,11 @@
 define([
     'd3',
     'reqwest',
-    //'charts/coalitionlistInit.js',
-    //'charts/partycircleInit.js',
     'charts/partyleaderInit.js',
     'text!templates/appTemplate.html'
 ], function(
     d3,
     reqwest,
-    //coalitionlistChart,
-    //partycircleChart,
     partyleaderChart,
     templateHTML
 ) {
@@ -40,9 +36,6 @@ define([
             crossOrigin: true
         })
         .then(function(data) {
-            //mirrorlineChart.render(data);
-            //coalitionlistChart.render(data);
-            //partycircleChart.render(data);
             partyleaderChart.render(data);
         })
         .fail(handleRequestError)

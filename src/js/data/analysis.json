@@ -1,0 +1,164 @@
+[
+  {
+    "index":1,
+    "pair":"Con X Lab",
+    "mark":"r",
+    "text":"Labour and the Tories are traditional rivals for swing voters in England, where most elections are won and lost. They also have loyalist hinterlands who would consider an alliance (except in time of dire national emergency) a betrayal."
+  },
+  {
+    "index":2,
+    "pair":"Con X SNP",
+    "mark":"rr",
+    "text":"The 'Conservative and Unionist party' has a fundamentally different raison d'etre from the secessionary and socially radical Scottish National Party. It is unlikely they would ever agree on much."
+  },
+  {
+    "index":3,
+    "pair":"Con X Lib Dem",
+    "mark":"a",
+    "text":"The Lib Dems have consistently said that they will form an alliance with the largest party. They would willingly go into coalition, but may not be numerically strong enough this time for that to be an attractive proposition."
+  },
+  {
+    "index":4,
+    "pair":"Con X Green",
+    "mark":"r",
+    "text":"Notwithstanding Cameron's pledge to make the outgoing administration 'the greenest government ever', the Tories and Greens make uneasy bedfellows; the Tories look on the Greens as dreamers, and the Greens doubt the Tories commitment to environmental matters."
+  },
+  {
+    "index":5,
+    "pair":"Con X Ukip",
+    "mark":"a",
+    "text":"It's possible to think of UKIP as what the Tory party would become if it lost its europhile, paternalistic left wing. So there are lots of points in common. But a partnership might be fraught; there's no love lost between the personalities - Cameron famously referred to the Kippers as \"fruitcakes\" and the alliance could worsen the already grave fractures within the Tory party."
+  },
+  {
+    "index":6,
+    "pair":"Con X DUP",
+    "mark":"a",
+    "text":"The Ulster unionists - from whichever party - used to be thought of as the Tory party in Ireland. But the DUP is the less pliant of the Ulster unionist parties, and is increasingly suspicious of Westminster. Nonetheless, this is a natural partnership."
+  },
+  {
+    "index":7,
+    "pair":"Con X PC",
+    "mark":"r",
+    "text":"Radical secessionists and conservative unionists; it's not a match made in heaven."
+  },
+  {
+    "index":8,
+    "pair":"Lab X SNP",
+    "mark":"a",
+    "text":"Labour and the SNP have similar views on many matters; tendencies toward social justice, social liberalism, environmentalism and pacifism. The SNP takes most of these further than Labour. The main obstacle to an agreement would be the massive overlap in their audience in Scotland."
+  },
+  {
+    "index":9,
+    "pair":"Lab X Lib Dem",
+    "mark":"a",
+    "text":"The Lib Dems have consistently said that they will form an alliance with the largest party. They would willingly go into coalition, but may not be numerically strong enough this time for that to be an attractive proposition."
+  },
+  {
+    "index":10,
+    "pair":"Lab X Green",
+    "mark":"a",
+    "text":"Labour are the natural partners for the Greens among the larger parties. The only obstacle to a partnership might be a desire not to encourage traditional Labour voters who might think of turning to the Greens."
+  },
+  {
+    "index":11,
+    "pair":"Lab X Ukip",
+    "mark":"r",
+    "text":"There are seats where Labour is losing voters to UKIP, but on most substantial matters, the two parties are at odds, most particularly on Europe, which was the founding issue for UKIP."
+  },
+  {
+    "index":12,
+    "pair":"Lab X DUP",
+    "mark":"r",
+    "text":"Labour don't put up candidates in Northern Ireland, so an alliance with an Irish party might be more palatable than it looks at first. Most Labour supporters think of the DUP as essentially Tories, however."
+  },
+  {
+    "index":13,
+    "pair":"Lab X PC",
+    "mark":"a",
+    "text":"Labour and Plaid Cymru appeal to many of the same voters, and both are broadly left-wing, progressive parties."
+  },
+  {
+    "index":14,
+    "pair":"SNP X Lib Dem",
+    "mark":"a",
+    "text":"The Lib Dems have many shared interests with the SNP, in social justice and constitutional reform, for instance. They may differ on detail, but could probably work together."
+  },
+  {
+    "index":15,
+    "pair":"SNP X Green",
+    "mark":"a",
+    "text":"The Greens and the SNP see eye-to-eye generally."
+  },
+  {
+    "index":16,
+    "pair":"SNP X Ukip",
+    "mark":"rr",
+    "text":"A right-wing unionist party working with the radical left-wing secessionaries of the SNP? Europe alone would be a seeming insuperable barrier; the SNP is passionately committed to staying in the EU, Ukip is fanatical about leaving."
+  },
+  {
+    "index":17,
+    "pair":"SNP X DUP",
+    "mark":"r",
+    "text":"The DUP and SNP have fundamental differences on the value of the United Kingdom, and the DUP is relatively conservative, while the SNP is relatively radical. But they're not chasing the same votes."
+  },
+  {
+    "index":18,
+    "pair":"SNP X PC",
+    "mark":"aa",
+    "text":"Plaid Cymru and the SNP both believe in independence for their respective countries, and they are both left-wing parties. Even better, they will never compete for the same voters."
+  },
+  {
+    "index":19,
+    "pair":"Lib Dem X Green",
+    "mark":"a",
+    "text":"The Lib Dems and Greens are often appealing to the same voters."
+  },
+  {
+    "index":20,
+    "pair":"Lib Dem X Ukip",
+    "mark":"r",
+    "text":"The Lib Dems are progressive and europhile, while Ukip are conservative and europhobe. This is one area where the Lib Dems' cooperative approach breaks down. They have ruled out a coalition with Ukip, and any alliance would be tense. But the Lib Dems have held their noses before ..."
+  },
+  {
+    "index":21,
+    "pair":"Lib Dem X DUP",
+    "mark":"r",
+    "text":"There is a progressive-traditionalist clash here, but it's mostly tonal. The Lib Dems don't challenge the status quo of the union, and the DUP are no more antithetical to the Lib Dems than the Tories on most matters, and less on some, such as the bedroom tax."
+  },
+  {
+    "index":22,
+    "pair":"Lib Dem X PC",
+    "mark":"a",
+    "text":"Both reasonably progressive, and both have an interest in constitutional reform."
+  },
+  {
+    "index":23,
+    "pair":"Green X Ukip",
+    "mark":"rr",
+    "text":"Ukip wants to abolish the Department of energy and climate change, and abolish 'green subsidies'. It is the most openly anti-green of the parties. Apart from Sinn Féin-DUP it is hard to imagine a less workable partnership. (But then Sinn Féin-DUP works ... )"
+  },
+  {
+    "index":24,
+    "pair":"Green X DUP",
+    "mark":"r",
+    "text":"A DUP-Green partnership is about as likely as a Tory-Green partnership. There's nothing much driving it, but then relatively little getting in its way."
+  },
+  {
+    "index":25,
+    "pair":"Green X PC",
+    "mark":"a",
+    "text":"Both progressive, both environmentally aware."
+  },
+  {
+    "index":26,
+    "pair":"Ukip X DUP",
+    "mark":"a",
+    "text":"The DUP and Ukip are both traditionalist unionist parties. But unlike the larger Westminster parties, Ukip does put up candidates in Northern Ireland. This makes the two parties rivals for the same votes. But otherwise, they could probably work together."
+  },
+  {
+    "index":27,
+    "pair":"Ukip X PC",
+    "mark":"r",
+    "text":"Conservative unionists and secessionary progressives. Plaid Cymru is likely to have a similar number of seats to Ukip, and may be concerned that they aren't given the same weight by the media or the other parties when it comes to thinking about alliances."
+  }
+]
