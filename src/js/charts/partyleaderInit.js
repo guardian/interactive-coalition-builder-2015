@@ -14,50 +14,64 @@ define([
         width = 320 || windowSize.width || 320,
         height = 480 || windowSize.height || 480,
         dataSeat = [],
+        r = width / 2 - 32,
+        cx = r + 16,
+        cy = r, 
         txtPick, parties, txtList;
 
     function render(rawData) {
 
         /* data */
-        var data = rawData.sheets.RESULT[0],
-            imgSize = 66,
-            hexagon = getHexagon(width, height, imgSize);
+        var data = rawData.sheets.SUM,
+            imgSize = 66;
 
-        dataSeat = [
-            { party: "con" , seat: data.con,    color: "#005789", group: 1, 
-                top: hexagon.center.y, left: hexagon.center.x + imgSize/2 + 10},
-                { party: "lab" , seat: data.lab,    color: "#E31F26", group: 1, 
-                    top: hexagon.center.y, left: hexagon.center.x - imgSize/2 - 10},
-                    { party: "snp" , seat: data.snp,    color: "#FCDD03", group: 2 },
-                    { party: "ukip", seat: data.ukip,   color: "#7D0069", group: 2 },
-                    { party: "dup" , seat: data.dup,    color: "#99002E", group: 2 },
-                    { party: "ld"  , seat: data.libdem, color: "#FFB900", group: 2 },
-                    { party: "grn" , seat: data.green,  color: "#33A22B", group: 2 },
-                    { party: "pc"  , seat: data.pc,     color: "#868686", group: 2 }
+     dataSeat = [
+            { party: "con"   , color: "#005789", group: 1 }, 
+            { party: "lab"   , color: "#E31F26", group: 1 }, 
+            { party: "snp"   , color: "#FCDD03", group: 2 },
+            { party: "ld"    , color: "#FFB900", group: 2 },
+            { party: "ukip"  , color: "#7D0069", group: 2 },
+            { party: "dup"   , color: "#99002E", group: 2 },
+            { party: "grn"   , color: "#33A22B", group: 2 },
+            { party: "pc"    , color: "#868686", group: 2 },
+            { party: "sdlp"  , color: "#008587", group: 2 },
+            { party: "others", color: "#B3B3B4", group: 2 }
         ];
-        //console.log(dataSeat);
-
-        dataSeat.map(function(d, i) {
+        
+        dataSeat.map(function(d, i) {            
+            d.seat = data[0][d.party]; //seat count
+            d.size = data[1][d.party]; //radius size 
             d.active = false;
-            if (d.group === 2) {
-                d.top = hexagon.vertices[i-2].y;
-                d.left = hexagon.vertices[i-2].x;
-            }
 
+            // group 2, calculate position
+            if (d.group === 2) {
+                console.log(i-1);
+                d.top = getY(i-1, d.size);//hexagon.vertices[i-2].y;
+                d.left = getX(i-1, d.size);//hexagon.vertices[i-2].x;
+            }
             return d;
         });
-
+        // group 1
+        dataSeat[0].top  = cy - dataSeat[0].size/2;
+        dataSeat[0].left = cx + imgSize / 2 + 10 - dataSeat[0].size/2;
+        dataSeat[1].top  = cy - dataSeat[1].size/2;
+        dataSeat[1].left = cx - imgSize / 2 - 10 - dataSeat[1].size/2;
+        //console.log(dataSeat);
+        
+        
+        /* view */
         var sum = 0;
 
         txtPick = d3.select(".js-pickme");
         parties = d3.select(id)
-        .style("height", hexagon.height + imgSize + "px")
+        .style("height", width + "px")
         .selectAll("div")
         .data(dataSeat);
 
         parties
         .style("top", function(d) { return d.top + "px"; })
         .style("left", function(d) { return d.left + "px"; })
+        .style("width", function(d) { return d.size + "px"; })
         .on("click", function(d) {
             if (d.active) {
                 sum -= d.seat;
@@ -78,8 +92,8 @@ define([
         });
 
         txtPick
-        .style("top", hexagon.center.y - 30 + "px")
-        .style("left", hexagon.center.x - 28 + "px")
+        .style("top", cy - 30 + "px")
+        .style("left", cx - 28 + "px")
         .classed("animate-delay", true);
 
         var ul = document.createElement("ul");
@@ -88,7 +102,7 @@ define([
                 li = document.createElement("li"), 
                 h3 = document.createElement("h3");
             h3.textContent = d.pair;
-            li.className = "d-n"; 
+            li.className = "hide"; 
             li.dataset.index = d.index;
             li.appendChild(h3);
             li.appendChild(tn);
@@ -117,11 +131,13 @@ define([
 
                 if (active && (activeParties.length > 1)) {
                     d3.select("[data-index='"+index+"']")
-                    .classed("d-n", false);
+                    .classed("show", true)
+                    .classed("hide", false);
                     //console.log("select");
                 } else if (!active) {
                     d3.select("[data-index='"+index+"']")
-                    .classed("d-n", true);                   
+                    .classed("show", false)                   
+                    .classed("hide", true);                   
                     //console.log("deselect");
                 }
                 //console.log(index);
@@ -171,7 +187,6 @@ define([
             hasImg = imgStr.indexOf(party) !== -1,
             img = hasImg ? party : "others";
 
-
         //TODO: remove src, use sprint instead
         if (isSelected) {
             el.style.borderColor = color;
@@ -195,29 +210,14 @@ define([
             height: y
         };    
     }
-
-    function getHexagon(width, height, imgSize) {
-        var h = (Math.sqrt(3)/2),
-            r = ((width < height) ? width/2 : height/2) - imgSize/2, //responsive radius, 50%
-            shift = 4/5,
-            x = r*h,
-            y = r - imgSize/2,
-            hexagonPos = [
-            {x: x,       y: y - r*shift},
-            {x: x + r*h, y: y - r/2},
-            {x: x + r*h, y: y + r/2},
-            {x: x,       y: y + r*shift},
-            {x: x - r*h, y: y + r/2},
-            {x: x - r*h, y: y - r/2}
-        ];
-
-        return {
-            center: {x:x, y:y},
-            height: r*shift*2,
-            vertices: hexagonPos
-        };
+    
+    function getX(i, size) { 
+        return cx + r * Math.cos(2 * Math.PI * i / 8) - size/2;
     }
-
+    function getY(i, size) { 
+        return cy + r * Math.sin(2 * Math.PI * i / 8) - size/2;
+    }
+    
     return {
         render: render
     };

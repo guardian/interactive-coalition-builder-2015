@@ -1,0 +1,21 @@
+// atomic css
+
+.d-n { display: none; }
+
+.pos-r { position: relative; }
+.pos-a { position: absolute; }
+
+// custom css
+.hide { 
+    max-height: 0; 
+    transition: max-height, 1s;
+}
+.show { 
+    height: auto;
+    max-height: 200px; 
+    transition: max-height, 1s;
+}
+
+.row-sum {
+    height: 30px;
+}
