@@ -15,8 +15,8 @@ define([
         height = 480 || windowSize.height || 480,
         dataSeat = [],
         r = width / 2 - 32,
-        cx = r + 16,
-        cy = r, 
+        cx = r + 20,
+        cy = r - 15, 
         txtPick, parties, txtList;
 
     function render(rawData) {
@@ -28,14 +28,14 @@ define([
      dataSeat = [
             { party: "con"   , color: "#005789", group: 1 }, 
             { party: "lab"   , color: "#E31F26", group: 1 }, 
-            { party: "snp"   , color: "#FCDD03", group: 2 },
             { party: "ld"    , color: "#FFB900", group: 2 },
-            { party: "ukip"  , color: "#7D0069", group: 2 },
-            { party: "dup"   , color: "#99002E", group: 2 },
+            { party: "snp"   , color: "#FCDD03", group: 2 },
             { party: "grn"   , color: "#33A22B", group: 2 },
             { party: "pc"    , color: "#868686", group: 2 },
             { party: "sdlp"  , color: "#008587", group: 2 },
-            { party: "others", color: "#B3B3B4", group: 2 }
+            { party: "others", color: "#B3B3B4", group: 2 },
+            { party: "dup"   , color: "#99002E", group: 2 },
+            { party: "ukip"  , color: "#7D0069", group: 2 }
         ];
         
         dataSeat.map(function(d, i) {            
@@ -64,7 +64,7 @@ define([
 
         txtPick = d3.select(".js-pickme");
         parties = d3.select(id)
-        .style("height", width + "px")
+        .style("height", height + "px")
         .selectAll("div")
         .data(dataSeat);
 
@@ -92,8 +92,8 @@ define([
         });
 
         txtPick
-        .style("top", cy - 30 + "px")
-        .style("left", cx - 28 + "px")
+        .style("top", cy - 50 + "px")
+        .style("left", cx - 60 + "px")
         .classed("animate-delay", true);
 
         var ul = document.createElement("ul");
@@ -112,8 +112,11 @@ define([
     }
 
     function updateSum(sum) {
-        var txtCongrats = (sum > 325) ? ", Bravo!" : "";
-        document.querySelector(".js-sum").textContent = sum + txtCongrats;
+        var txtCongrats = (sum > 325) ? ", Bravo!" : "",
+            txtSeat = (sum > 1) ? " seats" : " seat",
+            txtShort = ((326-sum) > 0) ? "just " + (326-sum) + " short" : "Bravo!";
+        document.querySelector(".js-seatcount").textContent = sum + txtSeat;
+        document.querySelector(".js-seatshort").textContent = "(" + txtShort + ")";
     }
 
     function updateAnalysis(party, active) {
@@ -215,7 +218,8 @@ define([
         return cx + r * Math.cos(2 * Math.PI * i / 8) - size/2;
     }
     function getY(i, size) { 
-        return cy + r * Math.sin(2 * Math.PI * i / 8) - size/2;
+        var rShift = r * 2/3;
+        return cy + rShift * Math.sin(2 * Math.PI * i / 8) - size/2;
     }
     
     return {

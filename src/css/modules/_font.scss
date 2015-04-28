@@ -1,3 +1,8 @@
+// reset
+h1, h2, h3, p {
+    margin: 0;
+}
+
 h1 {
     font-family: $f-serif-headline;
     font-size: 32px;
@@ -5,26 +10,48 @@ h1 {
     color: black;
     line-height: 38px;
 }
-h2 {}
-h3 {
-    margin-bottom: 0;
+h2 {
+    font-family: $f-serif-headline;
+    font-size: $fz-18;
+    font-weight: bold;
+    color: black;
+    line-height: 1;
 }
+h3 {
+    color: black;
+}
+
+p {
+    font-family: $f-sans-serif-text;
+    font-size: $fz-14;
+    color: $c-grey2;
+}
+
+.f-h1 { @extend h1; }
+.f-h2 { @extend h2; }
+.f-h2-grey2 { @extend h2; color:$c-grey2; }
 
 .f-standfirst {
+    font-family: $f-serif-text;
+    font-size: $fz-18;
+    color: $c-grey2;
+    margin-top: 15px;
 }
 
-.f-analysis {
-    font-family: $f-sans-serif-text;
-    font-size: $fz-12;
-}
-
-.txt-pickme {
+.f-pickme {
     color: white;
     background-color: $c-grey1;
     border-radius: 10px;
     padding: 0 10px;
 }
 
+//TODO: change selector
+li { 
+    @extend p; 
+    overflow: hidden;
+}
+
+// responsive
 @media (min-width: 980px) {
     h1 {
         font-size: 48px;

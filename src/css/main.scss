@@ -61,7 +61,6 @@ sdlp:   #008587
     .bgc-#{$party} { background-color: $color; }
 }
 
-
 @import 'modules/grid';
 @import 'modules/font';
 @import 'modules/layout';
@@ -69,6 +68,11 @@ sdlp:   #008587
 
 
 // element override
+section {
+    margin-top: 30px;
+    margin-bottom: 30px;
+}
+
 img {
     width: 100%;
     border-radius: 64px;
@@ -77,9 +81,6 @@ img {
 
 ul {
     list-style: none;
-    margin-left: 0;
+    margin: 0;
     padding-left: 0;
-    li { 
-        overflow: hidden;
-    }
 }

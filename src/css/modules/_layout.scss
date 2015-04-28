@@ -1,5 +1,4 @@
 // atomic css
-
 .d-n { display: none; }
 
 .pos-r { position: relative; }
@@ -14,8 +13,20 @@
     height: auto;
     max-height: 200px; 
     transition: max-height, 1s;
+    border-top: 1px dotted #eee;
+    margin-top: 15px;
+    padding-top: 5px;
 }
 
-.row-sum {
-    height: 30px;
+.pos-a-gov {
+    background-color: #eee;
+    position: absolute;
+    width: 100%;
+    height: 50%;
+    bottom: 0;
+}
+.pos-a-sum {
+    position: absolute;
+    left: 5px;
+    bottom: 10px;
 }
