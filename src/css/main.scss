@@ -66,21 +66,3 @@ sdlp:   #008587
 @import 'modules/layout';
 @import 'modules/animation';
 
-
-// element override
-section {
-    margin-top: 30px;
-    margin-bottom: 30px;
-}
-
-img {
-    width: 100%;
-    border-radius: 64px;
-    border: 1px solid #eee;
-}
-
-ul {
-    list-style: none;
-    margin: 0;
-    padding-left: 0;
-}

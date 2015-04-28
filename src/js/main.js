@@ -1,12 +1,12 @@
 define([
     'd3',
     'reqwest',
-    'charts/partyleaderInit.js',
+    'coalitionBuilder/init.js',
     'text!templates/appTemplate.html'
 ], function(
     d3,
     reqwest,
-    partyleaderChart,
+    coalitionBuilder,
     templateHTML
 ) {
    'use strict';
@@ -37,7 +37,7 @@ define([
             crossOrigin: true
         })
         .then(function(data) {
-            partyleaderChart.render(data);
+            coalitionBuilder(data);
         })
         .fail(handleRequestError)
         .always(afterRequest);

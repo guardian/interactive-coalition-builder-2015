@@ -1,19 +1,24 @@
 define([
     'd3',
-    'json!data/mapping.json',
-    'json!data/analysis.json'
+    'coalitionBuilder/utilities',
+    'coalitionBuilder/dragdrop',
+    'json!data/mappingTable.json'
 ], function(
     d3,
-    mapTable,
-    analysisData
+    util,
+    dragdrop,
+    mapTable
 ) {
     'use strict';
+    
+    var dataSeat = [],
+        //mapTable = [];
+        analysisData = [];
 
     var id = "#playground",
-        windowSize = getWindowSize(),
+        windowSize = util.getWindowSize(),
         width = 320 || windowSize.width || 320,
         height = 480 || windowSize.height || 480,
-        dataSeat = [],
         r = width / 2 - 32,
         cx = r + 20,
         cy = r - 15, 
@@ -22,20 +27,21 @@ define([
     function render(rawData) {
 
         /* data */
+        console.log(rawData);
         var data = rawData.sheets.SUM,
             imgSize = 66;
 
-     dataSeat = [
-            { party: "con"   , color: "#005789", group: 1 }, 
-            { party: "lab"   , color: "#E31F26", group: 1 }, 
-            { party: "ld"    , color: "#FFB900", group: 2 },
-            { party: "snp"   , color: "#FCDD03", group: 2 },
-            { party: "grn"   , color: "#33A22B", group: 2 },
-            { party: "pc"    , color: "#868686", group: 2 },
-            { party: "sdlp"  , color: "#008587", group: 2 },
-            { party: "others", color: "#B3B3B4", group: 2 },
-            { party: "dup"   , color: "#99002E", group: 2 },
-            { party: "ukip"  , color: "#7D0069", group: 2 }
+        dataSeat = [
+            { party: "con"   , color: "#005789", group: 1, img:"con3" }, 
+            { party: "lab"   , color: "#E31F26", group: 1, img:"lab3" }, 
+            { party: "ld"    , color: "#FFB900", group: 2, img:"ld2" },
+            { party: "snp"   , color: "#FCDD03", group: 2, img:"snp2" },
+            { party: "grn"   , color: "#33A22B", group: 2, img:"others" },
+            { party: "pc"    , color: "#868686", group: 2, img:"others" },
+            { party: "sdlp"  , color: "#008587", group: 2, img:"others" },
+            { party: "others", color: "#B3B3B4", group: 2, img:"others" },
+            { party: "dup"   , color: "#99002E", group: 2, img:"others" },
+            { party: "ukip"  , color: "#7D0069", group: 2, img:"others" }
         ];
         
         dataSeat.map(function(d, i) {            
@@ -45,20 +51,22 @@ define([
 
             // group 2, calculate position
             if (d.group === 2) {
-                console.log(i-1);
-                d.top = getY(i-1, d.size);//hexagon.vertices[i-2].y;
-                d.left = getX(i-1, d.size);//hexagon.vertices[i-2].x;
+                d.x = util.getOctagonX(i-1, r, cx, d.size);
+                d.y = util.getOctagonY(i-1, r, cy,  d.size);
             }
             return d;
         });
         // group 1
-        dataSeat[0].top  = cy - dataSeat[0].size/2;
-        dataSeat[0].left = cx + imgSize / 2 + 10 - dataSeat[0].size/2;
-        dataSeat[1].top  = cy - dataSeat[1].size/2;
-        dataSeat[1].left = cx - imgSize / 2 - 10 - dataSeat[1].size/2;
+        dataSeat[0].x = cx + imgSize / 2 + 10 - dataSeat[0].size/2;
+        dataSeat[0].y  = cy - dataSeat[0].size/2;
+        dataSeat[1].x = cx - imgSize / 2 - 10 - dataSeat[1].size/2;
+        dataSeat[1].y  = cy - dataSeat[1].size/2;
         //console.log(dataSeat);
         
-        
+        //mapTable = rawData.sheets.REF;
+        analysisData = rawData.sheets.TEXTS;
+
+
         /* view */
         var sum = 0;
 
@@ -69,9 +77,35 @@ define([
         .data(dataSeat);
 
         parties
-        .style("top", function(d) { return d.top + "px"; })
-        .style("left", function(d) { return d.left + "px"; })
+        //.classed("animate", function(d, i) { return i > 1 ? false : true; }) 
+        .style("margin-top", function(d) { return d.y + "px"; })
+        .style("margin-left", function(d) { return d.x + "px"; })
         .style("width", function(d) { return d.size + "px"; })
+        .style("height", function(d) { return d.size + "px"; })
+        .style("z-index", 1);
+                
+        txtPick
+        .style("top", cy - 50 + "px")
+        .style("left", cx - 60 + "px")
+        .classed("animate-delay", true);
+
+        txtList = document.createElement("ul");
+        analysisData.forEach(function(d) {
+            var tn = document.createTextNode(d.text),
+                li = document.createElement("li"), 
+                h3 = document.createElement("h3");
+            h3.textContent = d.pair;
+            li.className = "hide"; 
+            li.dataset.index = d.index;
+            li.appendChild(h3);
+            li.appendChild(tn);
+            txtList.appendChild(li); 
+        });
+        document.querySelector(".js-analysis").appendChild(txtList);
+       
+
+        /* events */ 
+        parties
         .on("click", function(d) {
             if (d.active) {
                 sum -= d.seat;
@@ -87,32 +121,13 @@ define([
             updateAnimation(sum);
             updateAnalysis(d.party, d.active);
         })
-        .classed("animate", function(d, i) {
-            return i > 1 ? false : true;
-        });
-
-        txtPick
-        .style("top", cy - 50 + "px")
-        .style("left", cx - 60 + "px")
-        .classed("animate-delay", true);
-
-        var ul = document.createElement("ul");
-        analysisData.forEach(function(d) {
-            var tn = document.createTextNode(d.text),
-                li = document.createElement("li"), 
-                h3 = document.createElement("h3");
-            h3.textContent = d.pair;
-            li.className = "hide"; 
-            li.dataset.index = d.index;
-            li.appendChild(h3);
-            li.appendChild(tn);
-            ul.appendChild(li); 
-        });
-        document.querySelector(".js-analysis").appendChild(ul);
+        .call(dragdrop);
     }
 
+    
+    /* Event Handlers */
     function updateSum(sum) {
-        var txtCongrats = (sum > 325) ? ", Bravo!" : "",
+        var //txtCongrats = (sum > 325) ? ", Bravo!" : "",
             txtSeat = (sum > 1) ? " seats" : " seat",
             txtShort = ((326-sum) > 0) ? "just " + (326-sum) + " short" : "Bravo!";
         document.querySelector(".js-seatcount").textContent = sum + txtSeat;
@@ -157,7 +172,7 @@ define([
             .classed("animate-delay", false)
             .classed("d-n", true);
 
-            parties.classed("animate", false);
+            //parties.classed("animate", false);
             return;
         }
         // party group control       
@@ -167,18 +182,18 @@ define([
             .classed("animate-delay", false)
             .classed("d-n", true);
 
-            parties.classed("animate", function(d, i) {
+            /*parties.classed("animate", function(d, i) {
                 return i > 1 ? true : false;
-            });
+            });*/
         } else {
             txtPick
             .classed("animate-delay", true)
             .classed("d-n", false);
 
-            parties.classed("animate", function(d, i) {
+            /*parties.classed("animate", function(d, i) {
                 //console.log(d.active);
                 return i > 1 ? false : true; 
-            });
+            });*/
         }
         //console.log(isActive, "group1");
         //console.log(sum>325, "majority");
@@ -200,29 +215,6 @@ define([
         } 
     }
 
-    function getWindowSize() {
-        var w = window,
-            d = document,
-            e = d.documentElement,
-            g = d.getElementsByTagName('body')[0],
-            x = w.innerWidth || e.clientWidth || g.clientWidth,
-            y = w.innerHeight|| e.clientHeight|| g.clientHeight;
 
-        return {
-            width: x, 
-            height: y
-        };    
-    }
-    
-    function getX(i, size) { 
-        return cx + r * Math.cos(2 * Math.PI * i / 8) - size/2;
-    }
-    function getY(i, size) { 
-        var rShift = r * 2/3;
-        return cy + rShift * Math.sin(2 * Math.PI * i / 8) - size/2;
-    }
-    
-    return {
-        render: render
-    };
+    return render;
 });

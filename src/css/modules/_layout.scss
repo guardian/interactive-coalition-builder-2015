@@ -1,8 +1,28 @@
+// override
+section {
+    margin-top: 30px;
+    margin-bottom: 30px;
+}
+
+ul {
+    list-style: none;
+    margin: 0;
+    padding-left: 0;
+}
+
+img {
+    width: 100%;
+    border: 1px solid #eee;
+    border-radius: 80px;
+    z-index: 1px;
+}
+
 // atomic css
 .d-n { display: none; }
 
 .pos-r { position: relative; }
 .pos-a { position: absolute; }
+
 
 // custom css
 .hide { 
