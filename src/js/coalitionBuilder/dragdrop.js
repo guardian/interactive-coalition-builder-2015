@@ -14,20 +14,21 @@ define([
     dragdrop = d3.behavior.drag()
     .origin(function(d) { return d; })
     .on("dragstart", dragStart)
-    .on("drag", dragMove); //throttle
-    //.on("dragend", click);
+    .on("drag", dragMove) //throttle
+    .on("dragend", dragEnd);
 
 
     function dragStart(d) {
-        // flag to distinguish dragEnd and click events
-        d3.event.sourceEvent.preventDefault(); 
+        //console.log("dragstart");
 
         el = document.querySelector("#playground");
         sw = el.clientWidth - d.size;
         sh = el.clientHeight - d.size;
 
         el = document.querySelector("[data-party='"+d.party+"']");
-        //console.log("dragstart");
+        
+        px = d.x;
+        py = d.y;
     }
 
     function dragMove(d) {
@@ -49,32 +50,21 @@ define([
         // update
         el.style.marginLeft = px + "px";
         el.style.marginTop = py + "px";
+    }
+
+    function dragEnd(d) { 
         
-        // TODO: remove and use dragEnd
-        updateData.setSum();
-        updateView.sum(updateData.getSum());
         d.x = px;
-        d.y = py;  
+        d.y = py; 
+        
+        updateData.setSum();
+        updateView.sum();
+        
+        updateView.analysis(d.party, d.active);
+        
+        //console.log("dragend by drag"); 
     }
 
-    function dragEnd(d) {
 
-        if (d3.event.defaultPrevented) { 
-            d.x = px;
-            d.y = py;  
-
-            updateData.setSum();
-            updateView.sum(updateData.getSum());
-            /*console.log("dragend");
-        } else { 
-            console.log("click by click");*/
-        }
-    }
-
-    //function click() { console.log("click by drag"); }
-
-    return {
-        drag: dragdrop,
-        dragend: dragEnd
-    };
+    return dragdrop;
 });

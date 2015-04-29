@@ -5,12 +5,13 @@ define([
 ){
     'use strict';
 
-    var dataArray, 
-        sum = 0; 
+    var partyData, 
+        mapTable, 
+        sum = 0;
     
 
-    function init(data, cx, cy, r, imgSize) {
-        dataArray  = [
+    function initParties(data, cx, cy, r, imgSize) {
+        partyData  = [
             { party: "con"   , color: "#005789", group: 1, img:"con3" }, 
             { party: "lab"   , color: "#E31F26", group: 1, img:"lab3" }, 
             { party: "ld"    , color: "#FFB900", group: 2, img:"ld2" },
@@ -23,7 +24,7 @@ define([
             { party: "ukip"  , color: "#7D0069", group: 2, img:"others" }
         ];
 
-        dataArray.map(function(d, i) {            
+        partyData.map(function(d, i) {            
             d.seat = data[0][d.party]; //seat count
             d.size = data[1][d.party]; //radius of image 
             d.active = false;
@@ -36,35 +37,40 @@ define([
             return d;
         });
         // group 1
-        dataArray[0].x = cx + imgSize / 2 + 10 - dataArray[0].size/2;
-        dataArray[0].y  = cy - dataArray[0].size/2;
-        dataArray[1].x = cx - imgSize / 2 - 10 - dataArray[1].size/2;
-        dataArray[1].y  = cy - dataArray[1].size/2;
+        partyData[0].x = cx + imgSize / 2 + 10 - partyData[0].size/2;
+        partyData[0].y  = cy - partyData[0].size/2;
+        partyData[1].x = cx - imgSize / 2 - 10 - partyData[1].size/2;
+        partyData[1].y  = cy - partyData[1].size/2;
 
-        return dataArray;
+        return partyData;
     }
     
-    function getSum() {
-        return sum;
+    function setTable(table) {
+        mapTable = table;
     }
 
     function setSum() {
         
-        sum = dataArray.filter(function(d) {
+        sum = partyData.filter(function(d) {
             return d.active;
         }).map(function(d) {
             return d.seat;
         }).reduce(function(pre, cur) {
             return pre + cur;
         }, 0);
-        
-        return sum;
     }
+    
+    function getSum() { return sum; }
+    function getParties() { return partyData; }
+    function getTable() { return mapTable; }
+
 
     return {
-        init: init,
+        initParties: initParties,
+        getParties: getParties,
         setSum: setSum,
         getSum: getSum,
-        getData: dataArray
+        setTable: setTable,
+        getTable: getTable
     };
 });
