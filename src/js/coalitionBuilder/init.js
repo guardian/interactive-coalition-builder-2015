@@ -43,10 +43,11 @@ define([
         var data = rawData.sheets.SUM,
             imgSize = 66;
 
-        dataSeat = updateData.init(data, cx, cy, r, imgSize);
+        dataSeat = updateData.initParties(data, cx, cy, r, imgSize);
         analysisData = rawData.sheets.TEXTS;
         //mapTable = rawData.sheets.REF; //TODO: use this!
-
+        
+        updateData.setTable(mapTable);
         //console.log(dataSeat);
         //console.log(rawData);
 
@@ -105,43 +106,11 @@ define([
             updateAnimation(sum);
             updateAnalysis(d.party, d.active);
             })*/
-        .call(dragdrop.drag)
-        .on("click", dragdrop.dragend);
+        .call(dragdrop);
     }
 
 
     /* Event Handlers */
-    function updateAnalysis(party, active) {
-        var activeParties = [];       
-        dataSeat.forEach(function(d) {
-            if (d.active) {
-                activeParties.push(d.party);
-            }   
-        });      
-        //console.log(mapTable[party]);
-        activeParties.forEach(function(d) {
-            var index = mapTable[party][d],
-                data = analysisData[index - 1];
-            if (data !== undefined) {
-
-                if (active && (activeParties.length > 1)) {
-                    d3.select("[data-index='"+index+"']")
-                    .classed("show", true)
-                    .classed("hide", false);
-                    //console.log("select");
-                } else if (!active) {
-                    d3.select("[data-index='"+index+"']")
-                    .classed("show", false)                   
-                    .classed("hide", true);                   
-                    //console.log("deselect");
-                }
-                //console.log(index);
-                //console.log(party, "X", d);
-                //console.log(data);
-            }
-        });
-    }
-
     function updateAnimation(sum) {
 
         if (sum > 325) {
