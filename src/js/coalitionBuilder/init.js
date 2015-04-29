@@ -2,73 +2,53 @@ define([
     'd3',
     'coalitionBuilder/utilities',
     'coalitionBuilder/dragdrop',
+    'coalitionBuilder/updateData',
     'json!data/mappingTable.json'
 ], function(
     d3,
     util,
     dragdrop,
+    updateData,
     mapTable
 ) {
     'use strict';
-    
-    var dataSeat = [],
-        //mapTable = [];
-        analysisData = [];
 
-    var id = "#playground",
-        windowSize = util.getWindowSize(),
+    // data
+    var dataSeat = [],
+        analysisData = [];
+    //mapTable = [];
+
+    // window size
+    var windowSize = util.getWindowSize(),
         width = 320 || windowSize.width || 320,
-        height = 480 || windowSize.height || 480,
-        r = width / 2 - 32,
+        height = 480 || windowSize.height || 480;
+
+    // playground and octagon
+    var id = "#playground",
+        r = width / 2 - 32, //radius of octagon
         cx = r + 20,
-        cy = r - 15, 
-        txtPick, parties, txtList;
+        cy = r - 15; 
+
+    // d3 binding
+    var parties, txtPick, txtList;
+
 
     function render(rawData) {
 
         /* data */
-        console.log(rawData);
         var data = rawData.sheets.SUM,
             imgSize = 66;
 
-        dataSeat = [
-            { party: "con"   , color: "#005789", group: 1, img:"con3" }, 
-            { party: "lab"   , color: "#E31F26", group: 1, img:"lab3" }, 
-            { party: "ld"    , color: "#FFB900", group: 2, img:"ld2" },
-            { party: "snp"   , color: "#FCDD03", group: 2, img:"snp2" },
-            { party: "grn"   , color: "#33A22B", group: 2, img:"others" },
-            { party: "pc"    , color: "#868686", group: 2, img:"others" },
-            { party: "sdlp"  , color: "#008587", group: 2, img:"others" },
-            { party: "others", color: "#B3B3B4", group: 2, img:"others" },
-            { party: "dup"   , color: "#99002E", group: 2, img:"others" },
-            { party: "ukip"  , color: "#7D0069", group: 2, img:"others" }
-        ];
-        
-        dataSeat.map(function(d, i) {            
-            d.seat = data[0][d.party]; //seat count
-            d.size = data[1][d.party]; //radius size 
-            d.active = false;
-
-            // group 2, calculate position
-            if (d.group === 2) {
-                d.x = util.getOctagonX(i-1, r, cx, d.size);
-                d.y = util.getOctagonY(i-1, r, cy,  d.size);
-            }
-            return d;
-        });
-        // group 1
-        dataSeat[0].x = cx + imgSize / 2 + 10 - dataSeat[0].size/2;
-        dataSeat[0].y  = cy - dataSeat[0].size/2;
-        dataSeat[1].x = cx - imgSize / 2 - 10 - dataSeat[1].size/2;
-        dataSeat[1].y  = cy - dataSeat[1].size/2;
-        //console.log(dataSeat);
-        
-        //mapTable = rawData.sheets.REF;
+        dataSeat = updateData.init(data, cx, cy, r, imgSize);
         analysisData = rawData.sheets.TEXTS;
+        //mapTable = rawData.sheets.REF; //TODO: use this!
+
+        //console.log(dataSeat);
+        //console.log(rawData);
 
 
-        /* view */
-        var sum = 0;
+        /* view: dom */
+        //var sum = 0;
 
         txtPick = d3.select(".js-pickme");
         parties = d3.select(id)
@@ -83,7 +63,7 @@ define([
         .style("width", function(d) { return d.size + "px"; })
         .style("height", function(d) { return d.size + "px"; })
         .style("z-index", 1);
-                
+
         txtPick
         .style("top", cy - 50 + "px")
         .style("left", cx - 60 + "px")
@@ -102,38 +82,31 @@ define([
             txtList.appendChild(li); 
         });
         document.querySelector(".js-analysis").appendChild(txtList);
-       
+
 
         /* events */ 
         parties
-        .on("click", function(d) {
-            if (d.active) {
-                sum -= d.seat;
-                d.active = false;
-                selectImage(false, d.party);
-            } else {
-                sum += d.seat;
-                d.active = true;
-                selectImage(true, d.party, d.color);
-            }
+        /*.on("click", function(d) {
+          if (d.active) {
+          sum -= d.seat;
+          d.active = false;
+          selectImage(false, d.party);
+          } else {
+          sum += d.seat;
+          d.active = true;
+          selectImage(true, d.party, d.color);
+          }
             //console.log(d.seat, sum);
             updateSum(sum);
             updateAnimation(sum);
             updateAnalysis(d.party, d.active);
-        })
-        .call(dragdrop);
+            })*/
+        .call(dragdrop.drag)
+        .on("click", dragdrop.dragend);
     }
 
-    
+
     /* Event Handlers */
-    function updateSum(sum) {
-        var //txtCongrats = (sum > 325) ? ", Bravo!" : "",
-            txtSeat = (sum > 1) ? " seats" : " seat",
-            txtShort = ((326-sum) > 0) ? "just " + (326-sum) + " short" : "Bravo!";
-        document.querySelector(".js-seatcount").textContent = sum + txtSeat;
-        document.querySelector(".js-seatshort").textContent = "(" + txtShort + ")";
-    }
-
     function updateAnalysis(party, active) {
         var activeParties = [];       
         dataSeat.forEach(function(d) {
@@ -183,16 +156,16 @@ define([
             .classed("d-n", true);
 
             /*parties.classed("animate", function(d, i) {
-                return i > 1 ? true : false;
-            });*/
+              return i > 1 ? true : false;
+              });*/
         } else {
             txtPick
             .classed("animate-delay", true)
             .classed("d-n", false);
 
             /*parties.classed("animate", function(d, i) {
-                //console.log(d.active);
-                return i > 1 ? false : true; 
+            //console.log(d.active);
+            return i > 1 ? false : true; 
             });*/
         }
         //console.log(isActive, "group1");

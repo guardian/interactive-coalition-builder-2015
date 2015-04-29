@@ -14,7 +14,6 @@ img {
     width: 100%;
     border: 1px solid #eee;
     border-radius: 80px;
-    z-index: 1px;
 }
 
 // atomic css
@@ -38,9 +37,15 @@ img {
     padding-top: 5px;
 }
 
-.pos-a-gov {
-    background-color: #eee;
+.pos-a-party {
     position: absolute;
+    border-radius: 80px;
+    z-index: 1;
+}
+
+.pos-a-gov {
+    position: absolute;
+    background-color: #eee;
     width: 100%;
     height: 50%;
     bottom: 0;
