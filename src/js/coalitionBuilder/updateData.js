@@ -61,10 +61,27 @@ define([
         return sum;
     }
 
+    function setActive(party) {
+        dataArray.filter(function(d){
+            return d.party==party;
+        }).forEach(function(d){
+            d.active=true;
+        })
+    }
+    function setInactive(party) {
+        dataArray.filter(function(d){
+            return d.party==party;
+        }).forEach(function(d){
+            d.active=false;
+        })
+    }
+
     return {
         init: init,
         setSum: setSum,
         getSum: getSum,
-        getData: dataArray
+        getData: dataArray,
+        setActive: setActive,
+        setInactive: setInactive
     };
 });

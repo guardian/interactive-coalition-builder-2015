@@ -1,0 +1,192 @@
+#coalitions {
+    position:relative;
+    width: 100%;
+    overflow: hidden;
+}
+#parties {
+    width:100%;
+    height: calc(480px * 1/3);
+    position: relative;
+    overflow: visible;
+    z-index: 99999;
+}
+#builder {
+    width:100%;
+    height: calc(480px * 2/3);
+    position: relative;
+}
+.builder {
+    z-index: 10;
+    width:100%;
+    height: 100%;
+    position: relative;
+    border-top:1px solid #ddd;
+    background-color:#eee;
+}
+
+.node {
+    position: absolute;
+}
+.node.hidden {
+    display: none;
+}
+.node .party {
+    position: relative;
+    background:white url(../imgs/others.png) no-repeat center center;
+    background-size:cover;
+    border:1px solid;
+}
+.node .party.con {
+    background-image: url(../imgs/con1.png);
+}
+.node .party.lab {
+    background-image: url(../imgs/lab1.png);
+}
+.node .party.libdem {
+    background-image: url(../imgs/ld1.png);
+}
+.node .party.snp {
+    background-image: url(../imgs/snp1.png);
+}
+
+.node.angry .party.con {
+    background-image: url(../imgs/con3.png);
+}
+.node.angry .party.lab {
+    background-image: url(../imgs/lab3.png);
+}
+.node.angry .party.libdem {
+    background-image: url(../imgs/ld3.png);
+}
+.node.angry .party.snp {
+    background-image: url(../imgs/snp3.png);
+}
+
+.node.angry.happy .party.con {
+    background-image: url(../imgs/con3.png);
+}
+.node.angry.happy .party.lab {
+    background-image: url(../imgs/lab3.png);
+}
+.node.angry.happy .party.libdem {
+    background-image: url(../imgs/ld3.png);
+}
+.node.angry.happy .party.snp {
+    background-image: url(../imgs/snp3.png);
+}
+
+
+
+svg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1;
+}
+
+svg .node {
+  stroke-width: 1.5px;
+  stroke:#333;
+}
+
+svg .link {
+    stroke: #eee;
+    stroke-width: 1px;
+}
+
+svg line.axis {
+    stroke: #eee;
+    stroke-width: 1px;   
+}
+
+.speaker {
+    fill:#333;
+    stop-color:#333;
+    stroke:#333;
+    color:#333;
+}
+.con {
+    fill:#005789;
+    stop-color:#005789;
+    stroke:#005789;
+    color:#005789;
+    border-color:#005789;
+}
+.lab {
+    fill:#E31F26;
+    stop-color:#E31F26;
+    stroke:#E31F26;
+    color:#E31F26;
+    border-color:#E31F26;
+}
+.snp {
+    fill:#FCDD03;
+    stop-color:#FCDD03;
+    stroke:#FCDD03;
+    color:#fcb705;
+    border-color:#fcb705;
+}
+.libdem {
+    fill:#FFB900;
+    stop-color:#FFB900;
+    stroke:#FFB900;
+    color:#FFB900;
+    border-color:#FFB900;
+}
+.ukip {
+    fill:#7D0069;
+    stop-color:#7D0069;
+    stroke:#7D0069;
+    color:#7D0069;
+    border-color:#7D0069;
+}
+.green {
+    fill:#33A22B;
+    stop-color:#33A22B;
+    stroke:#33A22B;
+    color:#33A22B;
+    border-color:#33A22B;
+}
+.others {
+    fill:#B3B3B4;
+    stop-color:#B3B3B4;
+    stroke:#B3B3B4;
+    color:#B3B3B4;
+    border-color:#B3B3B4;
+}
+.pc {
+    color:#868686;
+    fill:#868686;
+    stop-color:#868686;
+    stroke:#868686;
+    border-color:#868686;
+}
+.sf {
+    color:#7eaa58;
+    fill:#7eaa58;
+    stop-color:#7eaa58;
+    stroke:#7eaa58;
+    border-color:#7eaa58;
+}
+.sdlp {
+    color:#008587;
+    fill:#008587;
+    stop-color:#008587;
+    stroke:#008587;
+    border-color:#008587;
+}
+.ind {
+    color:#B3B3B4;
+    fill:#B3B3B4;
+    stop-color:#B3B3B4;
+    stroke:#B3B3B4;
+    border-color:#B3B3B4;
+}
+.dup {
+
+    color:#99002e;
+    fill:#99002e;
+    stop-color:#99002e;
+    stroke:#99002e;
+    border-color:#99002e;
+}

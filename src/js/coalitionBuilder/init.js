@@ -3,12 +3,14 @@ define([
     'coalitionBuilder/utilities',
     'coalitionBuilder/dragdrop',
     'coalitionBuilder/updateData',
+    'coalitionBuilder/Builder',
     'json!data/mappingTable.json'
 ], function(
     d3,
     util,
     dragdrop,
     updateData,
+    Builder,
     mapTable
 ) {
     'use strict';
@@ -34,6 +36,8 @@ define([
 
 
     function render(rawData) {
+
+        new Builder();
 
         /* data */
         var data = rawData.sheets.SUM,
