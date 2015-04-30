@@ -60,34 +60,26 @@ define([
         }, 0);
     }
     
+    function setActive(party, isActive) {
+        partyData.filter(function(d) {
+            return d.party === party;
+        }).map(function(d){
+            d.active = isActive;
+            return d;
+        });
+    }   
+    
     function getSum() { return sum; }
     function getParties() { return partyData; }
     function getTable() { return mapTable; }
 
-
-    function setActive(party) {
-        dataArray.filter(function(d){
-            return d.party==party;
-        }).forEach(function(d){
-            d.active=true;
-        })
-    }
-    function setInactive(party) {
-        dataArray.filter(function(d){
-            return d.party==party;
-        }).forEach(function(d){
-            d.active=false;
-        })
-    }
 
     return {
         initParties: initParties,
         getParties: getParties,
         setSum: setSum,
         getSum: getSum,
-        getData: dataArray,
         setActive: setActive,
-        setInactive: setInactive,
         setTable: setTable,
         getTable: getTable
     };

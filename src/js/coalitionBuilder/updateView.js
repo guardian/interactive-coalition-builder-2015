@@ -10,10 +10,14 @@ define([
     function updateSum() {
         var sum = data.getSum(),
             txtSeat = (sum > 1) ? " seats" : " seat",
-            txtShort = ((326-sum) > 0) ? "just " + (326-sum) + " short" : "Bravo!";
+            txtShort = ((326-sum) > 0) ? "just " + (326-sum) + " short" : "Bravo!",
+            elsSeat;
+        
         document.querySelector(".js-seatshort").textContent = "(" + txtShort + ")";
-        document.querySelector(".js-seatcount").textContent = sum + txtSeat;
-        //TODO: on the sec. one as well
+        
+        elsSeat = document.querySelectorAll(".js-seatcount");
+        elsSeat[0].textContent = sum + txtSeat;
+        elsSeat[1].textContent = sum + txtSeat;
     }
 
     function updateAnimation() {

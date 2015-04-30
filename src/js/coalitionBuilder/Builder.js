@@ -174,7 +174,7 @@ define([
             .selectAll("div.node")
                 .select("div.party")
                     .each(function(d){
-                        console.log("----->",this);
+                        //console.log("----->",this);
                         dom_parties[d.name]=this;
                     })
 
@@ -228,23 +228,24 @@ define([
             if (!dragged) return;
             mousemove();
             
-            console.log(dragged);
-            console.log("END",d3.event.x,d3.event.y)
+            //console.log(dragged);
+            //console.log("END",d3.event.x,d3.event.y)
 
             node.style("opacity",1);
-
+            
+            var isActive;
             if(dragged.y>160) {
-                console.log("START THE MESS!!!!");
+                //console.log("START THE MESS!!!!");
                 d3.select(dragged_node).classed("hidden",true)
                 addParty(dragged.name,dragged.x,dragged.y-160);
 
-                updateData.setActive(dragged.name);
+                isActive = true;
             }
             if(dragged.y<160) {
-                console.log("REMOVE FROM THE MESS!!!!");
+                //console.log("REMOVE FROM THE MESS!!!!");
                 removeParty(dragged.name);
 
-                updateData.setInactive(dragged.name);
+                isActive = false;
 
                 d3.select(dragged_node)
                     .transition()
@@ -258,7 +259,11 @@ define([
             }
             
             updateData.setSum();
-            updateView.sum(updateData.getSum());
+            updateData.setActive(dragged.name, isActive);
+            
+            updateView.sum();
+            updateView.analysis(dragged.name, isActive);
+            updateView.animation(dragged.name, isActive);
 
             dragged = null;
             dragged_node = null;
@@ -311,7 +316,7 @@ define([
             })
         })
         
-        console.log(distances);
+        //console.log(distances);
         
 
         /*
@@ -460,9 +465,9 @@ define([
             })
             
             function nodeMouseDown(d){
-                console.log(d)
+                //console.log(d)
 
-                console.log(d3.select(dom_parties[d.id]))
+                //console.log(d3.select(dom_parties[d.id]))
                 //dragging=dom_parties[d.id].parentNode
                 dragged_node=dom_parties[d.id].parentNode;
                 dragged=d3.select(dom_parties[d.id]).datum();
@@ -538,7 +543,7 @@ define([
 
             if(DEBUG) {
                 svg_link = svg_link.data(force.links(),function(d){
-                    console.log("LINKS DATA",d,d.source.id+"-"+d.target.id)
+                    //console.log("LINKS DATA",d,d.source.id+"-"+d.target.id)
                     return d.source.id+"-"+d.target.id;
                 });
                 svg_link.enter().append("line", ".node").attr("class", "link");
@@ -556,34 +561,34 @@ define([
             force.start();
         }
         function removeParty(partyName) {
-            console.log("removeParty",partyName)
+            //console.log("removeParty",partyName)
             //if(!party) {
             var party=arrayFind(parties,function(p){
-                console.log(p.name,"==",partyName)
+                //console.log(p.name,"==",partyName)
                 return p.name == partyName;
             });
             //}
 
             party.pool=false;
 
-            console.log("!!!!!!!!!!",party)
+            //console.log("!!!!!!!!!!",party)
 
             
             nodes=nodes.filter(function(d){
-                console.log(d.id,"!=",party.name)
+                //console.log(d.id,"!=",party.name)
                 return d.id!=party.name;
             })
 
             force.nodes(nodes)
-            console.log("AFTER REMOVING",nodes,force.nodes())
-            console.log("LINKS",links);
+            //console.log("AFTER REMOVING",nodes,force.nodes())
+            //console.log("LINKS",links);
 
             links=links.filter(function(d){
-                console.log("AAAHHHHH",d)
+                //console.log("AAAHHHHH",d)
                 return d.target.id!=partyName && d.source.id!=partyName;
             })
             force.links(links)
-            console.log("REMOVE LINKS",links,force.links());
+            //console.log("REMOVE LINKS",links,force.links());
 
             start();
 
@@ -593,7 +598,7 @@ define([
                 return p.name == partyName;
             });
             if(party.pool) {
-                console.log("already in")
+                //console.log("already in")
                 //removeParty(partyName,party);
                 return;
             }
@@ -609,11 +614,11 @@ define([
             });
             //console.log("adding",party[0])
             //force.nodes(nodes)
-            console.log(nodes);
+            //console.log(nodes);
             //links=[];
             for(var i=0;i<nodes.length;i++) {
                 for(var j=i+1;j<nodes.length;j++) {
-                    console.log("adding link",i,j)
+                    //console.log("adding link",i,j)
                     var __link={
                         source:nodes[i],
                         target:nodes[j]
@@ -624,7 +629,7 @@ define([
                 }
             }
 
-            console.log("ADD LINKS",links)
+            //console.log("ADD LINKS",links)
 
             start();
         }   
@@ -644,7 +649,7 @@ define([
         }*/
         function arrayFind(array,predicate){
             var values=array.filter(predicate);
-            console.log("VALUES",values)
+            //console.log("VALUES",values)
             if(!values.length) {
                 return null;
             }

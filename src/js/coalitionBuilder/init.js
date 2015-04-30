@@ -26,7 +26,7 @@ define([
         height = 480 || windowSize.height || 480;
 
     // playground and octagon
-    var id = "#jsPlayground",
+    var //id = "#jsPlayground",
         r = width / 2 - 32, //radius of octagon
         cx = r + 20,
         cy = r - 15; 
@@ -40,7 +40,7 @@ define([
             imgSize = 66;
 
         dataSeat = updateData.initParties(data, cx, cy, r, imgSize);
-        analysisData = rawData.sheets.TEXTS;
+        analysisData = rawData.sheets.RESULT;
         //mapTable = rawData.sheets.REF; //TODO: use this!
         
         updateData.setTable(mapTable);
@@ -49,9 +49,9 @@ define([
 
 
         /* view: dom */
-        var parties, txtPick, txtList;
+        var /*parties,*/ txtPick, txtList;
         
-        parties = d3.select(id)
+        /*parties = d3.select(id)
         .style("height", height + "px")
         .selectAll("div")
         .data(dataSeat);
@@ -63,7 +63,8 @@ define([
         .style("height", function(d) { return d.size + "px"; })
         .style("z-index", 1)
         .call(dragdrop);
-
+        */
+        
         txtPick = d3.select(".js-pickme");
         
         txtPick
@@ -88,6 +89,8 @@ define([
         
         var icons = d3.select("#jsPartyIcons");
         var names = d3.select("#jsPartyNames");
+
+        
     }
 
 
