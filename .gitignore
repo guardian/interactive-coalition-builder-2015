@@ -1,4 +1,8 @@
-build/
-.sass-cache/
 node_modules/
 bower_components/
+build/
+temp/
+.DS_Store
+.sass-cache/
+.jshintrc
+*.swp
