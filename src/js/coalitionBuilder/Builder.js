@@ -233,7 +233,7 @@ define([
 
             node.style("opacity",1);
             
-            var isActive;
+            var party, isActive;
             if(dragged.y>160) {
                 //console.log("START THE MESS!!!!");
                 d3.select(dragged_node).classed("hidden",true)
@@ -257,13 +257,21 @@ define([
                             return (d.oy * height/2) + "px";
                         })
             }
-            
+           
+            party = dragged.name;
+
+            //TODO: remove hotfix
+            switch(party) {
+                case "libdem": party = "ld";  break;
+                case "green":  party = "grn"; break;
+            }
+
+            updateData.setActive(party, isActive);
             updateData.setSum();
-            updateData.setActive(dragged.name, isActive);
             
             updateView.sum();
-            updateView.analysis(dragged.name, isActive);
-            updateView.animation(dragged.name, isActive);
+            updateView.analysis(party, isActive);
+            updateView.animation(party, isActive);
 
             dragged = null;
             dragged_node = null;

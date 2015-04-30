@@ -70,15 +70,15 @@ define([
             if (index === "x") { return; }
             
             if (active && (partyList.length > 1)) {
+                //console.log("select");
                 d3.select("[data-index='"+index+"']")
                 .classed("show", true)
                 .classed("hide", false);
-                //console.log("select");
             } else if (!active) {
+                //console.log("deselect");
                 d3.select("[data-index='"+index+"']")
                 .classed("show", false)                   
                 .classed("hide", true);                   
-                //console.log("deselect");
             }
         });
     }   
