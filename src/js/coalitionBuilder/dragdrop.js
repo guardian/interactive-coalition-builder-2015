@@ -21,7 +21,7 @@ define([
     function dragStart(d) {
         //console.log("dragstart");
 
-        el = document.querySelector("#playground");
+        el = document.querySelector("#jsPlayground");
         sw = el.clientWidth - d.size;
         sh = el.clientHeight - d.size;
 
@@ -58,11 +58,12 @@ define([
         d.y = py; 
         
         updateData.setSum();
+        
         updateView.sum();
-        
         updateView.analysis(d.party, d.active);
+        updateView.animation(d.party, d.active);
         
-        //console.log("dragend by drag"); 
+        //console.log("dragend"); 
     }
 
 

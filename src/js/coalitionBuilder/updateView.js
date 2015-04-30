@@ -11,10 +11,39 @@ define([
         var sum = data.getSum(),
             txtSeat = (sum > 1) ? " seats" : " seat",
             txtShort = ((326-sum) > 0) ? "just " + (326-sum) + " short" : "Bravo!";
-        document.querySelector(".js-seatcount").textContent = sum + txtSeat;
         document.querySelector(".js-seatshort").textContent = "(" + txtShort + ")";
+        document.querySelector(".js-seatcount").textContent = sum + txtSeat;
+        //TODO: on the sec. one as well
     }
 
+    function updateAnimation() {
+        var sum = data.getSum(),
+            partyData = data.getParties(),
+            isActive = partyData[0].active || partyData[1].active, 
+            txtPick = d3.select(".js-pickme");
+        
+        // case: sum
+        if (sum > 325) {
+            txtPick
+            .classed("animate-delay", false)
+            .classed("d-n", true);
+            return;
+        }
+        
+        // case: group1 is active      
+        if (isActive) {
+            txtPick
+            .classed("animate-delay", false)
+            .classed("d-n", true);
+        } else {
+            txtPick
+            .classed("animate-delay", true)
+            .classed("d-n", false);
+        }
+        //console.log(isActive, "group1");
+        //console.log(sum>325, "majority");
+    }
+    
     function updateAnalysis(party, active) {
         var partyData = data.getParties(),
             mappingTable = data.getTable();
@@ -25,7 +54,9 @@ define([
             return d.party;
         });      
         //console.log(partyList);
-
+        
+        //TODO: update summary
+        //TODO: update pair list
         partyList.forEach(function(d) {
             var table = mappingTable[party],
                 index = table[d];
@@ -47,10 +78,29 @@ define([
             }
         });
     }   
+    
+    function updateImage(isSelected, party, color) {
+        var el = document.querySelector("div[data-party=" + party + "] img"),
+            imgStr = "con lab snp ld",
+            hasImg = imgStr.indexOf(party) !== -1,
+            img = hasImg ? party : "others";
+
+        //TODO: remove src, use sprint instead
+        if (isSelected) {
+            el.style.borderColor = color;
+            el.src = "@@assetPath@@/imgs/" + img + "1.png";
+        } else {
+            el.style.borderColor = "#eee";
+            el.src = "@@assetPath@@/imgs/" + img + "3.png";
+        } 
+    }
 
 
     return {
         sum: updateSum,
-        analysis: updateAnalysis
+        analysis: updateAnalysis,
+        animation: updateAnimation,
+        image: updateImage
+    
     };
 });
