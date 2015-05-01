@@ -32,9 +32,37 @@
 }
 .node .party {
     position: relative;
-    background:white url(../imgs/others.png) no-repeat center center;
+    background-repeat:no-repeat;
+    background-position: center center;
     background-size:cover;
-    border:1px solid;
+    border:none;
+
+    -webkit-transform-style: preserve-3d;
+    -moz-transform-style: preserve-3d;
+    transform-style: preserve-3d;
+
+    overflow: hidden;
+}
+.node.blurred .party {
+    opacity: 0.5;
+}
+.node .party h3 {
+    font-family:$f-sans-serif-text;
+    font-size:13px;
+    color:#fff;
+    text-shadow: 0 0 1px #000;
+    display: inline-block;
+    position:absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width:100%;
+    text-align: center;
+}
+.node .party .overlay {
+    width:100%;
+    height: 100%;
+    position:relative;
+    opacity: 0.75;
 }
 .node .party.con {
     background-image: url(../imgs/con1.png);
@@ -107,86 +135,134 @@ svg line.axis {
 }
 .con {
     fill:#005789;
-    stop-color:#005789;
     stroke:#005789;
     color:#005789;
     border-color:#005789;
+
+    .overlay {
+        background-color:#005789;
+    }
 }
+
 .lab {
     fill:#E31F26;
-    stop-color:#E31F26;
+    
     stroke:#E31F26;
     color:#E31F26;
     border-color:#E31F26;
+
+    .overlay {
+        background-color:#E31F26;
+    }
 }
 .snp {
     fill:#FCDD03;
-    stop-color:#FCDD03;
+    
     stroke:#FCDD03;
     color:#fcb705;
     border-color:#fcb705;
+
+    .overlay {
+        background-color:#FCDD03;
+    }
 }
 .libdem {
     fill:#FFB900;
-    stop-color:#FFB900;
+    
     stroke:#FFB900;
     color:#FFB900;
     border-color:#FFB900;
+
+    .overlay {
+        background-color:#FFB900;
+    }
 }
 .ukip {
     fill:#7D0069;
-    stop-color:#7D0069;
+    
     stroke:#7D0069;
     color:#7D0069;
     border-color:#7D0069;
+
+    .overlay {
+        background-color:#7D0069;
+    }
 }
 .green {
     fill:#33A22B;
-    stop-color:#33A22B;
+    
     stroke:#33A22B;
     color:#33A22B;
     border-color:#33A22B;
+
+    .overlay {
+        background-color:#33A22B;
+    }
 }
 .others {
     fill:#B3B3B4;
-    stop-color:#B3B3B4;
+    
     stroke:#B3B3B4;
     color:#B3B3B4;
     border-color:#B3B3B4;
+
+    .overlay {
+        background-color:#B3B3B4;
+    }
 }
 .pc {
     color:#868686;
     fill:#868686;
-    stop-color:#868686;
+    
     stroke:#868686;
     border-color:#868686;
+
+    .overlay {
+        background-color:#868686;
+    }
 }
 .sf {
     color:#7eaa58;
     fill:#7eaa58;
-    stop-color:#7eaa58;
+    
     stroke:#7eaa58;
     border-color:#7eaa58;
+
+    .overlay {
+        background-color:#7eaa58;
+    }
 }
 .sdlp {
     color:#008587;
     fill:#008587;
-    stop-color:#008587;
+    
     stroke:#008587;
     border-color:#008587;
+
+    .overlay {
+        background-color:#008587;
+    }
 }
 .ind {
     color:#B3B3B4;
     fill:#B3B3B4;
-    stop-color:#B3B3B4;
+    
     stroke:#B3B3B4;
     border-color:#B3B3B4;
+
+    .overlay {
+        background-color:#B3B3B4;
+    }
 }
 .dup {
 
     color:#99002e;
     fill:#99002e;
-    stop-color:#99002e;
+    
     stroke:#99002e;
     border-color:#99002e;
+
+    .overlay {
+        background-color:#99002e;
+    }
 }

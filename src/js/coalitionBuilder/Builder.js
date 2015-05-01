@@ -19,11 +19,12 @@ define([
 
         var nodes=[];
         var links=[];
-        var rscale=d3.scale.sqrt().domain([1,290]).range([20,34])
+        var rscale=d3.scale.sqrt().domain([1,290]).range([20,60])
         var parties=[
 
             {
                 name:"con",
+                vname:"Con",
                 index:0,
                 size:274,
                 neutral:[],
@@ -37,6 +38,7 @@ define([
             },
             {
                 name:"lab",
+                vname:"Lab",
                 index:1,
                 size:269,
                 neutral:[],
@@ -50,6 +52,7 @@ define([
             },
             {
                 name:"snp",
+                vname:"SNP",
                 index:2,
                 size:55,
                 neutral:[],
@@ -63,6 +66,7 @@ define([
             },
             {
                 name:"libdem",
+                vname:"LD",
                 index:3,
                 size:27,
                 neutral:[],
@@ -76,6 +80,7 @@ define([
             },
             {
                 name:"ukip",
+                vname:"Ukip",
                 index:4,
                 size:3,
                 neutral:[],
@@ -89,6 +94,7 @@ define([
             },
             {
                 name:"green",
+                vname:"Green",
                 index:5,
                 size:1,
                 neutral:[],
@@ -102,11 +108,12 @@ define([
             },
             {
                 name:"pc",
+                vname:"PC",
                 index:6,
                 size:3,
                 neutral:[],
                 repulsion:["dup","con","ukip"],
-                attraction:["pc","ld","green"],
+                attraction:["pc","libdem","green"],
                 strong_attraction:["snp"],
                 strong_repulsion:["ukip"],
                 pool:false,
@@ -115,6 +122,7 @@ define([
             },
             {
                 name:"dup",
+                vname:"DUP",
                 index:7,
                 size:9,
                 neutral:[],
@@ -129,6 +137,13 @@ define([
 
         ];
 
+        var distance={
+            neutral:1.2,
+            repulsion:4,
+            attraction:1,
+            strong_repulsion:6,
+            strong_attraction:0.95
+        }
         
         
         var dragged = null,
@@ -145,7 +160,7 @@ define([
         	width = bbox.width,
             height = 320;
 
-        d3.select("#parties")
+        var bubble=d3.select("#parties")
             .selectAll("div.node")
             .data(parties)
             .enter()
@@ -158,7 +173,7 @@ define([
                         return (d.oy * height/2) + "px";
                     })
                     .on("mousedown", function(d) { dragged_node=this; dragged = d; mousedown();})
-                    .on("touchstart",function(d) { dragged_node=this; dragged = d; mousedown();})
+                    .on("touchstart",function(d) { dragged_node=this; dragged = d; mousedown();})      
                     .append("div")
                         .attr("class",function(d){
                             return "party "+d.name;
@@ -168,6 +183,14 @@ define([
                         .style("margin-left", function(d){return -(rscale(d.size))+"px";})
                         .style("margin-top", function(d){return -(rscale(d.size))+"px";})
                         .style("border-radius",function(d){return (rscale(d.size)*2)+"px";})
+
+        bubble
+                .append("div")
+                    .attr("class","overlay")
+        
+        bubble
+                .append("h3")
+                    .text(function(d){return d.vname;})
 
         var dom_parties={};
         d3.select("#parties")
@@ -193,11 +216,6 @@ define([
                         return (d.y)+"px"
                     })
 
-            /*circle
-                .classed("selected", function(d) { return d === selected; })
-                .attr("cx", function(d) { return d[0]; })
-                .attr("cy", function(d) { return d[1]; });
-            */
             if (d3.event) {
                 d3.event.preventDefault();
                 d3.event.stopPropagation();
@@ -231,7 +249,8 @@ define([
             //console.log(dragged);
             //console.log("END",d3.event.x,d3.event.y)
 
-            node.style("opacity",1);
+            
+            node.classed("blurred",false);
             
             var party, isActive;
             if(dragged.y>160) {
@@ -277,84 +296,48 @@ define([
             dragged_node = null;
         }
         
-
-        /*d3.select("ul").selectAll("li")
-                .data(parties)
-                    .enter()
-                    .append("li")
-                        .append("a")
-                            .attr("href","#")
-                            .text(function(d){
-                                return d.name;
-                            })
-                            .on("click",function(d){
-                                d3.event.preventDefault();
-                                addParty(d.name);
-                            })*/
         
-        var distance={
-            neutral:100,
-            repulsion:200,
-            attraction:110,
-            strong_repulsion:220,
-            strong_attraction:90
-        }
         var distances={}
-
+        var factor=1;
         parties.forEach(function(p){
-            p.neutral.forEach(function(d){
-                distances[p.name+"-"+d]=distance.neutral;
-                distances[d+"-"+p.name]=distance.neutral;
+            p.neutral.forEach(function(party_name){
+                var party=arrayFind(parties,function(d){
+                    return d.name==party_name;
+                })
+                distances[p.name+"-"+party.name]=(rscale(p.size)*factor+rscale(party.size)*factor)*distance.neutral;
+                distances[party.name+"-"+p.name]=(rscale(p.size)*factor+rscale(party.size)*factor)*distance.neutral;
             })
-            p.repulsion.forEach(function(d){
-                distances[p.name+"-"+d]=distance.repulsion;
-                distances[d+"-"+p.name]=distance.repulsion;
+            p.repulsion.forEach(function(party_name){
+                var party=arrayFind(parties,function(d){
+                    return d.name==party_name;
+                })
+                distances[p.name+"-"+party.name]=(rscale(p.size)*factor+rscale(party.size)*factor)*distance.repulsion;
+                distances[party.name+"-"+p.name]=(rscale(p.size)*factor+rscale(party.size)*factor)*distance.repulsion;
             })
-            p.attraction.forEach(function(d){
-                distances[p.name+"-"+d]=distance.attraction;
-                distances[d+"-"+p.name]=distance.attraction;
+            p.attraction.forEach(function(party_name){
+                var party=arrayFind(parties,function(d){
+                    return d.name==party_name;
+                })
+                distances[p.name+"-"+party.name]=(rscale(p.size)*factor+rscale(party.size)*factor)*distance.attraction;
+                distances[party.name+"-"+p.name]=(rscale(p.size)*factor+rscale(party.size)*factor)*distance.attraction;
             })
-            p.strong_repulsion.forEach(function(d){
-                distances[p.name+"-"+d]=distance.strong_repulsion;
-                distances[d+"-"+p.name]=distance.strong_repulsion;
+            p.strong_repulsion.forEach(function(party_name){
+                var party=arrayFind(parties,function(d){
+                    return d.name==party_name;
+                })
+                distances[p.name+"-"+party.name]=(rscale(p.size)*factor+rscale(party.size)*factor)*distance.strong_repulsion;
+                distances[party.name+"-"+p.name]=(rscale(p.size)*factor+rscale(party.size)*factor)*distance.strong_repulsion;
             })
-            p.strong_attraction.forEach(function(d){
-                distances[p.name+"-"+d]=distance.strong_attraction;
-                distances[d+"-"+p.name]=distance.strong_attraction;
-            })
-        })
-        
-        //console.log(distances);
-        
-
-        /*
-        parties.map(function(d,i){
-            return d;
-        }).filter(function(d){
-            return d.pool;
-        }).forEach(function(d,i){
-            nodes.push({
-                index:d.index,
-                name:d.name,
-                id:d.name,
-                x:Math.floor(Math.random() * width),
-                y:0,//Math.floor(Math.random() * height),
-                r:rscale(d.size)
+            p.strong_attraction.forEach(function(party_name){
+                var party=arrayFind(parties,function(d){
+                    return d.name==party_name;
+                })
+                distances[p.name+"-"+party.name]=(rscale(p.size)*factor+rscale(party.size)*factor)*distance.strong_attraction;
+                distances[party.name+"-"+p.name]=(rscale(p.size)*factor+rscale(party.size)*factor)*distance.strong_attraction;
             })
         });
-        console.log(nodes);
         
-        for(var i=0;i<nodes.length;i++) {
-            for(var j=i+1;j<nodes.length;j++) {
-                console.log(i,j)
-                links.push({
-                    source:parties[i],
-                    target:parties[j]
-                })
-            }
-        }
-        */
-        //console.log(links)
+        console.log(distances);
         
         var force = d3.layout.force()
                         .size([width, height])
@@ -405,39 +388,6 @@ define([
 
         var dragging=null;
 
-        /*builder.on("mousemove",function(d){
-            if(dragging) {
-                var coords=d3.mouse(this);
-                d3.select(dragging)
-                        .style({
-                            left:coords[0]+"px",
-                            top:(coords[1]+160)+"px"
-                        })
-            }
-        })*/
-
-
-        /*force.on("end",function(){
-
-            node
-                .style("left", function(d) { return d.x+"px"; })
-                .style("top", function(d) { return d.y+"px"; })
-
-            if(DEBUG) {
-                svg_node
-                    .attr("cx", function(d) { return d.x; })
-                    .attr("cy", function(d) { return d.y; })
-                    
-
-                svg_link.attr('x1', function(d) { return d.source.x; })
-                    .attr('y1', function(d) { return d.source.y; })
-                    .attr('x2', function(d) { return d.target.x; })
-                    .attr('y2', function(d) { return d.target.y; });
-            }
-
-
-        })*/
-
         force.on('tick',tick);
 
         start();
@@ -445,8 +395,17 @@ define([
         function tick(e) {
             
             node
-                .style("left", function(d) { return d.x+"px"; })
-                .style("top", function(d) { return d.y+"px"; })
+                .style("left", function(d) { 
+                    var x=Math.max(d.r, Math.min(width - d.r, d.x))
+                    return x+"px"; 
+                })
+                .style("top", function(d) { 
+                    var y=Math.max(d.r, Math.min(height - d.r, d.y))
+                    return y+"px"; 
+                })
+
+            /*node.style("left", function(d) { return d.x = Math.max(d.r, Math.min(width - d.r, d.x))+"px"; })
+                .style("top", function(d) { return d.y = Math.max(d.r, Math.min(height - d.r, d.y))+"px"; });*/
 
             //console.log(node)
             if(DEBUG) {
@@ -490,26 +449,34 @@ define([
                 
             }
 
-            node.enter()
+            var bubble=node.enter()
                 .append("div")
                 .on("mousedown",function(d){
                     nodeMouseDown(d);
-                    d3.select(this).style("opacity",0.5);
+                    d3.select(this).classed("blurred",true);
                 })
                 .on("touchstart",function(d){
                     nodeMouseDown(d);
-                    d3.select(this).style("opacity",0.5);
+                    d3.select(this).classed("blurred",true);
                 })
                 .attr("class", "node")
-                    .append("div")
-                        .attr("class",function(d){
-                            return "party "+d.id;
-                        })
-                        .style("width", function(d){return (d.r*2)+"px";})
-                        .style("height", function(d){return (d.r*2)+"px";})
-                        .style("margin-left", function(d){return -(d.r)+"px";})
-                        .style("margin-top", function(d){return -(d.r)+"px";})
-                        .style("border-radius",function(d){return (d.r*2)+"px";});
+                .append("div")
+                    .attr("class",function(d){
+                        return "party "+d.id;
+                    })
+                    .style("width", function(d){return (d.r*2)+"px";})
+                    .style("height", function(d){return (d.r*2)+"px";})
+                    .style("margin-left", function(d){return -(d.r)+"px";})
+                    .style("margin-top", function(d){return -(d.r)+"px";})
+                    .style("border-radius",function(d){return (d.r*2)+"px";});
+
+            bubble
+                .append("div")
+                    .attr("class","overlay")
+
+            bubble
+                .append("h3")
+                    .text(function(d){return d.vname;})
 
             /*.append(function(d){
                         return dom_parties[d.id];
@@ -615,6 +582,7 @@ define([
             nodes.push({
                 //index:nodes.length,
                 name:party.name,
+                vname:party.vname,
                 id:party.name,
                 x: x || Math.floor(Math.random() * width),
                 y: y || 0,//Math.floor(Math.random() * height),
