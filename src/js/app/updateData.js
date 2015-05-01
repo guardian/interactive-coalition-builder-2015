@@ -47,8 +47,8 @@ define([
     
     function getPartyName(party) {
         var partyDic = {
-            con: "Conservatives",
-            lab: "Labour",
+            con: "Con",
+            lab: "Lab",
             ld: "Lib Dem",
             snp: "SNP",
             grn: "Green",
@@ -78,12 +78,11 @@ define([
     }
     
     function setActive(party, isActive) {
-        partyData.filter(function(d) {
-            return d.party === party;
-        }).map(function(d){
-            d.active = isActive;
-            return d;
+        var item = partyData.find(function(d) { 
+            return d.party === party; 
         });
+        
+        item.active = isActive;
     }   
     
     function getSum() { return sum; }

@@ -62,6 +62,9 @@ sdlp:   #008587
 .c-grey3 {
     color: $c-grey3;
 }
+.c-black {
+    color: black;
+}
 
 @import 'modules/grid';
 @import 'modules/font';

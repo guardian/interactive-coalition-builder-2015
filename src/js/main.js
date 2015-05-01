@@ -1,14 +1,14 @@
 define([
     'd3',
     'reqwest',
-    'app/init.js',
-    'common/buttons.js',
+    'app/app.js',
+    'common/polyfill.js',
     'text!templates/appTemplate.html'
 ], function(
     d3,
     reqwest,
     coalitionBuilder,
-    socialButtons,
+    polyfill,
     templateHTML
 ) {
     'use strict';
@@ -27,11 +27,13 @@ define([
 
         // DOM template example
         el.innerHTML = templateHTML;
-
+        
         // Load remote JSON data
         var key = '1kEJiSPchMy6MCSThHDw5xaA37_LgFxJgTz7dLNhnSEI',
             url = 'http://interactive.guim.co.uk/spreadsheetdata/' + key + '.json';
 
+        polyfill();
+        
         reqwest({
             url: url,
             type: 'json',
@@ -48,9 +50,6 @@ define([
             script.setAttribute('src','http://interactive.guim.co.uk/2015/04/election-nav/electionNav.js');
             script.setAttribute('type','text/javascript');
             head.appendChild(script); 
-            
-            /* Render social buttons */
-            socialButtons();
         })        
         .fail(handleRequestError)
         .always(afterRequest);

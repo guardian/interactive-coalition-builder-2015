@@ -48,7 +48,7 @@ define([
         //console.log(sum>325, "majority");
     }
     
-    function updateAnalysis(party, active) {
+    function updateAnalysis(party, isActive) {
         var partyData = data.getParties(),
             mappingTable = data.getTable();
 
@@ -57,9 +57,34 @@ define([
         }).map(function(d) {
             return d.party;
         });      
-        //console.log(partyList);
-        
+        console.log(party, isActive);
+        console.log(partyList);
+
+        //TODO: update section
+        if (partyList.length > 0) {
+            d3.select(".js-coalition")
+            .classed("d-n", false)            
+            .classed("d-b", true);            
+        } else {
+            d3.select(".js-coalition")
+            .classed("d-n", true)            
+            .classed("d-b", false);
+        }
+
         //TODO: update summary
+        var el = d3.select(".js-parties .party-" + party); 
+        
+        if (isActive) { 
+            el.classed("d-n", false).classed("d-ib", true); 
+        } else if (!isActive) {
+            el.classed("d-n", true).classed("d-ib", false); 
+        }
+
+        var txtFlag = isActive ? "" : " not ",
+            txtContext = isActive ? "blablabla..." : "";
+        d3.select(".js-summary-flag").text(txtFlag);
+        d3.select(".js-summary-context").text(txtContext);
+
         //TODO: update pair list
         partyList.forEach(function(d) {
             var table = mappingTable[party],
@@ -69,12 +94,12 @@ define([
             if (index === undefined) { return; }
             if (index === "x") { return; }
             
-            if (active && (partyList.length > 1)) {
+            if (isActive && (partyList.length > 1)) {
                 //console.log("select");
                 d3.select("[data-index='"+index+"']")
                 .classed("show", true)
                 .classed("hide", false);
-            } else if (!active) {
+            } else if (!isActive) {
                 //console.log("deselect");
                 d3.select("[data-index='"+index+"']")
                 .classed("show", false)                   

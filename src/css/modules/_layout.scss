@@ -25,8 +25,9 @@ ul {
 // atomic css
 .bt-1sb { border-top: 1px solid black; }
 
-.d-n  { display: none; }
-.d-ib { display: inline-block; }
+.d-n   { display: none; }
+.d-b   { display: block; }
+.d-ib  { display: inline-block; }
 
 .pos-r { position: relative; }
 .pos-a { position: absolute; }
@@ -64,7 +65,7 @@ ul {
 
 .pos-r-party {
     position: relative;
-    height: 100px;
+    height: 110px;
     margin-right: 8px; //TODO: remove later
 }
 .pos-a-party-name,
@@ -79,4 +80,5 @@ ul {
 .img-party {
     width: 64px;
     height: 64px;
+    border-radius: 32px;
 }
