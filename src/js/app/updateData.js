@@ -6,7 +6,6 @@ define([
     'use strict';
 
     var partyData, 
-        mapTable, 
         sum = 0;
     
     
@@ -14,9 +13,9 @@ define([
         partyData  = [
             { party: "con"   , color: "#005789", group: 1, img:"con3" }, 
             { party: "lab"   , color: "#E31F26", group: 1, img:"lab3" }, 
-            { party: "ld"    , color: "#FFB900", group: 2, img:"ld2" },
+            { party: "libdem", color: "#FFB900", group: 2, img:"ld2" },
             { party: "snp"   , color: "#FCDD03", group: 2, img:"snp2" },
-            { party: "grn"   , color: "#33A22B", group: 2, img:"others" },
+            { party: "green" , color: "#33A22B", group: 2, img:"others" },
             { party: "pc"    , color: "#868686", group: 2, img:"others" },
             { party: "sdlp"  , color: "#008587", group: 2, img:"others" },
             { party: "others", color: "#B3B3B4", group: 2, img:"others" },
@@ -45,27 +44,6 @@ define([
         return partyData;
     }
     
-    function getPartyName(party) {
-        var partyDic = {
-            con: "Con",
-            lab: "Lab",
-            ld: "Lib Dem",
-            snp: "SNP",
-            grn: "Green",
-            pc: "PC",
-            sdlp: "SDLP",
-            others: "Others",
-            dup: "DUP",
-            ukip: "Ukip"
-        };
-        return partyDic[party];
-    }
-
-
-    function setTable(table) {
-        mapTable = table;
-    }
-
     function setSum() {
         
         sum = partyData.filter(function(d) {
@@ -87,17 +65,13 @@ define([
     
     function getSum() { return sum; }
     function getParties() { return partyData; }
-    function getTable() { return mapTable; }
 
 
     return {
         initParties: initParties,
         getParties: getParties,
-        getPartyName: getPartyName,
         setSum: setSum,
         getSum: getSum,
-        setActive: setActive,
-        setTable: setTable,
-        getTable: getTable
+        setActive: setActive
     };
 });

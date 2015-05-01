@@ -15,15 +15,9 @@ ul {
     padding-left: 0;
 }
 
-/*img {
-    width: 100%;
-    border: 1px solid #eee;
-    border-radius: 80px;
-}
-*/
 
 // atomic css
-.bt-1sb { border-top: 1px solid black; }
+.o-h   { overflow: hidden; }
 
 .d-n   { display: none; }
 .d-b   { display: block; }
@@ -36,6 +30,8 @@ ul {
 .mt-10 { margin-top: 10px; }
 .mt-30 { margin-top: 30px; }
 
+.bt-1sb { border-top: 1px solid black; }
+
 
 // custom css
 .hide { 
@@ -44,7 +40,7 @@ ul {
 }
 .show { 
     height: auto;
-    max-height: 200px; 
+    max-height: 500px; 
     transition: max-height, 1s;
     border-top: 1px dotted #eee;
     margin-top: 15px;
@@ -65,7 +61,7 @@ ul {
 
 .pos-r-party {
     position: relative;
-    height: 110px;
+    height: 105px;
     margin-right: 8px; //TODO: remove later
 }
 .pos-a-party-name,

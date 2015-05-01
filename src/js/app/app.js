@@ -1,19 +1,17 @@
 define([
     'd3',
     'app/Builder',
-    'app/yourCoalition',
+    'app/Coalition',
     'app/updateData',
     'common/utilities',
-    'common/buttons.js',
-    'json!data/mappingTable.json'
+    'common/buttons.js'
 ], function(
     d3,
     Builder,
     yourCoalition,
     updateData,
     util,
-    socialButtons,
-    mapTable
+    socialButtons
 ) {
     'use strict';
 
@@ -32,12 +30,11 @@ define([
         
         /* data */
         var data = rawData.sheets.SUM,
-            partyData = updateData.initParties(data, cx, cy, r, imgSize),
-            analysisData = rawData.sheets.RESULT;
-
-        updateData.setTable(mapTable);
+            analysisData = rawData.sheets.RESULT,
+            partyData = updateData.initParties(data, cx, cy, r, imgSize);
 
 
+        /* view */
         // section 1
         //TODO: check the date
         var lastupdateData = new Date(rawData.updated),
@@ -48,13 +45,10 @@ define([
         // section 2
         new Builder();
 
-        var txtPick = d3.select(".js-pickme");
-
-        txtPick
+        d3.select(".js-pickme")
         .style("top", cy - 50 + "px")
         .style("left", cx - 60 + "px")
         .classed("animate-delay", true);
-
 
         // section 3
         yourCoalition(partyData, analysisData);    

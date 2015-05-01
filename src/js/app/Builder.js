@@ -279,12 +279,6 @@ define([
            
             party = dragged.name;
 
-            //TODO: remove hotfix
-            switch(party) {
-                case "libdem": party = "ld";  break;
-                case "green":  party = "grn"; break;
-            }
-
             updateData.setActive(party, isActive);
             updateData.setSum();
             
