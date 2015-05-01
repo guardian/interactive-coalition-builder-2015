@@ -1,6 +1,6 @@
 define([
     'd3',
-    'coalitionBuilder/updateData'
+    'app/updateData'
 ], function(
     d3,
     data
@@ -10,7 +10,7 @@ define([
     function updateSum() {
         var sum = data.getSum(),
             txtSeat = (sum > 1) ? " seats" : " seat",
-            txtShort = ((326-sum) > 0) ? "just " + (326-sum) + " short" : "Bravo!",
+            txtShort = ((326-sum) > 0) ? "just " + (326-sum) + " short of majority" : "Bravo!",
             elsSeat;
         
         document.querySelector(".js-seatshort").textContent = "(" + txtShort + ")";

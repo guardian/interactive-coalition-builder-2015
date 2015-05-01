@@ -1,7 +1,12 @@
 // override
+#election-nav-head {
+    position: relative  !important;
+}
+
 section {
-    margin-top: 30px;
+    margin-top: 20px;
     margin-bottom: 30px;
+    padding-top: 10px;
 }
 
 ul {
@@ -10,17 +15,25 @@ ul {
     padding-left: 0;
 }
 
-img {
+/*img {
     width: 100%;
     border: 1px solid #eee;
     border-radius: 80px;
 }
+*/
 
 // atomic css
-.d-n { display: none; }
+.bt-1sb { border-top: 1px solid black; }
+
+.d-n  { display: none; }
+.d-ib { display: inline-block; }
 
 .pos-r { position: relative; }
 .pos-a { position: absolute; }
+
+.mt--5 { margin-top: -5px; }
+.mt-10 { margin-top: 10px; }
+.mt-30 { margin-top: 30px; }
 
 
 // custom css
@@ -37,21 +50,33 @@ img {
     padding-top: 5px;
 }
 
-.pos-a-party {
+.pos-a-tr {
     position: absolute;
-    border-radius: 80px;
-    z-index: 1;
+    top: 0;
+    right: 0;
 }
 
-.pos-a-gov {
-    position: absolute;
-    background-color: #eee;
-    width: 100%;
-    height: 50%;
-    bottom: 0;
-}
 .pos-a-sum {
     position: absolute;
     bottom: 10px;
     z-index: 2;
+}
+
+.pos-r-party {
+    position: relative;
+    height: 100px;
+    margin-right: 8px; //TODO: remove later
+}
+.pos-a-party-name,
+.pos-a-party-seat {
+    position: absolute;
+    width: 100%;
+    text-align: center;
+}
+.pos-a-party-name { bottom: 15px; }
+.pos-a-party-seat { bottom: 0; }
+ 
+.img-party {
+    width: 64px;
+    height: 64px;
 }

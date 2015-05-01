@@ -1,31 +1,48 @@
 <div class="interactive-wrapper">
+    <div id="election-nav-head"></div>
+
     <section>
-        <h1>Build the government, yo!</h1>
+        <h1>Build the coalition (and will they like each other)</h1>
         <p class="f-standfirst">
             Lorem ipsum dolor sit amet, consec-tetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
         </p>
+        <p class="f-lastupdate mt-10"><time id="jsLastUpdate"></time></p>
     </section>
 
-    <section> 
-        <h2>Coalition Bulider</h2>
-        <div id="coalitions">
+    <section class="bt-1sb">     
+        <h2>Choose your parties</h2>
+        <p class="c-grey3">Start by dragging either Labour<br>or Conservatives</p>
+        <div class="pos-r" id="coalitions">
             <div id="parties"></div>
             <div id="builder"></div>
             <div class="pos-a f-pickme js-pickme">Hey, pick me</div> 
-            <p class="pos-a-sum">
-                <span class="f-h2">You have</span><br>
-                <span class="f-h1 js-seatcount">0 seat</span><br>
-                <span class="f-h2-grey2 js-seatshort">(just 326 short)</span>
-            </p> 
+            <div class="pos-a-sum">
+                <p>
+                    <span class="f-h2">You have</span>
+                    <span class="f-h1-20 js-seatcount">0 seat</span>
+                </p>    
+                <p class="c-grey3 mt--5 js-seatshort">(just 326 short of majority)</p>
+            </div> 
         </div>
     </section>
 
-    <section>
-        <h2>Coalition analysis</h2>
-        <div id="jsPartyIcons"></div>
-        <div id="jsPartyNames"></div>
-        <div class="f-h1 js-seatcount">0 seat</div>
+    <section class="bt-1sb pos-r">     
+        <h1>Your Coalition</h1>
+        <ul class="js-parties"></ul>
+        
+        <h2 class="c-grey3">
+            <span class="js-seatcount"></span> is
+            <span class="js-summary-flag"></span> enough to form a majority
+        </h2>
+        <p class="js-summary-context"></p>
         
         <div class="f-analysis js-analysis"></div>   
+
+        <div class="btns-share pos-a-tr">
+            <button class="btn-tt" data-source="twitter"></button>
+            <button class="btn-fb" data-source="facebook"></button>
+        </div>       
     </section>
+    
+    <div id="election-nav-footer" class="mt-30"></div> 
 </div>

@@ -28,6 +28,9 @@ figure.interactive {
 @media(min-width:660px){
     .interactive-wrapper{
         margin:0 auto;
+        padding-left: 20px;
+        padding-right: 20px;
+        box-sizing: border-box;
     }
 }
 

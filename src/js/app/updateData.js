@@ -1,5 +1,5 @@
 define([
-    'coalitionBuilder/utilities'
+    'common/utilities'
 ], function(
     util
 ){
@@ -9,7 +9,7 @@ define([
         mapTable, 
         sum = 0;
     
-
+    
     function initParties(data, cx, cy, r, imgSize) {
         partyData  = [
             { party: "con"   , color: "#005789", group: 1, img:"con3" }, 
@@ -45,6 +45,23 @@ define([
         return partyData;
     }
     
+    function getPartyName(party) {
+        var partyDic = {
+            con: "Conservatives",
+            lab: "Labour",
+            ld: "Lib Dem",
+            snp: "SNP",
+            grn: "Green",
+            pc: "PC",
+            sdlp: "SDLP",
+            others: "Others",
+            dup: "DUP",
+            ukip: "Ukip"
+        };
+        return partyDic[party];
+    }
+
+
     function setTable(table) {
         mapTable = table;
     }
@@ -77,6 +94,7 @@ define([
     return {
         initParties: initParties,
         getParties: getParties,
+        getPartyName: getPartyName,
         setSum: setSum,
         getSum: getSum,
         setActive: setActive,

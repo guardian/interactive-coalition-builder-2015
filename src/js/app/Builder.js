@@ -1,7 +1,7 @@
 define([
     'd3',
-    'coalitionBuilder/updateData',
-    'coalitionBuilder/updateView'
+    'app/updateData',
+    'app/updateView'
 ], function(
     d3,
     updateData,

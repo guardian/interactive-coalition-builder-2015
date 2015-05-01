@@ -31,7 +31,6 @@ $fz-18: 18px;
 $fz-20: 20px;
 $fz-22: 22px;
 
-
 // color:
 // inheritance from pasteup-palette
 // http://guardian.github.io/pasteup-palette/demo/
@@ -60,10 +59,14 @@ sdlp:   #008587
     .c-#{$party}   { color: $color; }
     .bgc-#{$party} { background-color: $color; }
 }
+.c-grey3 {
+    color: $c-grey3;
+}
 
 @import 'modules/grid';
 @import 'modules/font';
 @import 'modules/layout';
 @import 'modules/animation';
+@import 'modules/buttons';
 @import 'modules/builder';
 
