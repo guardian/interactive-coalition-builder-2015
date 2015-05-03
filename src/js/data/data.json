@@ -19,7 +19,14 @@
         "n":  "It's kind of match",
         "r":  "It's complicated",
         "rr": "It's too complicated"
-
+    },
+    
+    "partyImageDic": {
+        "aa": 1,
+        "a":  1,
+        "n":  2,
+        "r":  2,
+        "rr": 3
     },
 
     "indexTable": {

@@ -21,7 +21,7 @@ define([
         .data(partyData).enter()
         .append("li")
         .attr("class", function(d) {
-            return "pos-r-party d-n party-" + d.party; 
+            return "pos-r-party-list d-n party-" + d.party; 
         });
 
         partyList
@@ -40,11 +40,12 @@ define([
             return "img-party bgc-" + d.party;
         })
         .attr("src", function(d) {
-            return "@@assetPath@@/imgs/" + d.img + ".png";
+            return "@@assetPath@@/imgs/" + d.party + "1.png";
         });      
  
 
         // init analysis list
+        // party list
         txtList = d3.select(".js-analysis")
         .selectAll("li")
         .data(analysisData).enter()
@@ -62,14 +63,62 @@ define([
         .attr("class", "c-grey3")
         .text(" because ...");
 
-        imgPair = txtList.append("div");
-        imgPair
-        .text(function(d) { return d.pair; });
-
+        imgPair = txtList.append("div")
+        .attr("class", "pos-r-party-pair f-l-pair")
+        .each(function(d) { 
+            d.partyPair = d.pair.split(",");
+        });
+        
         txtList
         .append("p")
+        .attr("class", "f-r-pair")
         .text(function(d) { return d.text; });
-    }
+    
+        // party pair
+        imgPair       
+        .append("img")
+        .attr("class", function(d) {
+            return "img-party bgc-" + d.partyPair[0];
+        })
+        .attr("src", function(d) {
+            var path = "@@assetPath@@/imgs/" + 
+                d.partyPair[0] + 
+                data.partyImageDic[d.mark] + 
+                ".png";
+            return path;
+        });
+        
+        imgPair
+        .append("span")
+        .attr("class", "l-party-plus")
+        .text("+");
+        
+        imgPair       
+        .append("img")
+        .attr("class", function(d) {
+            return "img-party bgc-" + d.partyPair[1];
+        })
+        .attr("src", function(d) {
+            var path = "@@assetPath@@/imgs/" +  
+                d.partyPair[1] + 
+                data.partyImageDic[d.mark] + 
+                ".png";
+            return path;
+        });
+        
+        imgPair
+        .append("span")
+        .attr("class", "f-party-name pos-a-party-name-left")
+        .text(function(d) {
+            return data.partyNameDic[d.partyPair[0]];
+        });
+        imgPair
+        .append("span")
+        .attr("class", "f-party-name pos-a-party-name-right")
+        .text(function(d) {
+            return data.partyNameDic[d.partyPair[1]];
+        });     
+     }
 
 
     return coalition;
