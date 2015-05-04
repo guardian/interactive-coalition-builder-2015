@@ -1,18 +1,19 @@
 #coalitions {
     width: 100%;
-    height: 800px;
+    height: 600px;
     overflow: hidden;
+    position:relative;
 }
-#parties {
+#bench {
     width:100%;
     height: 33%;
     position: relative;
     overflow: visible;
     z-index: 3;
 }
-#builder {
-    width:100%;
-    height: 67%;
+#playground {
+    width: calc(100% - 2px);
+    height: calc(67% - 2px);
     position: relative;
 }
 .builder {
@@ -20,9 +21,18 @@
     width:100%;
     height: 100%;
     position: relative;
-    border-top:1px solid #ddd;
+    border:1px dotted #aaa;
+}
+.active .builder {
+    background-color:#eee;
+    border:none;
+}
+.dropping .builder {
+    -webkit-box-shadow:inset 0 0 15px 0 rgba(0,0,0,0.25);
+    box-shadow:inset 0 0 15px 0 rgba(0,0,0,0.25);
     background-color:#eee;
 }
+
 
 .node {
     position: absolute;
@@ -32,75 +42,98 @@
 }
 .node .party {
     position: relative;
-    background-repeat:no-repeat;
-    background-position: center center;
-    background-size:cover;
-    border:none;
+    
 
     -webkit-transform-style: preserve-3d;
     -moz-transform-style: preserve-3d;
     transform-style: preserve-3d;
 
+    overflow: visible;
+}
+.node .party .face {
+    background-repeat:no-repeat;
+    background-position: center center;
+    background-size:cover;
+    border:5px solid transparent;
+    width: calc(100%);
+    height: calc(100%);
     overflow: hidden;
+
+    box-sizing:border-box;
+    -moz-box-sizing:border-box;
+    -webkit-box-sizing:border-box;
+}
+.node.dragging .party .face {
+    border:5px solid #bbb;
+}
+.active .node .party .face {
+    border:5px solid #eee;
 }
 .node.blurred .party {
     opacity: 0.5;
 }
-.node .party h3 {
+.node h3 {
     font-family:$f-sans-serif-text;
     font-size:13px;
     color:#fff;
     text-shadow: 0 0 1px #000;
     display: inline-block;
     position:absolute;
-    top: 50%;
-    transform: translateY(-50%);
+    /*top: 50%;
+    transform: translateY(-50%);*/
+    bottom:5px;
     width:100%;
     text-align: center;
+}
+.node h4 {
+    font-family:$f-sans-serif-text;
+    font-size:13px;
+    color:#333;
+    display: inline-block;
+    position:absolute;
+    /*top: 50%;
+    transform: translateY(-50%);*/
+    bottom:-35px;
+    width:100%;
+    text-align: center;
+    font-weight: normal;
+}
+.node .party .pic {
+    position:absolute;
+    top:5px;
+    left:5px;
 }
 .node .party .overlay {
     width:100%;
     height: 100%;
     position:relative;
-    opacity: 0.75;
-}
-.node .party.con {
-    background-image: url(../imgs/con1.png);
-}
-.node .party.lab {
-    background-image: url(../imgs/lab1.png);
-}
-.node .party.libdem {
-    background-image: url(../imgs/ld1.png);
-}
-.node .party.snp {
-    background-image: url(../imgs/snp1.png);
+    opacity: 0.4;
 }
 
-.node.angry .party.con {
-    background-image: url(../imgs/con3.png);
-}
-.node.angry .party.lab {
-    background-image: url(../imgs/lab3.png);
-}
-.node.angry .party.libdem {
-    background-image: url(../imgs/ld3.png);
-}
-.node.angry .party.snp {
-    background-image: url(../imgs/snp3.png);
+.node .party .face .pic {
+    background-repeat:no-repeat;
+    background-position: center center;
+    background-size:cover;
+    border:5px solid transparent;
+    width: calc(100%);
+    height: calc(100%);
+    overflow: hidden;
+
+    box-sizing:border-box;
+    -moz-box-sizing:border-box;
+    -webkit-box-sizing:border-box;
 }
 
-.node.angry.happy .party.con {
-    background-image: url(../imgs/con3.png);
-}
-.node.angry.happy .party.lab {
-    background-image: url(../imgs/lab3.png);
-}
-.node.angry.happy .party.libdem {
-    background-image: url(../imgs/ld3.png);
-}
-.node.angry.happy .party.snp {
-    background-image: url(../imgs/snp3.png);
+@each $party, $color in $partyColors {
+    .node .party.#{$party} .face  .pic { 
+        background-image: url(../imgs/pics/#{$party}-n.png);
+    }
+    .node.happy .party.#{$party} .face .pic   { 
+        background-image: url(../imgs/pics/#{$party}-h.png);
+    }
+    .node.angry .party.#{$party} .face  .pic { 
+        background-image: url(../imgs/pics/#{$party}-a.png);
+    }
 }
 
 

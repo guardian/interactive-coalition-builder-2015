@@ -50,12 +50,6 @@ p {
     font-weight: bold;
 }
 
-.f-analysis {
-//TODO: change selector
-li { 
-    @extend p; 
-    overflow: hidden;
-}}
 
 // responsive
 @media (min-width: 980px) {

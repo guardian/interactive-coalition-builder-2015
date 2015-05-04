@@ -1,0 +1,110 @@
+{
+    "partyNameDic": {
+        "con":    "Con",
+        "lab":    "Lab",
+        "libdem": "Lib Dem",
+        "snp":    "SNP",
+        "green":  "Green",
+        "pc":     "PC",
+        "sdlp":   "SDLP",
+        "others": "Others",
+        "dup":    "DUP",
+        "ukip":   "Ukip"
+
+    },
+
+    "partyMatchDic": {
+        "aa": "It's so perfect",
+        "a":  "It's a match",
+        "n":  "It's kind of match",
+        "r":  "It's complicated",
+        "rr": "It's too complicated"
+    },
+    
+    "partyImageDic": {
+        "aa": 1,
+        "a":  1,
+        "n":  2,
+        "r":  2,
+        "rr": 3
+    },
+
+    "indexTable": {
+        "con": {
+            "lab":"1",
+            "snp":"2",
+            "libdem":"3",
+            "green":"4",
+            "ukip":"5",
+            "dup":"6",
+            "pc":"7",
+            "sdlp": "28"
+        },
+        "lab":{
+            "con":"1",
+            "snp":"8",
+            "libdem":"9",
+            "green":"10",
+            "ukip":"11",
+            "dup":"12",
+            "pc":"13",
+            "sdlp": "29"
+        },
+        "snp": {
+            "con":"2",
+            "lab":"8",
+            "libdem":"14",
+            "green":"15",
+            "ukip":"16",
+            "dup":"17",
+            "pc":"18",
+            "sdlp": "30"
+        },
+        "libdem": {
+            "con":"3",
+            "lab":"9",
+            "snp":"14",
+            "green":"19",
+            "ukip":"20",
+            "dup":"21",
+            "pc":"22"
+        },
+        "green": {
+            "con":"4",
+            "lab":"10",
+            "snp":"15",
+            "libdem":"19",
+            "ukip":"23",
+            "dup":"24",
+            "pc":"25",
+            "sdlp": "32"
+        },
+        "ukip": {
+            "con":"5",
+            "lab":"11",
+            "snp":"16",
+            "libdem":"20",
+            "green":"23",
+            "dup":"26",
+            "pc":"27",
+            "sdlp": "33"
+        },
+        "dup": {
+            "con":"6",
+            "lab":"12",
+            "snp":"17",
+            "libdem":"21",
+            "green":"24",
+            "ukip":"26",
+            "sdlp": "34"
+        },
+        "pc": {
+            "con":"7",
+            "lab":"13",
+            "snp":"18",
+            "libdem":"22",
+            "green":"25",
+            "ukip":"27",
+            "sdlp": "35"
+        }}
+}

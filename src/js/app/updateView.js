@@ -1,14 +1,16 @@
 define([
     'd3',
-    'app/updateData'
+    'app/updateData',
+    'json!data/data.json'
 ], function(
     d3,
+    updateData,
     data
 ){
     'use strict';
 
     function updateSum() {
-        var sum = data.getSum(),
+        var sum = updateData.getSum(),
             txtSeat = (sum > 1) ? " seats" : " seat",
             txtShort = ((326-sum) > 0) ? "just " + (326-sum) + " short of majority" : "Bravo!",
             elsSeat;
@@ -21,8 +23,8 @@ define([
     }
 
     function updateAnimation() {
-        var sum = data.getSum(),
-            partyData = data.getParties(),
+        var sum = updateData.getSum(),
+            partyData = updateData.getParties(),
             isActive = partyData[0].active || partyData[1].active, 
             txtPick = d3.select(".js-pickme");
         
@@ -49,16 +51,15 @@ define([
     }
     
     function updateAnalysis(party, isActive) {
-        var partyData = data.getParties(),
-            mappingTable = data.getTable();
+        var partyData = updateData.getParties();
 
         var partyList = partyData.filter(function(d) {
             return d.active;
         }).map(function(d) {
             return d.party;
         });      
-        console.log(party, isActive);
-        console.log(partyList);
+        //console.log(party, isActive);
+        //console.log(partyList);
 
         //TODO: update section
         if (partyList.length > 0) {
@@ -80,19 +81,19 @@ define([
             el.classed("d-n", true).classed("d-ib", false); 
         }
 
-        var txtFlag = isActive ? "" : " not ",
-            txtContext = isActive ? "blablabla..." : "";
+        var isMajority = updateData.getSum() > 325,
+            txtFlag = isMajority ? "" : " not ",
+            txtContext = isMajority ? "blablabla..." : "";
         d3.select(".js-summary-flag").text(txtFlag);
         d3.select(".js-summary-context").text(txtContext);
 
-        //TODO: update pair list
+        //TODO: update analysis list
         partyList.forEach(function(d) {
-            var table = mappingTable[party],
+            var table = data.indexTable[party],
                 index = table[d];
 
             if (table === undefined) { return; } 
             if (index === undefined) { return; }
-            if (index === "x") { return; }
             
             if (isActive && (partyList.length > 1)) {
                 //console.log("select");

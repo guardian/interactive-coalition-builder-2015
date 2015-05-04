@@ -7,140 +7,124 @@ define([
     updateData,
     updateView
 ){
-	'use strict';
+    'use strict';
 
-	function Builder(){
+    function Builder(options){
 
-		var DEBUG=false;
+        var DEBUG=false;
 
 
-
+        console.log(options)
+        
         
 
         var nodes=[];
         var links=[];
+
         var maxRadius=60,
             padding=2;
-        var rscale=d3.scale.sqrt().domain([1,274]).range([20,60]);
-        var parties=[
+        var rscale=d3.scale.sqrt()
+                .domain([1,d3.max(options.data,function(d){return d.seat;})])
+                .range([32,maxRadius]);
 
-            {
-                name:"con",
+        var attractionTable={
+            "con":{
                 vname:"Con",
-                index:0,
-                size:274,
                 neutral:[],
                 attraction:["libdem","ukip","dup"],
                 repulsion:["lab","green","pc"],
                 strong_attraction:[],
                 strong_repulsion:["snp"],
-                pool:false,
                 ox:0.3,
                 oy:0.7
             },
-            {
-                name:"lab",
+            "lab":{
                 vname:"Lab",
-                index:1,
-                size:269,
                 neutral:[],
                 repulsion:["ukip","dup","con"],
                 attraction:["snp","libdem","green","pc"],
                 strong_attraction:[],
                 strong_repulsion:[],
-                pool:false,
                 ox:0.6,
                 oy:0.7
             },
-            {
-                name:"snp",
+            "snp":{
                 vname:"SNP",
-                index:2,
-                size:55,
                 neutral:[],
                 repulsion:["dup"],
                 attraction:["libdem","green","lab","pc"],
                 strong_attraction:["pc"],
                 strong_repulsion:["ukip","con"],
-                pool:false,
                 ox:0.7,
                 oy:0.3
             },
-            {
-                name:"libdem",
-                vname:"libdem",
-                index:3,
-                size:27,
+            "libdem":{
+                vname:"LD",
                 neutral:[],
                 repulsion:["ukip","dup"],
                 attraction:["con","lab","pc","green","snp"],
                 strong_attraction:[],
                 strong_repulsion:[],
-                pool:false,
                 ox:0.5,
                 oy:0.3
             },
-            {
-                name:"ukip",
+            "ukip":{
                 vname:"Ukip",
-                index:4,
-                size:3,
                 neutral:[],
                 repulsion:["pc","lab","libdem"],
                 attraction:["dup","con"],
                 strong_attraction:[],
                 strong_repulsion:["snp","green"],
-                pool:false,
                 ox:0.2,
                 oy:0.2
             },
-            {
-                name:"green",
+            "green":{
                 vname:"Green",
-                index:5,
-                size:1,
                 neutral:[],
                 repulsion:["dup","con"],
-                attraction:["pc","lab","libdem","snp"],
+                attraction:["pc","lab","libdem"],
                 strong_attraction:[],
                 strong_repulsion:["ukip"],
-                pool:false,
                 ox:0.8,
                 oy:0.7
             },
-            {
-                name:"pc",
+            "pc":{
                 vname:"PC",
-                index:6,
-                size:3,
                 neutral:[],
                 repulsion:["dup","con","ukip"],
-                attraction:["lab","libdem","green"],
+                attraction:["pc","libdem","green"],
                 strong_attraction:["snp"],
-                strong_repulsion:[],
-                pool:false,
+                strong_repulsion:["ukip"],
                 ox:0.1,
                 oy:0.6
             },
-            {
-                name:"dup",
+            "dup":{
                 vname:"DUP",
-                index:7,
-                size:9,
                 neutral:[],
-                repulsion:["lab","snp","green","libdem","pc"],
-                attraction:["con","ukip"],
-                strong_attraction:[],
-                strong_repulsion:[],
-                pool:false,
+                repulsion:["lab","snp","green","libdem"],
+                attraction:["con","dup"],
+                strong_attraction:["snp"],
+                strong_repulsion:["ukip"],
                 ox:0.9,
                 oy:0.5
             }
+        };
 
-        ];
+        var parties=[];
 
-        
-        
+        options.data.forEach(function(d){
+            var party=attractionTable[d.party];
+            if(party) {
+                console.log(d.party,party)
+                party.name=d.party;
+                party.size=d.seat;
+                party.pool=d.active;
+
+                parties.push(party)
+
+            }
+            
+        });      
         
         var dragged = null,
             selected = null,
@@ -152,24 +136,34 @@ define([
             .on("touchmove", mousemove)
             .on("touchend", mouseup)
 
-        var bbox=coalitions.node().getBoundingClientRect(),
-        	width = bbox.width,
-            height = bbox.height*0.67;
+        var playground=d3.select(options.playground || "#playground");
+        var bbox_playground=playground.node().getBoundingClientRect(),
+            width_pg = bbox_playground.width,
+            height_pg = bbox_playground.height,
+            width=width_pg,
+            height=height_pg;
 
-        var bubble=d3.select("#parties")
+        var bench=d3.select(options.bench || "#bench");
+        var bbox_bench=bench.node().getBoundingClientRect(),
+            width_bn = bbox_bench.width,
+            height_bn = bbox_bench.height;
+
+        var bubble=d3.select("#bench")
             .selectAll("div.node")
             .data(parties)
             .enter()
                 .append("div")
                 .attr("class","node")
                     .style("left",function(d){
-                        return (d.ox * width) + "px";
+                        return (d.ox * width_bn) + "px";
                     })
                     .style("top",function(d){
-                        return (d.oy * height/2) + "px";
+                        return (d.oy * height_bn) + "px";
                     })
                     .on("mousedown", function(d) { dragged_node=this; dragged = d; mousedown();})
-                    .on("touchstart",function(d) { dragged_node=this; dragged = d; mousedown();})      
+                    .on("touchstart",function(d) { dragged_node=this; dragged = d; mousedown();});
+
+        var bubble_inset=bubble
                     .append("div")
                         .attr("class",function(d){
                             return "party "+d.name;
@@ -178,18 +172,33 @@ define([
                         .style("height", function(d){return (rscale(d.size)*2)+"px";})
                         .style("margin-left", function(d){return -(rscale(d.size))+"px";})
                         .style("margin-top", function(d){return -(rscale(d.size))+"px";})
+
+        var face=bubble_inset.append("div")
+                        .attr("class","face")
                         .style("border-radius",function(d){return (rscale(d.size)*2)+"px";})
 
-        bubble
-                .append("div")
-                    .attr("class","overlay")
-        
-        bubble
+        face
+            .append("div")
+                .attr("class","pic")
+                .style("width", function(d){return (rscale(d.size)*2-10)+"px";})
+                .style("height", function(d){return (rscale(d.size)*2-10)+"px";})
+                .style("border-radius",function(d){return (rscale(d.size)*2)+"px";});
+        face
+            .append("div")
+                .attr("class","overlay")
+                .style("border-radius",function(d){return (rscale(d.size)*2)+"px";});
+
+        bubble_inset
                 .append("h3")
-                    .text(function(d){return d.vname;})
+                    .text(function(d){return d.vname;});
+
+        bubble_inset
+                .append("h4")
+                    .text(function(d){return d.size;})
+
 
         var dom_parties={};
-        d3.select("#parties")
+        d3.select("#bench")
             .selectAll("div.node")
                 .select("div.party")
                     .each(function(d){
@@ -200,7 +209,7 @@ define([
         function redraw() {
             
             
-            d3.select("#parties")
+            d3.select("#bench")
                 .selectAll("div.node")
                     .filter(function(d){
                         return d == dragged
@@ -222,6 +231,29 @@ define([
             dragged.x = m[0];
             dragged.y = m[1];
             
+            d3.select("#bench")
+                    .selectAll("div.node")
+                        .filter(function(d){
+                            console.log(d.name,"==",dragged.name)
+                            return d.name == dragged.name
+                        })
+                        .classed("dragging",true)
+
+            //d3.select(dragged_node)
+              //  .classed("dragging",true)
+                //.classed("hidden",false)
+                //.style("opacity",1);
+
+            /*if(dragged.pool){
+                var __node=node.data().find(function(d){
+                        return d.name==dragged.name
+                    });
+                dragged.x=__node.x;
+                dragged.y=__node.y+height_bn;        
+            }*/
+            
+
+
             redraw();
         }
 
@@ -231,13 +263,14 @@ define([
             dragged.x = m[0];//Math.max(0, Math.min(width, m[0]));
             dragged.y = m[1];//Math.max(0, Math.min(height, m[1]));
 
-            var party = dragged.name;
-
-            
-
-            updateData.setActive(party);
+            /*updateData.setActive(dragged.name);
             updateData.setSum();
-        	updateView.sum(updateData.getSum());
+            updateView.sum(updateData.getSum());
+*/
+            
+            playground.classed("dropping",function(d){
+                return dragged.y>height_bn;
+            })
 
             redraw();
         }
@@ -250,17 +283,48 @@ define([
             //console.log("END",d3.event.x,d3.event.y)
 
             
-            node.classed("blurred",false);
+            node.classed("blurred",false)
+
+            playground.classed("dropping",false);
+            
+            d3.select("#bench")
+                .selectAll("div.node")
+                    .classed("dragging",false)
             
             var party, isActive;
-            if(dragged.y>height*0.33) {
-                //console.log("START THE MESS!!!!");
-                d3.select(dragged_node).classed("hidden",true)
-                addParty(dragged.name,dragged.x,dragged.y-160);
+            if(dragged.y>height_bn) {
+                //
+                
+                if(!dragged.pool) {
+                    d3.select(dragged_node).classed("hidden",true).classed("dragging",false);
+                    addParty(dragged.name,dragged.x,dragged.y - height_bn);
+                } else {
+
+                    var __node=node.data().find(function(d){
+                        return d.name==dragged.name
+                    });
+
+                    d3.select(dragged_node)
+                        .transition()
+                        .duration(500)
+                            .style("left",function(d){
+                                return (__node.x) + "px";
+                            })
+                            .style("top",function(d){
+                                return (__node.y+height_bn) + "px";
+                            })
+                            //.style("opacity",0)
+                            .each("end",function(){
+                                d3.select(this).classed("hidden",true)
+                            })
+                            
+
+                }
+                
 
                 isActive = true;
             }
-            if(dragged.y<=height*0.33) {
+            if(dragged.y<height_bn) {
                 //console.log("REMOVE FROM THE MESS!!!!");
                 removeParty(dragged.name);
 
@@ -275,11 +339,17 @@ define([
                         .style("top",function(d){
                             return (d.oy * height/2) + "px";
                         })
+
+                d3.select("#bench")
+                    .selectAll("div.node")
+                        .filter(function(d){
+                            return !d.pool;
+                        })
+                        .classed("happy",false)
+                        .classed("angry",false)
             }
            
             party = dragged.name;
-
-            
 
             updateData.setActive(party, isActive);
             updateData.setSum();
@@ -290,14 +360,15 @@ define([
 
             dragged = null;
             dragged_node = null;
+
+            setPlaygroundStatus();
         }
-        
-        var distance={
-            neutral:1,
-            repulsion:4,
-            attraction:1,
-            strong_repulsion:6,
-            strong_attraction:0.95
+
+        function setPlaygroundStatus() {
+            playground.classed("active",parties.some(function(p){
+                    return p.pool===true;;
+                })
+            );
         }
 
         var distances={}
@@ -372,48 +443,49 @@ define([
         console.log(distances);
         
         var force = d3.layout.force()
-                        .size([width, height])
+                        .size([width_pg, height_pg])
                         .nodes(nodes)
                         .links(links)
 
-        //force.gravity(0);
-
+        //force.gravity(0.1);
         force.charge(0)
+        //force.charge(-120)
 
-        /*force.linkStrength(function(d){
-            return 1;
-        });*/
+        force.linkStrength(function(d){
+            //console.log("s",d);
+            return 1;//d.strength;
+        })
         force.linkDistance(function(d){
-            console.log(d.source.name+"-"+d.target.name,distances[d.source.name+"-"+d.target.name]);
+            //console.log(d.source.name+"-"+d.target.name,distances[d.source.name+"-"+d.target.name]);
             return distances[d.source.name+"-"+d.target.name]
-        });
+        })
 
-        
+        //force.charge(-20)
         if(DEBUG) {
 
 
-        var svg = d3.select("#builder").append("svg")
-                .attr("width", width)
-                .attr("height", height);
+        var svg = d3.select("#playground").append("svg")
+                .attr("width", width_pg)
+                .attr("height", height_pg);
 
             svg.append("line")
                     .attr("class","axis")
-                    .attr("x1",width/2)
-                    .attr("x2",width/2)
+                    .attr("x1",width_pg/2)
+                    .attr("x2",width_pg/2)
                     .attr("y1",0)
-                    .attr("y2",height)
+                    .attr("y2",height_pg)
             svg.append("line")
                     .attr("class","axis")
                     .attr("x1",0)
-                    .attr("x2",width)
-                    .attr("y1",height/2)
-                    .attr("y2",height/2)
+                    .attr("x2",width_pg)
+                    .attr("y1",height_pg/2)
+                    .attr("y2",height_pg/2)
 
             var svg_link = svg.selectAll('.link');
             //var svg_node = svg.selectAll(".node");
         }
 
-        var builder=d3.select("#builder").append("div").attr("class","builder");
+        var builder=d3.select("#playground").append("div").attr("class","builder");
 
         var node = builder.selectAll(".node");
 
@@ -425,18 +497,21 @@ define([
 
         function tick(e) {
             
-
             node
-                .each(collide(0.5))
+                //.each(collide(0.5))
                 .style("left", function(d) { 
-                    var x=Math.max(d.radius, Math.min(width - d.radius, d.x))
+                    var delta=5,
+                        x=Math.max(d.r+delta, Math.min(width - (d.r+delta), d.x))
                     return x+"px"; 
                 })
                 .style("top", function(d) { 
-                    var delta=0,
-                        y=Math.max(d.radius+delta, Math.min(height - (d.radius+delta), d.y))
+                    var delta=15,
+                        y=Math.max(d.r+delta, Math.min(height - (d.r+delta), d.y))
                     return y+"px"; 
                 })
+
+            /*node.style("left", function(d) { return d.x = Math.max(d.r, Math.min(width - d.r, d.x))+"px"; })
+                .style("top", function(d) { return d.y = Math.max(d.r, Math.min(height - d.r, d.y))+"px"; });*/
 
             //console.log(node)
             if(DEBUG) {
@@ -449,17 +524,44 @@ define([
                     .attr('y2', function(d) { return d.target.y; });
             }
         }
+        var nodes_flat=[];
+        function getAngry(d,debug) {
+            if(debug){
+                console.log("getAngry",d,nodes_flat)
+            }
+            var status=false;
+            var party=arrayFind(parties,function(p){
+                return p.name == d.name;
+            });
+            if(debug) {
+                console.log("party",party)
+            }
+            status=nodes_flat.some(function(d){
+                return (party.repulsion.indexOf(d)>-1 || party.strong_repulsion.indexOf(d)>-1);
+            });
+            if(debug) {
+                console.log("status",status)
+            }
+            return status;
+        }
+        function getHappy(d) {
+            var status=false;
+            var party=arrayFind(parties,function(p){
+                return p.name == d.name;
+            });
+            status=nodes_flat.some(function(d){
+                return (party.attraction.indexOf(d)>-1 || party.strong_attraction.indexOf(d)>-1);
+            });
 
-        
+            return status;
+        }
 
         function start() {
             
             node = node.data(force.nodes(), function(d) { return d.id; });
             
-            var nodes_flat=[];
-
-            force.nodes().forEach(function(d){
-                nodes_flat.push(d.id)
+            nodes_flat=force.nodes().map(function(d){
+                return d.id;
             })
             
             function nodeMouseDown(d){
@@ -473,14 +575,22 @@ define([
                 d3.select(dragged_node).classed("hidden",false)
 
                 dragged.x=d.x;
-                dragged.y=d.y+160;
+                dragged.y=d.y+height_bn;
+
+                d3.select("#bench")
+                    .selectAll("div.node")
+                        .filter(function(d){
+                            console.log(d.name,"==",dragged.name)
+                            return d.name == dragged.name
+                        })
+                        .classed("dragging",true)
 
                 redraw();
                 
                 
             }
 
-            var bubble=node.enter()
+            var __node=node.enter()
                 .append("div")
                 .on("mousedown",function(d){
                     nodeMouseDown(d);
@@ -490,62 +600,63 @@ define([
                     nodeMouseDown(d);
                     d3.select(this).classed("blurred",true);
                 })
-                .attr("class", "node")
-                .append("div")
-                    .attr("class",function(d){
-                        return "party "+d.id;
-                    })
-                    .style("width", function(d){return (d.radius*2)+"px";})
-                    .style("height", function(d){return (d.radius*2)+"px";})
-                    .style("margin-left", function(d){return -(d.radius)+"px";})
-                    .style("margin-top", function(d){return -(d.radius)+"px";})
-                    .style("border-radius",function(d){return (d.radius*2)+"px";});
+                .attr("class", "node");
 
-            bubble
-                .append("div")
-                    .attr("class","overlay")
+            var bubble_inset=__node
+                        .append("div")
+                            .attr("class",function(d){
+                                return "party "+d.name;
+                            })
+                            .style("width", function(d){return (rscale(d.size)*2)+"px";})
+                            .style("height", function(d){return (rscale(d.size)*2)+"px";})
+                            .style("margin-left", function(d){return -(rscale(d.size))+"px";})
+                            .style("margin-top", function(d){return -(rscale(d.size))+"px";})
 
-            bubble
-                .append("h3")
-                    .text(function(d){return d.vname;})
+            var face=bubble_inset.append("div")
+                            .attr("class","face")
+                            .style("border-radius",function(d){return (rscale(d.size)*2)+"px";})
+            face
+                    .append("div")
+                        .attr("class","pic")
+                        .style("width", function(d){return (rscale(d.size)*2-10)+"px";})
+                        .style("height", function(d){return (rscale(d.size)*2-10)+"px";})
+                        .style("border-radius",function(d){return (rscale(d.size)*2)+"px";})
+            face
+                    .append("div")
+                        .attr("class","overlay")
+                        .style("border-radius",function(d){return (rscale(d.size)*2)+"px";})
 
-            /*.append(function(d){
-                        return dom_parties[d.id];
-                    })*/
+            bubble_inset
+                    .append("h3")
+                        .text(function(d){return d.vname;});
+
+            bubble_inset
+                    .append("h4")
+                        .text(function(d){return d.size;})
 
             node.exit().remove();
 
-            node.classed("angry",function(d){
-                var status=false;
-                //console.log("checking angry",d,nodes_flat)
-                var party=parties.find(function(p){
-                    //console.log("check",p,d)
-                    return p.name == d.name;
-                });
-                //console.log("party",party)
-                status=nodes_flat.some(function(d){
-                    return (party.repulsion.indexOf(d)>-1 || party.strong_repulsion.indexOf(d)>-1);
-                });
-                //console.log("status",status)
+            node
+                .classed("angry",function(d){
+                    return getAngry(d);
+                })
+                .classed("happy",function(d){
+                    return getHappy(d);
+                })
 
-                return status;
-            })
+            d3.select("#bench")
+                .selectAll("div.node")
+                .filter(function(d){
+                    return d.pool;
+                })
+                .classed("angry",function(d){
+                    console.log(this)
+                    return getAngry(d,1);
+                })
+                .classed("happy",function(d){
+                    return getHappy(d);
+                })
 
-            node.classed("happy",function(d){
-                var status=false;
-                //console.log("checking happy",d,nodes_flat)
-                var party=parties.find(function(p){
-                    //console.log("check",p,d)
-                    return p.name == d.name;
-                });
-                //console.log("party",party)
-                status=nodes_flat.some(function(d){
-                    return (party.attraction.indexOf(d)>-1 || party.strong_attraction.indexOf(d)>-1);
-                });
-                //console.log("status",status)
-
-                return status;
-            })
 
             if(DEBUG) {
                 svg_link = svg_link.data(force.links(),function(d){
@@ -555,15 +666,22 @@ define([
                 svg_link.enter().append("line", ".node").attr("class", "link");
                 svg_link.exit().remove();
 
+                /*svg_node = svg_node.data(force.nodes());
+                
+                svg_node.enter().append("circle").attr("class", function(d) { 
+                    console.log("adding node",d)
+                    return "node " + d.id; 
+                }).attr("r", function(d){return d.r;});
+
+                svg_node.exit().remove();*/
             }
             force.start();
         }
-
         // Resolves collisions between d and all other circles.
         function collide(alpha) {
           var quadtree = d3.geom.quadtree(nodes);
           return function(d) {
-            var r = d.radius + d.radius + padding,
+            var r = d.r + maxRadius + padding,
                 nx1 = d.x - r,
                 nx2 = d.x + r,
                 ny1 = d.y - r,
@@ -573,7 +691,7 @@ define([
                 var x = d.x - quad.point.x,
                     y = d.y - quad.point.y,
                     l = Math.sqrt(x * x + y * y),
-                    r = d.radius + quad.point.radius + padding;
+                    r = d.r + quad.point.r + padding;
                 if (l < r) {
                   l = (l - r) / l * alpha;
                   d.x -= x *= l;
@@ -589,7 +707,7 @@ define([
         function removeParty(partyName) {
             //console.log("removeParty",partyName)
             //if(!party) {
-            var party=parties.find(function(p){
+            var party=arrayFind(parties,function(p){
                 //console.log(p.name,"==",partyName)
                 return p.name == partyName;
             });
@@ -620,7 +738,7 @@ define([
 
         }
         function addParty(partyName,x,y) {
-            var party=parties.find(function(p){
+            var party=arrayFind(parties,function(p){
                 return p.name == partyName;
             });
             if(party.pool) {
@@ -637,7 +755,8 @@ define([
                 id:party.name,
                 x: x || Math.floor(Math.random() * width),
                 y: y || 0,//Math.floor(Math.random() * height),
-                radius:rscale(party.size)
+                size:party.size,
+                r:rscale(party.size)
             });
             //console.log("adding",party[0])
             //force.nodes(nodes)
@@ -650,7 +769,7 @@ define([
                         source:nodes[i],
                         target:nodes[j]
                     };
-                    if(!links.find(function(d){ return d.source.id==__link.source.id && d.target.id==__link.target.id})) {
+                    if(!arrayFind(links,function(d){ return d.source.id==__link.source.id && d.target.id==__link.target.id})) {
                         links.push(__link);
                     }
                 }
@@ -703,8 +822,8 @@ define([
             return undefined;
         }
 
-	}
+    }
 
-	return Builder;
+    return Builder;
 
 })
