@@ -31,12 +31,12 @@ define([
             "con":{
                 vname:"Con",
                 ox:0.3,
-                oy:0.7
+                oy:0.6
             },
             "lab":{
                 vname:"Lab",
                 ox:0.6,
-                oy:0.7
+                oy:0.6
             },
             "snp":{
                 vname:"SNP",
@@ -128,10 +128,12 @@ define([
                 .append("div")
                 .attr("class","node")
                     .style("left",function(d){
-                        return (d.ox * width_bn) + "px";
+                        d.bx=(d.ox * width_bn);
+                        return d.bx + "px";
                     })
                     .style("top",function(d){
-                        return (d.oy * height_bn) + "px";
+                        d.by=(d.oy * height_bn);
+                        return d.by + "px";
                     })
                     .on("mousedown", function(d) { dragged_node=this; dragged = d; mousedown();})
                     .on("touchstart",function(d) { dragged_node=this; dragged = d; mousedown();});
@@ -199,13 +201,16 @@ define([
         }
         function mousedown() {
             var m = d3.mouse(coalitions.node());
-            dragged.x = m[0];
-            dragged.y = m[1];
+            console.log(dragged,dragged,m)
+            dragged.dx=m[0]-dragged.bx;
+            dragged.dy=m[1]-dragged.by;
+            dragged.x = m[0]-(dragged.dx);
+            dragged.y = m[1]-(dragged.dy);
             
             d3.select("#bench")
                     .selectAll("div.node")
                         .filter(function(d){
-                            console.log(d.name,"==",dragged.name)
+                            //console.log(d.name,"==",dragged.name)
                             return d.name == dragged.name
                         })
                         .classed("dragging",true)
@@ -231,13 +236,18 @@ define([
         function mousemove() {
             if (!dragged) return;
             var m = d3.mouse(coalitions.node());
-            dragged.x = m[0];//Math.max(0, Math.min(width, m[0]));
-            dragged.y = m[1];//Math.max(0, Math.min(height, m[1]));
+            dragged.x = m[0]-(dragged.dx);
+            dragged.y = m[1]-(dragged.dy);
 
-            /*updateData.setActive(dragged.name);
+
+            if(dragged.y>height_bn) {
+                updateData.setActive(dragged.name);
+                
+            }
             updateData.setSum();
             updateView.sum(updateData.getSum());
-*/
+            
+            
             
             playground.classed("dropping",function(d){
                 return dragged.y>height_bn;
@@ -345,7 +355,7 @@ define([
         var distances={}
         var factor=1;
         parties.forEach(function(p){
-            console.log("!!!!!",p)
+
             p.repulsion.forEach(function(party_name){
                 var party=parties.find(function(d){
                     return d.name==party_name;
@@ -560,6 +570,13 @@ define([
                     d3.select(this).classed("blurred",true);
                 })
                 .attr("class", "node");
+            node
+                .sort(function(a,b){
+                    return b.size - a.size;    
+                })
+                .each(function(d){
+                    d3.select(this).moveToFront();
+                })
 
             var bubble_inset=__node
                         .append("div")
@@ -781,6 +798,12 @@ define([
         }
 
     }
+
+    d3.selection.prototype.moveToFront = function() {
+      return this.each(function(){
+      this.parentNode.appendChild(this);
+      });
+    };
 
     return Builder;
 
