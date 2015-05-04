@@ -26,7 +26,7 @@ define([
 
         partyList
         .append("p")
-        .attr("class", "f-party-name pos-a-party-name")
+        .attr("class", "f-p-bb pos-a-party-name")
         .text(function(d) { return data.partyNameDic[d.party]; });
 
         partyList
@@ -108,13 +108,13 @@ define([
         
         imgPair
         .append("span")
-        .attr("class", "f-party-name pos-a-party-name-left")
+        .attr("class", "f-p-bb pos-a-party-name-left")
         .text(function(d) {
             return data.partyNameDic[d.partyPair[0]];
         });
         imgPair
         .append("span")
-        .attr("class", "f-party-name pos-a-party-name-right")
+        .attr("class", "f-p-bb pos-a-party-name-right")
         .text(function(d) {
             return data.partyNameDic[d.partyPair[1]];
         });     

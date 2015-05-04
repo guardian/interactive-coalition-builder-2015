@@ -3,18 +3,21 @@ define([
     'reqwest',
     'app/app.js',
     'common/polyfill.js',
-    'text!templates/appTemplate.html'
+    'text!templates/appTemplate.html',
+    'json!data/data_remote.json'
 ], function(
     d3,
     reqwest,
     coalitionBuilder,
     polyfill,
-    templateHTML
+    templateHTML,
+    remoteData
 ) {
     'use strict';
 
     function handleRequestError(err, msg) {
         console.error('Failed: ', err, msg);
+        coalitionBuilder(remoteData);
     }
 
     function afterRequest(resp) {

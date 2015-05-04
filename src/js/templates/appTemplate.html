@@ -1,6 +1,7 @@
 <div class="interactive-wrapper">
     <div id="election-nav-head"></div>
 
+
     <section>
         <h1>Build the coalition (and will they like each other)</h1>
         <p class="f-standfirst">
@@ -9,35 +10,49 @@
         <p class="f-lastupdate mt-10"><time id="jsLastUpdate"></time></p>
     </section>
 
+
     <section class="bt-1sb">     
         <h2>Choose your parties</h2>
         <p class="c-grey3">Start by dragging either Labour<br>or Conservatives</p>
         <div class="pos-r" id="coalitions">
+            
+            <!-- top half -->
             <div id="bench"></div>
             <div id="playground">
                 <span>Drag your coalition here</span>
             </div>
             <div class="pos-a f-pickme js-pickme">Hey, pick me</div> 
+            
+            <!-- bottom half -->
             <div class="pos-a-sum">
                 <span class="f-h2">You have</span>
-                <span class="f-h1-20 js-seatcount">0 seat</span>
+                <span class="f-h1 l-seatcount js-seatcount">0 seat</span>
                 <p class="c-grey3 mt--5 js-seatshort">(just 326 short of majority)</p>
-            </div> 
+            </div>
+            <div class="pos-a-done d-n js-done">
+                <p class="f-p-bb">Done?</p>
+                <a href="#playground" class="btn-done"></a>
+                <!--svg width="24" height="18" viewBox="0 0 24 18">
+                    <path d="M.4 15.3l10.5-8.4L12 6l1.1.9 10.5 8.4-.5.7L12 9.7.9 16l-.5-.7z"></path>
+                </svg-->
+            </div>
         </div>
     </section>
 
+
     <section class="bt-1sb pos-r js-coalition">     
         <h1>Your Coalition</h1>
-        <ul class="js-parties mt-10"></ul>
         
+        <!-- party list -->
+        <ul class="js-parties mt-10"></ul>
         <h2 class="c-grey3 mt-10">
             <span class="js-seatcount c-black"></span> is 
             <span class="js-summary-flag">not</span> enough to form a majority
         </h2>
         <p class="js-summary-context"></p>
         
+        <!-- party pairs -->
         <ul class="f-analysis js-analysis mt-10"></ul>   
-
         <div class="btns-share pos-a-tr">
             <button class="btn-tt" data-source="twitter"></button>
             <button class="btn-fb" data-source="facebook"></button>

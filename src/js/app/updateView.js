@@ -26,12 +26,24 @@ define([
         var sum = updateData.getSum(),
             partyData = updateData.getParties(),
             isActive = partyData[0].active || partyData[1].active, 
-            txtPick = d3.select(".js-pickme");
+            txtPick = d3.select(".js-pickme"),
+            btnDone = d3.select(".js-done");
         
         // case: sum
         if (sum > 325) {
             txtPick
             .classed("animate-delay", false)
+            .classed("d-n", true);
+            btnDone
+            .classed("d-b", true)
+            .classed("d-n", false);
+            return;
+        } else {
+            txtPick
+            .classed("animate-delay", true)
+            .classed("d-n", false);
+            btnDone
+            .classed("d-b", false)
             .classed("d-n", true);
             return;
         }

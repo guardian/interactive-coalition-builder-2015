@@ -26,8 +26,9 @@ p {
     color: $c-grey2;
 }
 
-.f-h1-20 { @extend h1; font-size: $fz-20; }
+.f-h1 { @extend h1; font-size: $fz-20; }
 .f-h2 { @extend h2; }
+.f-p-bb { @extend p; font-weight: bold; color: black; }
 
 .f-standfirst {
     font-family: $f-serif-text;
@@ -44,14 +45,12 @@ p {
     z-index: 5;
 }
 
-.f-party-name {
-    @extend p; 
-    color: black;
-    font-weight: bold;
-}
-
 
 // responsive
+@media (min-width: 660px) {
+    .f-h1 {
+        font-size: 32px;
+}}
 @media (min-width: 980px) {
     h1 {
         font-size: 48px;

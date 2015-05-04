@@ -58,6 +58,12 @@ ul {
     bottom: 10px;
     z-index: 2;
 }
+.pos-a-done {
+    position: absolute;
+    right: 0;
+    bottom: 12px;
+    z-index: 2;
+}
 
 // in party list
 .pos-r-party-list {
@@ -92,7 +98,7 @@ ul {
 }
 .pos-a-party-name-left { left: 0;}
 .pos-a-party-name-right { right: 0; }
- 
+
 .l-party-plus {
     display: inline-block;
     width: 80px; //64+16
@@ -112,6 +118,14 @@ ul {
 
 
 @media(min-width:660px){
+    .pos-a-sum {
+        top: calc(100% / 3);  
+    }
+    .pos-a-done {
+        top: calc(100% / 3 + 100px);
+        left: 0;
+    }
+
     .f-l-pair {
         float: left;
     }
@@ -119,5 +133,10 @@ ul {
         float: right;
         width: calc(100% - 248px);
         margin-top: 12px;
+    }
+
+    .l-seatcount {
+        display: block;
+        margin-bottom: 5px;
     }
 }
