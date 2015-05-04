@@ -14,9 +14,11 @@ define([
         partyData  = [
             { party: "con"   , color: "#005789", group: 1, img:"con3" }, 
             { party: "lab"   , color: "#E31F26", group: 1, img:"lab3" }, 
-            { party: "ld"    , color: "#FFB900", group: 2, img:"ld2" },
+            //{ party: "ld"    , color: "#FFB900", group: 2, img:"ld2" },
+            { party: "libdem"    , color: "#FFB900", group: 2, img:"ld2" },
             { party: "snp"   , color: "#FCDD03", group: 2, img:"snp2" },
-            { party: "grn"   , color: "#33A22B", group: 2, img:"others" },
+            //{ party: "grn"   , color: "#33A22B", group: 2, img:"others" },
+            { party: "green"   , color: "#33A22B", group: 2, img:"others" },
             { party: "pc"    , color: "#868686", group: 2, img:"others" },
             { party: "sdlp"  , color: "#008587", group: 2, img:"others" },
             { party: "others", color: "#B3B3B4", group: 2, img:"others" },
@@ -50,6 +52,7 @@ define([
             con: "Con",
             lab: "Lab",
             ld: "Lib Dem",
+            libdem: "Lib Dem",
             snp: "SNP",
             grn: "Green",
             pc: "PC",
@@ -67,7 +70,7 @@ define([
     }
 
     function setSum() {
-        
+        console.log(partyData)
         sum = partyData.filter(function(d) {
             return d.active;
         }).map(function(d) {
@@ -75,6 +78,8 @@ define([
         }).reduce(function(pre, cur) {
             return pre + cur;
         }, 0);
+
+        console.log("SUM",sum)
     }
     
     function setActive(party, isActive) {

@@ -11,7 +11,7 @@ define([
 
 	function Builder(){
 
-		var DEBUG=true;
+		var DEBUG=false;
 
 
 
@@ -19,7 +19,9 @@ define([
 
         var nodes=[];
         var links=[];
-        var rscale=d3.scale.sqrt().domain([1,290]).range([20,60])
+        var maxRadius=60,
+            padding=2;
+        var rscale=d3.scale.sqrt().domain([1,274]).range([20,60]);
         var parties=[
 
             {
@@ -66,7 +68,7 @@ define([
             },
             {
                 name:"libdem",
-                vname:"LD",
+                vname:"libdem",
                 index:3,
                 size:27,
                 neutral:[],
@@ -99,7 +101,7 @@ define([
                 size:1,
                 neutral:[],
                 repulsion:["dup","con"],
-                attraction:["pc","lab","libdem"],
+                attraction:["pc","lab","libdem","snp"],
                 strong_attraction:[],
                 strong_repulsion:["ukip"],
                 pool:false,
@@ -113,9 +115,9 @@ define([
                 size:3,
                 neutral:[],
                 repulsion:["dup","con","ukip"],
-                attraction:["pc","libdem","green"],
+                attraction:["lab","libdem","green"],
                 strong_attraction:["snp"],
-                strong_repulsion:["ukip"],
+                strong_repulsion:[],
                 pool:false,
                 ox:0.1,
                 oy:0.6
@@ -126,10 +128,10 @@ define([
                 index:7,
                 size:9,
                 neutral:[],
-                repulsion:["lab","snp","green","libdem"],
-                attraction:["con","dup"],
-                strong_attraction:["snp"],
-                strong_repulsion:["ukip"],
+                repulsion:["lab","snp","green","libdem","pc"],
+                attraction:["con","ukip"],
+                strong_attraction:[],
+                strong_repulsion:[],
                 pool:false,
                 ox:0.9,
                 oy:0.5
@@ -137,13 +139,7 @@ define([
 
         ];
 
-        var distance={
-            neutral:1.2,
-            repulsion:4,
-            attraction:1,
-            strong_repulsion:6,
-            strong_attraction:0.95
-        }
+        
         
         
         var dragged = null,
@@ -158,7 +154,7 @@ define([
 
         var bbox=coalitions.node().getBoundingClientRect(),
         	width = bbox.width,
-            height = 320;
+            height = bbox.height*0.67;
 
         var bubble=d3.select("#parties")
             .selectAll("div.node")
@@ -235,9 +231,13 @@ define([
             dragged.x = m[0];//Math.max(0, Math.min(width, m[0]));
             dragged.y = m[1];//Math.max(0, Math.min(height, m[1]));
 
-            //updateData.setActive(dragged.name);
-            //updateData.setSum();
-        	//updateView.sum(updateData.getSum());
+            var party = dragged.name;
+
+            
+
+            updateData.setActive(party);
+            updateData.setSum();
+        	updateView.sum(updateData.getSum());
 
             redraw();
         }
@@ -253,14 +253,14 @@ define([
             node.classed("blurred",false);
             
             var party, isActive;
-            if(dragged.y>160) {
+            if(dragged.y>height*0.33) {
                 //console.log("START THE MESS!!!!");
                 d3.select(dragged_node).classed("hidden",true)
                 addParty(dragged.name,dragged.x,dragged.y-160);
 
                 isActive = true;
             }
-            if(dragged.y<160) {
+            if(dragged.y<=height*0.33) {
                 //console.log("REMOVE FROM THE MESS!!!!");
                 removeParty(dragged.name);
 
@@ -279,11 +279,7 @@ define([
            
             party = dragged.name;
 
-            //TODO: remove hotfix
-            switch(party) {
-                case "libdem": party = "ld";  break;
-                case "green":  party = "grn"; break;
-            }
+            
 
             updateData.setActive(party, isActive);
             updateData.setSum();
@@ -296,44 +292,80 @@ define([
             dragged_node = null;
         }
         
-        
+        var distance={
+            neutral:1,
+            repulsion:4,
+            attraction:1,
+            strong_repulsion:6,
+            strong_attraction:0.95
+        }
+
         var distances={}
         var factor=1;
         parties.forEach(function(p){
             p.neutral.forEach(function(party_name){
-                var party=arrayFind(parties,function(d){
+                var party=parties.find(function(d){
                     return d.name==party_name;
-                })
-                distances[p.name+"-"+party.name]=(rscale(p.size)*factor+rscale(party.size)*factor)*distance.neutral;
-                distances[party.name+"-"+p.name]=(rscale(p.size)*factor+rscale(party.size)*factor)*distance.neutral;
+                }),
+                //dist=(rscale(Math.max(p.size,party.size))*1.5);
+                dist=(rscale(p.size)+rscale(party.size))*1.5;
+
+                dist=d3.max([dist,rscale(p.size),rscale(party.size)]);
+                distances[p.name+"-"+party.name]=dist;
+                distances[party.name+"-"+p.name]=dist;
+                //distances[p.name+"-"+party.name]=(rscale(p.size)*factor+rscale(party.size)*factor)*distance.neutral;
+                //distances[party.name+"-"+p.name]=(rscale(p.size)*factor+rscale(party.size)*factor)*distance.neutral;
             })
             p.repulsion.forEach(function(party_name){
-                var party=arrayFind(parties,function(d){
+                var party=parties.find(function(d){
                     return d.name==party_name;
-                })
-                distances[p.name+"-"+party.name]=(rscale(p.size)*factor+rscale(party.size)*factor)*distance.repulsion;
-                distances[party.name+"-"+p.name]=(rscale(p.size)*factor+rscale(party.size)*factor)*distance.repulsion;
+                }),
+                    //dist=(rscale(Math.max(p.size,party.size))*4);
+                    dist=(width*0.5);
+
+                dist=d3.max([dist,rscale(p.size)+rscale(party.size)]);
+                distances[p.name+"-"+party.name]=dist;
+                distances[party.name+"-"+p.name]=dist;
+                //distances[p.name+"-"+party.name]=(rscale(p.size)*factor+rscale(party.size)*factor)*distance.repulsion;
+                //distances[party.name+"-"+p.name]=(rscale(p.size)*factor+rscale(party.size)*factor)*distance.repulsion;
             })
             p.attraction.forEach(function(party_name){
-                var party=arrayFind(parties,function(d){
+                var party=parties.find(function(d){
                     return d.name==party_name;
-                })
-                distances[p.name+"-"+party.name]=(rscale(p.size)*factor+rscale(party.size)*factor)*distance.attraction;
-                distances[party.name+"-"+p.name]=(rscale(p.size)*factor+rscale(party.size)*factor)*distance.attraction;
+                }),
+                    //dist=(rscale(Math.max(p.size,party.size))*1.1)
+                    dist=(rscale(p.size)+rscale(party.size)*1.2);
+                dist=d3.max([dist,rscale(p.size)+rscale(party.size)]);
+                distances[p.name+"-"+party.name]=dist;
+                distances[party.name+"-"+p.name]=dist;
+                //distances[p.name+"-"+party.name]=(rscale(p.size)*factor+rscale(party.size)*factor)*distance.attraction;
+                //distances[party.name+"-"+p.name]=(rscale(p.size)*factor+rscale(party.size)*factor)*distance.attraction;
             })
             p.strong_repulsion.forEach(function(party_name){
-                var party=arrayFind(parties,function(d){
+                var party=parties.find(function(d){
                     return d.name==party_name;
-                })
-                distances[p.name+"-"+party.name]=(rscale(p.size)*factor+rscale(party.size)*factor)*distance.strong_repulsion;
-                distances[party.name+"-"+p.name]=(rscale(p.size)*factor+rscale(party.size)*factor)*distance.strong_repulsion;
+                }),
+                    //dist=(rscale(Math.max(p.size,party.size))*3);
+                    dist=(rscale(p.size)+rscale(party.size))*6;
+                dist=Math.min(width*0.75,height*0.75);
+                dist=d3.max([dist,rscale(p.size)+rscale(party.size)]);
+                distances[p.name+"-"+party.name]=dist;
+                distances[party.name+"-"+p.name]=dist;
+                //distances[p.name+"-"+party.name]=(rscale(p.size)*factor+rscale(party.size)*factor)*distance.strong_repulsion;
+                //distances[party.name+"-"+p.name]=(rscale(p.size)*factor+rscale(party.size)*factor)*distance.strong_repulsion;
+                
             })
             p.strong_attraction.forEach(function(party_name){
-                var party=arrayFind(parties,function(d){
+                var party=parties.find(function(d){
                     return d.name==party_name;
-                })
-                distances[p.name+"-"+party.name]=(rscale(p.size)*factor+rscale(party.size)*factor)*distance.strong_attraction;
-                distances[party.name+"-"+p.name]=(rscale(p.size)*factor+rscale(party.size)*factor)*distance.strong_attraction;
+                }),
+                    //dist=(rscale(Math.max(p.size,party.size))*0.8);
+                    dist=(rscale(p.size)+rscale(party.size))*1.1;
+                //distances[p.name+"-"+party.name]=(rscale(p.size)*factor+rscale(party.size)*factor)*distance.strong_attraction;
+                //distances[party.name+"-"+p.name]=(rscale(p.size)*factor+rscale(party.size)*factor)*distance.strong_attraction;
+                dist=d3.max([dist,rscale(p.size)+rscale(party.size)]);
+                distances[p.name+"-"+party.name]=dist;
+                distances[party.name+"-"+p.name]=dist;
             })
         });
         
@@ -344,20 +376,19 @@ define([
                         .nodes(nodes)
                         .links(links)
 
-        force.gravity(0.1);
+        //force.gravity(0);
 
-        //force.charge(-120)
+        force.charge(0)
 
-        force.linkStrength(function(d){
-            //console.log("s",d);
-            return 1;//d.strength;
-        })
+        /*force.linkStrength(function(d){
+            return 1;
+        });*/
         force.linkDistance(function(d){
-            //console.log(d.source.name+"-"+d.target.name,distances[d.source.name+"-"+d.target.name]);
+            console.log(d.source.name+"-"+d.target.name,distances[d.source.name+"-"+d.target.name]);
             return distances[d.source.name+"-"+d.target.name]
-        })
+        });
 
-        //force.charge(-20)
+        
         if(DEBUG) {
 
 
@@ -394,18 +425,18 @@ define([
 
         function tick(e) {
             
+
             node
+                .each(collide(0.5))
                 .style("left", function(d) { 
-                    var x=Math.max(d.r, Math.min(width - d.r, d.x))
+                    var x=Math.max(d.radius, Math.min(width - d.radius, d.x))
                     return x+"px"; 
                 })
                 .style("top", function(d) { 
-                    var y=Math.max(d.r, Math.min(height - d.r, d.y))
+                    var delta=0,
+                        y=Math.max(d.radius+delta, Math.min(height - (d.radius+delta), d.y))
                     return y+"px"; 
                 })
-
-            /*node.style("left", function(d) { return d.x = Math.max(d.r, Math.min(width - d.r, d.x))+"px"; })
-                .style("top", function(d) { return d.y = Math.max(d.r, Math.min(height - d.r, d.y))+"px"; });*/
 
             //console.log(node)
             if(DEBUG) {
@@ -464,11 +495,11 @@ define([
                     .attr("class",function(d){
                         return "party "+d.id;
                     })
-                    .style("width", function(d){return (d.r*2)+"px";})
-                    .style("height", function(d){return (d.r*2)+"px";})
-                    .style("margin-left", function(d){return -(d.r)+"px";})
-                    .style("margin-top", function(d){return -(d.r)+"px";})
-                    .style("border-radius",function(d){return (d.r*2)+"px";});
+                    .style("width", function(d){return (d.radius*2)+"px";})
+                    .style("height", function(d){return (d.radius*2)+"px";})
+                    .style("margin-left", function(d){return -(d.radius)+"px";})
+                    .style("margin-top", function(d){return -(d.radius)+"px";})
+                    .style("border-radius",function(d){return (d.radius*2)+"px";});
 
             bubble
                 .append("div")
@@ -487,7 +518,7 @@ define([
             node.classed("angry",function(d){
                 var status=false;
                 //console.log("checking angry",d,nodes_flat)
-                var party=arrayFind(parties,function(p){
+                var party=parties.find(function(p){
                     //console.log("check",p,d)
                     return p.name == d.name;
                 });
@@ -503,7 +534,7 @@ define([
             node.classed("happy",function(d){
                 var status=false;
                 //console.log("checking happy",d,nodes_flat)
-                var party=arrayFind(parties,function(p){
+                var party=parties.find(function(p){
                     //console.log("check",p,d)
                     return p.name == d.name;
                 });
@@ -524,21 +555,41 @@ define([
                 svg_link.enter().append("line", ".node").attr("class", "link");
                 svg_link.exit().remove();
 
-                /*svg_node = svg_node.data(force.nodes());
-                
-                svg_node.enter().append("circle").attr("class", function(d) { 
-                    console.log("adding node",d)
-                    return "node " + d.id; 
-                }).attr("r", function(d){return d.r;});
-
-                svg_node.exit().remove();*/
             }
             force.start();
+        }
+
+        // Resolves collisions between d and all other circles.
+        function collide(alpha) {
+          var quadtree = d3.geom.quadtree(nodes);
+          return function(d) {
+            var r = d.radius + d.radius + padding,
+                nx1 = d.x - r,
+                nx2 = d.x + r,
+                ny1 = d.y - r,
+                ny2 = d.y + r;
+            quadtree.visit(function(quad, x1, y1, x2, y2) {
+              if (quad.point && (quad.point !== d)) {
+                var x = d.x - quad.point.x,
+                    y = d.y - quad.point.y,
+                    l = Math.sqrt(x * x + y * y),
+                    r = d.radius + quad.point.radius + padding;
+                if (l < r) {
+                  l = (l - r) / l * alpha;
+                  d.x -= x *= l;
+                  d.y -= y *= l;
+                  quad.point.x += x;
+                  quad.point.y += y;
+                }
+              }
+              return x1 > nx2 || x2 < nx1 || y1 > ny2 || y2 < ny1;
+            });
+          };
         }
         function removeParty(partyName) {
             //console.log("removeParty",partyName)
             //if(!party) {
-            var party=arrayFind(parties,function(p){
+            var party=parties.find(function(p){
                 //console.log(p.name,"==",partyName)
                 return p.name == partyName;
             });
@@ -569,7 +620,7 @@ define([
 
         }
         function addParty(partyName,x,y) {
-            var party=arrayFind(parties,function(p){
+            var party=parties.find(function(p){
                 return p.name == partyName;
             });
             if(party.pool) {
@@ -586,7 +637,7 @@ define([
                 id:party.name,
                 x: x || Math.floor(Math.random() * width),
                 y: y || 0,//Math.floor(Math.random() * height),
-                r:rscale(party.size)
+                radius:rscale(party.size)
             });
             //console.log("adding",party[0])
             //force.nodes(nodes)
@@ -599,7 +650,7 @@ define([
                         source:nodes[i],
                         target:nodes[j]
                     };
-                    if(!arrayFind(links,function(d){ return d.source.id==__link.source.id && d.target.id==__link.target.id})) {
+                    if(!links.find(function(d){ return d.source.id==__link.source.id && d.target.id==__link.target.id})) {
                         links.push(__link);
                     }
                 }
