@@ -15,6 +15,24 @@
     width: calc(100% - 2px);
     height: calc(67% - 2px);
     position: relative;
+
+    -webkit-transform-style: preserve-3d;
+    -moz-transform-style: preserve-3d;
+    transform-style: preserve-3d;
+}
+#playground > span{
+    
+    font-family:$f-sans-serif-text;
+    font-size:18px;
+    font-weight: bold;
+    color:#ddd;
+
+    display: inline-block;
+    width: 100%;
+    text-align: center;
+    position:absolute;
+    top: 50%;
+    transform: translateY(-50%);
 }
 .builder {
     z-index: 2;
@@ -67,7 +85,7 @@
     border:5px solid #bbb;
 }
 .active .node .party .face {
-    border:5px solid #eee;
+    border:5px solid transparent;
 }
 .node.blurred .party {
     opacity: 0.5;
@@ -79,8 +97,6 @@
     text-shadow: 0 0 1px #000;
     display: inline-block;
     position:absolute;
-    /*top: 50%;
-    transform: translateY(-50%);*/
     bottom:5px;
     width:100%;
     text-align: center;
@@ -114,9 +130,10 @@
     background-repeat:no-repeat;
     background-position: center center;
     background-size:cover;
-    border:5px solid transparent;
-    width: calc(100%);
-    height: calc(100%);
+    width: calc(100% - 10px);
+    height: calc(100% - 10px);
+    top:5px;
+    left:5px;
     overflow: hidden;
 
     box-sizing:border-box;

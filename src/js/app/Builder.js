@@ -30,101 +30,74 @@ define([
         var attractionTable={
             "con":{
                 vname:"Con",
-                neutral:[],
-                attraction:["libdem","ukip","dup"],
-                repulsion:["lab","green","pc"],
-                strong_attraction:[],
-                strong_repulsion:["snp"],
                 ox:0.3,
                 oy:0.7
             },
             "lab":{
                 vname:"Lab",
-                neutral:[],
-                repulsion:["ukip","dup","con"],
-                attraction:["snp","libdem","green","pc"],
-                strong_attraction:[],
-                strong_repulsion:[],
                 ox:0.6,
                 oy:0.7
             },
             "snp":{
                 vname:"SNP",
-                neutral:[],
-                repulsion:["dup"],
-                attraction:["libdem","green","lab","pc"],
-                strong_attraction:["pc"],
-                strong_repulsion:["ukip","con"],
                 ox:0.7,
                 oy:0.3
             },
             "libdem":{
                 vname:"LD",
-                neutral:[],
-                repulsion:["ukip","dup"],
-                attraction:["con","lab","pc","green","snp"],
-                strong_attraction:[],
-                strong_repulsion:[],
                 ox:0.5,
                 oy:0.3
             },
             "ukip":{
                 vname:"Ukip",
-                neutral:[],
-                repulsion:["pc","lab","libdem"],
-                attraction:["dup","con"],
-                strong_attraction:[],
-                strong_repulsion:["snp","green"],
                 ox:0.2,
                 oy:0.2
             },
             "green":{
                 vname:"Green",
-                neutral:[],
-                repulsion:["dup","con"],
-                attraction:["pc","lab","libdem"],
-                strong_attraction:[],
-                strong_repulsion:["ukip"],
                 ox:0.8,
                 oy:0.7
             },
             "pc":{
                 vname:"PC",
-                neutral:[],
-                repulsion:["dup","con","ukip"],
-                attraction:["pc","libdem","green"],
-                strong_attraction:["snp"],
-                strong_repulsion:["ukip"],
                 ox:0.1,
                 oy:0.6
             },
             "dup":{
                 vname:"DUP",
-                neutral:[],
-                repulsion:["lab","snp","green","libdem"],
-                attraction:["con","dup"],
-                strong_attraction:["snp"],
-                strong_repulsion:["ukip"],
                 ox:0.9,
                 oy:0.5
+            },
+            "sdlp":{
+                vname:"SDLP",
+                ox:0.45,
+                oy:0.55
             }
         };
 
         var parties=[];
 
         options.data.forEach(function(d){
+
+
             var party=attractionTable[d.party];
             if(party) {
-                console.log(d.party,party)
+                console.log(party,d)
                 party.name=d.party;
                 party.size=d.seat;
                 party.pool=d.active;
+                party.repulsion=d.repulsion;
+                party.attraction=d.attraction;
+                party.strong_attraction=d.strong_attraction;
+                party.strong_repulsion=d.strong_repulsion;
 
                 parties.push(party)
 
             }
-            
-        });      
+        });  
+
+        console.log("attractionTable",attractionTable)
+
         
         var dragged = null,
             selected = null,
@@ -180,8 +153,6 @@ define([
         face
             .append("div")
                 .attr("class","pic")
-                .style("width", function(d){return (rscale(d.size)*2-10)+"px";})
-                .style("height", function(d){return (rscale(d.size)*2-10)+"px";})
                 .style("border-radius",function(d){return (rscale(d.size)*2)+"px";});
         face
             .append("div")
@@ -374,19 +345,7 @@ define([
         var distances={}
         var factor=1;
         parties.forEach(function(p){
-            p.neutral.forEach(function(party_name){
-                var party=parties.find(function(d){
-                    return d.name==party_name;
-                }),
-                //dist=(rscale(Math.max(p.size,party.size))*1.5);
-                dist=(rscale(p.size)+rscale(party.size))*1.5;
-
-                dist=d3.max([dist,rscale(p.size),rscale(party.size)]);
-                distances[p.name+"-"+party.name]=dist;
-                distances[party.name+"-"+p.name]=dist;
-                //distances[p.name+"-"+party.name]=(rscale(p.size)*factor+rscale(party.size)*factor)*distance.neutral;
-                //distances[party.name+"-"+p.name]=(rscale(p.size)*factor+rscale(party.size)*factor)*distance.neutral;
-            })
+            console.log("!!!!!",p)
             p.repulsion.forEach(function(party_name){
                 var party=parties.find(function(d){
                     return d.name==party_name;
@@ -613,18 +572,17 @@ define([
                             .style("margin-top", function(d){return -(rscale(d.size))+"px";})
 
             var face=bubble_inset.append("div")
-                            .attr("class","face")
-                            .style("border-radius",function(d){return (rscale(d.size)*2)+"px";})
-            face
-                    .append("div")
-                        .attr("class","pic")
-                        .style("width", function(d){return (rscale(d.size)*2-10)+"px";})
-                        .style("height", function(d){return (rscale(d.size)*2-10)+"px";})
+                        .attr("class","face")
                         .style("border-radius",function(d){return (rscale(d.size)*2)+"px";})
+
             face
-                    .append("div")
-                        .attr("class","overlay")
-                        .style("border-radius",function(d){return (rscale(d.size)*2)+"px";})
+                .append("div")
+                    .attr("class","pic")
+                    .style("border-radius",function(d){return (rscale(d.size)*2)+"px";});
+            face
+                .append("div")
+                    .attr("class","overlay")
+                    .style("border-radius",function(d){return (rscale(d.size)*2)+"px";});
 
             bubble_inset
                     .append("h3")

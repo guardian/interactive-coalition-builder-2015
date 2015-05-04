@@ -31,7 +31,9 @@ define([
         /* data */
         var data = rawData.sheets.SUM,
             analysisData = rawData.sheets.RESULT,
-            partyData = updateData.initParties(data, cx, cy, r, imgSize);
+            partyData = updateData.initParties(data, analysisData);
+
+
 
 
         /* view */
