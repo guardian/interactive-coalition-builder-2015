@@ -14,7 +14,7 @@ define([
         var DEBUG=false;
 
 
-        console.log(options)
+        //console.log(options)
         
         
 
@@ -82,7 +82,7 @@ define([
 
             var party=attractionTable[d.party];
             if(party) {
-                console.log(party,d)
+                //console.log(party,d)
                 party.name=d.party;
                 party.size=d.seat;
                 party.pool=d.active;
@@ -96,7 +96,7 @@ define([
             }
         });  
 
-        console.log("attractionTable",attractionTable)
+        //console.log("attractionTable",attractionTable)
 
         
         var dragged = null,
@@ -201,7 +201,7 @@ define([
         }
         function mousedown() {
             var m = d3.mouse(coalitions.node());
-            console.log(dragged,dragged,m)
+            //console.log(dragged,dragged,m)
             dragged.dx=m[0]-dragged.bx;
             dragged.dy=m[1]-dragged.by;
             dragged.x = m[0]-(dragged.dx);
@@ -409,7 +409,7 @@ define([
             })
         });
         
-        console.log(distances);
+        //console.log(distances);
         
         var force = d3.layout.force()
                         .size([width_pg, height_pg])
@@ -496,20 +496,20 @@ define([
         var nodes_flat=[];
         function getAngry(d,debug) {
             if(debug){
-                console.log("getAngry",d,nodes_flat)
+                //console.log("getAngry",d,nodes_flat)
             }
             var status=false;
             var party=arrayFind(parties,function(p){
                 return p.name == d.name;
             });
             if(debug) {
-                console.log("party",party)
+                //console.log("party",party)
             }
             status=nodes_flat.some(function(d){
                 return (party.repulsion.indexOf(d)>-1 || party.strong_repulsion.indexOf(d)>-1);
             });
             if(debug) {
-                console.log("status",status)
+                //console.log("status",status)
             }
             return status;
         }
@@ -549,7 +549,7 @@ define([
                 d3.select("#bench")
                     .selectAll("div.node")
                         .filter(function(d){
-                            console.log(d.name,"==",dragged.name)
+                            //console.log(d.name,"==",dragged.name)
                             return d.name == dragged.name
                         })
                         .classed("dragging",true)
@@ -625,7 +625,7 @@ define([
                     return d.pool;
                 })
                 .classed("angry",function(d){
-                    console.log(this)
+                    //console.log(this)
                     return getAngry(d,1);
                 })
                 .classed("happy",function(d){
@@ -644,7 +644,7 @@ define([
                 /*svg_node = svg_node.data(force.nodes());
                 
                 svg_node.enter().append("circle").attr("class", function(d) { 
-                    console.log("adding node",d)
+                    //console.log("adding node",d)
                     return "node " + d.id; 
                 }).attr("r", function(d){return d.r;});
 
