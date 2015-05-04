@@ -40,7 +40,7 @@ define([
             return "img-party bgc-" + d.party;
         })
         .attr("src", function(d) {
-            return "@@assetPath@@/imgs/" + d.party + "1.png";
+            return "@@assetPath@@/imgs/pics/" + d.party + "-n.png";
         });      
  
 
@@ -81,8 +81,8 @@ define([
             return "img-party bgc-" + d.partyPair[0];
         })
         .attr("src", function(d) {
-            var path = "@@assetPath@@/imgs/" + 
-                d.partyPair[0] + 
+            var path = "@@assetPath@@/imgs/pics/" + 
+                d.partyPair[0] + "-" + 
                 data.partyImageDic[d.mark] + 
                 ".png";
             return path;
@@ -99,8 +99,8 @@ define([
             return "img-party bgc-" + d.partyPair[1];
         })
         .attr("src", function(d) {
-            var path = "@@assetPath@@/imgs/" +  
-                d.partyPair[1] + 
+            var path = "@@assetPath@@/imgs/pics/" +  
+                d.partyPair[1] + "-" +  
                 data.partyImageDic[d.mark] + 
                 ".png";
             return path;

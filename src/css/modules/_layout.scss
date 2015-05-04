@@ -120,10 +120,13 @@ ul {
 @media(min-width:660px){
     .pos-a-sum {
         top: calc(100% / 3);  
+        height: 80px;
     }
     .pos-a-done {
         top: calc(100% / 3 + 100px);
         left: 0;
+        width: 40px;
+        height: 60px;
     }
 
     .f-l-pair {

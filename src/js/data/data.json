@@ -22,11 +22,11 @@
     },
     
     "partyImageDic": {
-        "aa": 1,
-        "a":  1,
-        "n":  2,
-        "r":  2,
-        "rr": 3
+        "aa": "h",
+        "a":  "h",
+        "n":  "n",
+        "r":  "a",
+        "rr": "a"
     },
 
     "indexTable": {
