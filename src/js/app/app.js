@@ -49,10 +49,12 @@ define([
             data:partyData
         });
           
-        d3.select(".js-pickme")
+
+        /*d3.select(".js-pickme")
         .style("top", 130 + "px")
         .classed("animate-delay", true);
-        
+        */
+
         /*var el = document.querySelector(".js-btn-done"), 
             anchor  = document.querySelector(".js-coalition"); 
         el.addEventListener("click",runScroll,false);

@@ -28,7 +28,12 @@ p {
 
 .f-h1 { @extend h1; font-size: 32px; }
 .f-h2 { @extend h2; }
-.f-p-bb { @extend p; font-weight: bold; color: black; }
+.f-p-bb { 
+    @extend p; 
+    font-weight: bold; 
+    color: black; 
+    text-align: center;
+}
 
 .f-standfirst {
     font-family: $f-serif-text;
