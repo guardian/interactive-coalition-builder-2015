@@ -62,7 +62,7 @@ define([
         yourCoalition(partyData, analysisData);    
         socialButtons();
         
-        document.querySelector(".js-conlibdem").textContent = textData[2].context; 
+        document.querySelector(".js-conlib").textContent = textData[2].context; 
         document.querySelector(".js-labsnp").textContent = textData[3].context;
     }
 

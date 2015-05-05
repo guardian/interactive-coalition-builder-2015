@@ -114,23 +114,33 @@ define([
         
         // update numbers and text
         var isMajority = updateData.getSum() > 325,
-            txtFlag = isMajority ? "" : " NOT ",
-            txtContext;
+            txtFlag = isMajority ? "" : " NOT ";
         
-        var isConLd = false,
+        var isConLib = false,
             isLabSnp = false,
             partyString = partyList.join(" ");
         
         d3.select(".js-not").text(txtFlag);
         
-        isConLd  = (partyString.indexOf("con") > -1) && (partyString.indexOf("libdem") > -1);
+        isConLib = (partyString.indexOf("con") > -1) && (partyString.indexOf("libdem") > -1);
         isLabSnp = (partyString.indexOf("lab") > -1) && (partyString.indexOf("snp") > -1);
-        
-        if (isConLd)  { d3.select(".js-conlibdem").classed("d-b", true).classed("d-n", false);
-        } else { d3.select(".js-conlibdem").classed("d-b", false).classed("d-n", true);}
-        if (isLabSnp) { d3.select(".js-labsnp").classed("d-b", true).classed("d-n", false);       
-        } else { d3.select(".js-labsnp").classed("d-b", false).classed("d-n", true);}
-        //console.log(isConLd, isLabSnp); 
+       
+        if (isConLib) { 
+            d3.select(".js-conlib").classed("d-b", true).classed("d-n", false);
+        } else { 
+            d3.select(".js-conlib").classed("d-b", false).classed("d-n", true); 
+        }
+        if (isLabSnp) {
+            d3.select(".js-labsnp").classed("d-b", true).classed("d-n", false); 
+        } else {
+            d3.select(".js-labsnp").classed("d-b", false).classed("d-n", true);
+        }
+    
+        if (isConLib && isLabSnp) { 
+            d3.select(".js-conlib").classed("d-b", false).classed("d-n", true);
+            d3.select(".js-labsnp").classed("d-b", false).classed("d-n", true);
+        }       
+        //console.log(isConLib, isLabSnp); 
         
         
         //TODO: update analysis list
