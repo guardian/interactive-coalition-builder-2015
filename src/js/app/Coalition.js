@@ -37,7 +37,7 @@ define([
         partyList
         .append("img")
         .attr("class", function(d) {
-            return "img-party bgc-" + d.party;
+            return "img-party b-1s" + d.party;
         })
         .attr("src", function(d) {
             return "@@assetPath@@/imgs/pics/" + d.party + "-n.png";
@@ -64,21 +64,21 @@ define([
         .text(" because ...");
 
         imgPair = txtList.append("div")
-        .attr("class", "pos-r-party-pair f-l-pair")
+        .attr("class", "pos-r-party-pair fl-pair")
         .each(function(d) { 
             d.partyPair = d.pair.split(",");
         });
         
         txtList
         .append("p")
-        .attr("class", "f-r-pair")
+        .attr("class", "fr-pair")
         .text(function(d) { return d.text; });
     
         // party pair
         imgPair       
         .append("img")
         .attr("class", function(d) {
-            return "img-party bgc-" + d.partyPair[0];
+            return "img-party b-1s" + d.partyPair[0];
         })
         .attr("src", function(d) {
             var path = "@@assetPath@@/imgs/pics/" + 
@@ -89,14 +89,14 @@ define([
         });
         
         imgPair
-        .append("span")
+        .append("div")
         .attr("class", "l-party-plus")
         .text("+");
         
         imgPair       
         .append("img")
         .attr("class", function(d) {
-            return "img-party bgc-" + d.partyPair[1];
+            return "img-party b-1s" + d.partyPair[1];
         })
         .attr("src", function(d) {
             var path = "@@assetPath@@/imgs/pics/" +  
@@ -107,13 +107,13 @@ define([
         });
         
         imgPair
-        .append("span")
+        .append("div")
         .attr("class", "f-p-bb pos-a-party-name-left")
         .text(function(d) {
             return data.partyNameDic[d.partyPair[0]];
         });
         imgPair
-        .append("span")
+        .append("div")
         .attr("class", "f-p-bb pos-a-party-name-right")
         .text(function(d) {
             return data.partyNameDic[d.partyPair[1]];

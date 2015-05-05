@@ -58,6 +58,7 @@ sdlp:   #008587
 @each $party, $color in $partyColors {
     .c-#{$party}   { color: $color; }
     .bgc-#{$party} { background-color: $color; }
+    .b-1s#{$party} { border: 1px solid $color; }
 }
 .c-grey3 {
     color: $c-grey3;
