@@ -12,11 +12,11 @@
     },
 
     "partyMatchDic": {
-        "aa": "It's so perfect",
-        "a":  "It's a match",
-        "n":  "It's kind of match",
-        "r":  "It's complicated",
-        "rr": "It's too complicated"
+        "aa": "This is a match",
+        "a":  "This is probably a goer",
+        "n":  "This could work",
+        "r":  "This isn't plain sailing",
+        "rr": "Don't count on it"
     },
     
     "partyImageDic": {
