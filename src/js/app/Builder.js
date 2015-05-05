@@ -37,27 +37,29 @@ define([
             "con":{
                 vname:"Con",
                 ox:0.345,
-                oy:0.6
+                oy:0.6,
+                active:true
             },
             "lab":{
                 vname:"Lab",
                 ox:0.655,
-                oy:0.6
+                oy:0.6,
+                active:true
             },
             "snp":{
                 vname:"SNP",
                 ox:0.76,
-                oy:0.19
+                oy:0.215
             },
             "libdem":{
                 vname:"LD",
                 ox:0.5,
-                oy:0.175
+                oy:0.2
             },
             "ukip":{
                 vname:"Ukip",
                 ox:0.165,
-                oy:0.16
+                oy:0.18
             },
             "green":{
                 vname:"Green",
@@ -67,7 +69,7 @@ define([
             "pc":{
                 vname:"PC",
                 ox:0.9,
-                oy:0.15
+                oy:0.165
             },
             "dup":{
                 vname:"DUP",
@@ -77,7 +79,7 @@ define([
             "sdlp":{
                 vname:"SDLP",
                 ox:0.9,
-                oy:0.55
+                oy:0.65
             }
         };
 
@@ -116,7 +118,8 @@ define([
             .on("touchend", mouseup)
             .style("height",function(d){
                 var size=utilities.getWindowSize();
-                return Math.min(Math.max(400,size.height-80),500)+"px";
+
+                return Math.max(600,size.height-80)+"px";
             });
 
 
@@ -137,7 +140,8 @@ define([
         }
         
 
-        var bench=d3.select(options.bench || "#bench");
+
+        var bench=d3.select(options.bench || "#bench").classed("show-active",true)
         var bbox_bench=bench.node().getBoundingClientRect(),
             width_bn = bbox_bench.width,
             height_bn = bbox_bench.height;
@@ -148,6 +152,9 @@ define([
             .enter()
                 .append("div")
                 .attr("class","node")
+                    .classed("blurred",function(d){
+                        return !d.active;
+                    })
                     .style("left",function(d){
                         d.bx=(d.ox * width_bn);
                         return (width_bn/2) + "px";
@@ -155,8 +162,22 @@ define([
                     .style("top",function(d){
                         return (height_bn/2)+"px";
                     })
-                    .on("mousedown", function(d) { dragged_node=this; dragged = d; mousedown();})
-                    .on("touchstart",function(d) { dragged_node=this; dragged = d; mousedown();});
+                    .on("mousedown", function(d) { 
+                        if(!d.active) {
+                            return;
+                        }
+                        dragged_node=this;
+                        dragged = d;
+                        mousedown();
+                    })
+                    .on("touchstart",function(d) { 
+                        if(!d.active) {
+                            return;
+                        }
+                        dragged_node=this;
+                        dragged = d;
+                        mousedown();
+                    });
 
         var bubble_inset=bubble
                     .append("div")
@@ -203,7 +224,7 @@ define([
 
             coalitions.style("height",function(d){
                 var size=utilities.getWindowSize();
-                return Math.min(Math.max(400,size.height-80),500)+"px";
+                return Math.max(600,size.height-80)+"px";
             })
 
             bbox_playground=playground.node().getBoundingClientRect();
@@ -365,12 +386,17 @@ define([
             //console.log("END",d3.event.x,d3.event.y)
 
             
-            node.classed("blurred",false)
+            node.classed("blurred",false);
             playground.classed("dropping",false);
+            bench.classed("show-active",false);
             
             d3.select("#bench")
                 .selectAll("div.node")
                     .classed("dragging",false)
+                    .classed("blurred",false)
+                    .each(function(d){
+                        d.active=true;
+                    });
             
             var party, isActive;
             if(dragged.y>height_bn) {

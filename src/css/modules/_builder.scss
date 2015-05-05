@@ -57,6 +57,9 @@
 
 .node {
     position: absolute;
+    cursor: move;
+
+    transition: opacity 1000ms ease;
 }
 .node.hidden {
     display: none;
@@ -93,8 +96,13 @@
 .active .node .party .face {
     border:5px solid transparent;
 }
-.node.blurred {
+.node.blurred,
+#bench.show-active .node.blurred {
     opacity: 0.5;
+    cursor: default;
+}
+#bench .node.blurred {
+    opacity: 1;
 }
 .node h3 {
     font-family:$f-sans-serif-text;
