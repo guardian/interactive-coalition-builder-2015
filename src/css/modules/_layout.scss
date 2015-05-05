@@ -1,4 +1,4 @@
-// override
+// overrie
 #election-nav-head {
     position: relative  !important;
 }
@@ -62,8 +62,13 @@ ul {
 .pos-a-done {
     position: absolute;
     right: 5px;
-    bottom: 12px;
+    bottom: 7px;
     z-index: 2;
+}
+.pos-a-feedback {
+    position: absolute;
+    top: 210px;
+    left: 5px;
 }
 
 // in party list
@@ -95,7 +100,6 @@ ul {
     position: absolute;
     bottom: 0;
     width: 64px;
-    text-align: center;
 }
 .pos-a-party-name-left { left: 0;}
 .pos-a-party-name-right { right: 0; }
@@ -121,14 +125,16 @@ ul {
 
 @media(min-width:660px){
     .pos-a-sum {
-        top: calc(100% / 3);  
+        top: 210px;//calc(100% / 3);  
         height: 80px;
     }
     .pos-a-done {
-        top: calc(100% / 3 + 100px);
         left: 5px;
         width: 40px;
         height: 60px;
+    }
+    .pos-a-feedback {
+        top: 310px;//calc(100% / 3 + 100px);
     }
 
     .fl-pair {
@@ -145,3 +151,10 @@ ul {
         margin-bottom: 5px;
     }
 }
+
+@media(min-width:980px){
+    .l-coalition {
+        width: 60%;
+        margin-left: auto;
+        margin-right: auto;
+}}

@@ -181,13 +181,16 @@ define([
                 .attr("class","overlay")
                 .style("border-radius",function(d){return (rscale(d.size)*2)+"px";});
 
-        bubble_inset
+        /*bubble_inset
                 .append("h3")
                     .text(function(d){return d.vname;});
-
-        bubble_inset
-                .append("h4")
-                    .text(function(d){return d.size;})
+        */
+        var text = bubble_inset.append("p").style("text-align", "center");
+        text.append("span")
+            .attr("class", "f-p-bb")    
+            .text(function(d){ return d.vname; });
+        text.append("span")
+            .text(function(d){ return " " + d.size; });
 
 
         var dom_parties={};
@@ -711,13 +714,17 @@ define([
                     .attr("class","overlay")
                     .style("border-radius",function(d){return (rscale(d.size)*2)+"px";});
 
-            bubble_inset
+            /*bubble_inset
                     .append("h3")
                         .text(function(d){return d.vname;});
+            */
+            var text = bubble_inset.append("p").style("text-align", "center");
+            text.append("span")
+                .attr("class", "f-p-bb")    
+                .text(function(d){ return d.vname; });
+            text.append("span")
+                .text(function(d){ return " " + d.size; });
 
-            bubble_inset
-                    .append("h4")
-                        .text(function(d){return d.size;})
 
             node.exit().remove();
 
