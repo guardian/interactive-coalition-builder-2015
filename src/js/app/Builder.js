@@ -47,7 +47,7 @@ define([
             "snp":{
                 vname:"SNP",
                 ox:0.76,
-                oy:0.18
+                oy:0.19
             },
             "libdem":{
                 vname:"LD",
@@ -57,7 +57,7 @@ define([
             "ukip":{
                 vname:"Ukip",
                 ox:0.165,
-                oy:0.15
+                oy:0.16
             },
             "green":{
                 vname:"Green",
