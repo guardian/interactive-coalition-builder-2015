@@ -3,9 +3,9 @@
 
 
     <section>
-        <h1>Build the coalition (and will they like each other)</h1>
-        <p class="f-standfirst">
-            Lorem ipsum dolor sit amet, consec-tetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+        <h1 class="js-headline">Can you form a stable government?</h1>
+        <p class="f-standfirst js-standfirst">
+            Combine parties as best you can to form a workable government. You need 323 votes, probably, to survive a confidence vote, but you may find that some parties get along together better than others
         </p>
         <p class="f-lastupdate mt-10"><time id="jsLastUpdate"></time></p>
     </section>
@@ -15,12 +15,12 @@
         <h2>Choose your parties</h2>
         <p class="c-grey3">Start by dragging either Labour<br>or Conservatives</p>
         <div class="pos-r" id="coalitions">
-            
+
             <!-- top half -->
             <div id="bench"></div>
             <div id="playground"></div>
             <div class="pos-a f-pickme js-pickme">Hey, pick me</div> 
-            
+
             <!-- bottom half -->
             <div class="pos-a-sum">
                 <span class="f-h2">You have</span>
@@ -29,23 +29,28 @@
             </div>
             <div class="pos-a-done d-n js-done">
                 <p class="f-p-bb">Done?</p>
-                <a href="#playground" class="btn-done"></a>
+                <a href="#jsYourCoalition" class="btn-done"></a>
             </div>
         </div>
+
+        <p class="f-footnote mt-10">
+            Note: Sinn Féin are unavailable for coalition building because they do not take their Westminster seats
+        </p>
     </section>
 
 
-    <section class="bt-1sb pos-r js-coalition">     
+    <section class="bt-1sb pos-r js-coalition" id="jsYourCoalition">     
         <h1>Your Coalition</h1>
-        
+
         <!-- party list -->
         <ul class="js-parties mt-10"></ul>
         <h2 class="c-grey3 mt-10">
             <span class="js-seatcount c-black"></span> is 
-            <span class="js-summary-flag">not</span> enough to form a majority
+            <span class="js-not">NOT</span> enough to form a majority
         </h2>
-        <p class="js-summary-context"></p>
-        
+        <p class="d-n js-conlibdem mt-10"></p>
+        <p class="d-n js-labsnp mt-10"></p>
+
         <!-- party pairs -->
         <ul class="f-analysis js-analysis mt-10"></ul>   
         <div class="btns-share pos-a-tr">
@@ -53,6 +58,6 @@
             <button class="btn-fb" data-source="facebook"></button>
         </div>       
     </section>
-    
+
     <div id="election-nav-footer" class="mt-30"></div> 
 </div>

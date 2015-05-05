@@ -14,7 +14,7 @@ define([
         var DEBUG=false;
 
 
-        console.log(options)
+        //console.log(options)
         
         
 
@@ -82,7 +82,7 @@ define([
 
             var party=attractionTable[d.party];
             if(party) {
-                console.log(party,d)
+                //console.log(party,d)
                 party.name=d.party;
                 party.size=d.seat;
                 party.pool=d.active;
@@ -96,7 +96,7 @@ define([
             }
         });  
 
-        console.log("attractionTable",attractionTable)
+        //console.log("attractionTable",attractionTable)
 
         
         var dragged = null,
@@ -201,9 +201,15 @@ define([
         }
         function mousedown() {
             var m = d3.mouse(coalitions.node());
-            console.log(dragged,dragged,m)
+            //console.log("mousedown",m)
+            //console.log(dragged,dragged,m)
             dragged.dx=m[0]-(dragged.x || dragged.bx);
             dragged.dy=m[1]-(dragged.y || dragged.by);
+/*
+            //console.log(dragged,dragged,m)
+            dragged.dx=m[0]-dragged.bx;
+            dragged.dy=m[1]-dragged.by;
+*/
             dragged.x = m[0]-(dragged.dx);
             dragged.y = m[1]-(dragged.dy);
             
@@ -238,6 +244,9 @@ define([
         function mousemove() {
             if (!dragged) return;
             var m = d3.mouse(coalitions.node());
+
+            //console.log("mousemove",m,dragged.x,dragged.dx)
+
             dragged.x = m[0]-(dragged.dx);
             dragged.y = m[1]-(dragged.dy);
 
@@ -260,6 +269,7 @@ define([
 
         function mouseup() {
             if (!dragged) return;
+            //console.log("mouseup")
             mousemove();
             
             //console.log(dragged);
@@ -287,14 +297,14 @@ define([
                         return d.name==dragged.name
                     });
 
-                    d3.select(dragged_node)
+                    d3.select(dragged_node)//.classed("hidden",true)
                         .transition()
                         .duration(500)
                             .style("left",function(d){
                                 return (__node.x) + "px";
                             })
                             .style("top",function(d){
-                                console.log("going to",(__node.y+height_bn))
+                                //console.log("going to",(__node.y+height_bn))
                                 return (__node.y+height_bn) + "px";
                             })
                             //.style("opacity",0)
@@ -415,7 +425,7 @@ define([
             })
         });
         
-        console.log(distances);
+        //console.log(distances);
         
         var force = d3.layout.force()
                         .size([width_pg, height_pg])
@@ -475,14 +485,14 @@ define([
             node
                 //.each(collide(0.5))
                 .style("left", function(d) { 
-                    var delta=5,
-                        x=Math.max(d.r+delta, Math.min(width - (d.r+delta), d.x))
-                    return x+"px"; 
+                    var delta=5;
+                    d.x=Math.max(d.r+delta, Math.min(width - (d.r+delta), d.x))
+                    return d.x+"px"; 
                 })
                 .style("top", function(d) { 
-                    var delta=15,
-                        y=Math.max(d.r+delta, Math.min(height - (d.r+delta), d.y))
-                    return y+"px"; 
+                    var delta=15;
+                    d.y=Math.max(d.r+delta, Math.min(height - (d.r+delta), d.y))
+                    return d.y+"px"; 
                 })
 
             /*node.style("left", function(d) { return d.x = Math.max(d.r, Math.min(width - d.r, d.x))+"px"; })
@@ -502,20 +512,20 @@ define([
         var nodes_flat=[];
         function getAngry(d,debug) {
             if(debug){
-                console.log("getAngry",d,nodes_flat)
+                //console.log("getAngry",d,nodes_flat)
             }
             var status=false;
             var party=arrayFind(parties,function(p){
                 return p.name == d.name;
             });
             if(debug) {
-                console.log("party",party)
+                //console.log("party",party)
             }
             status=nodes_flat.some(function(d){
                 return (party.repulsion.indexOf(d)>-1 || party.strong_repulsion.indexOf(d)>-1);
             });
             if(debug) {
-                console.log("status",status)
+                //console.log("status",status)
             }
             return status;
         }
@@ -539,8 +549,9 @@ define([
                 return d.id;
             });
             
-            function nodeMouseDown(d){
+            function nodeMouseDown(d,coords){
                 //console.log(d)
+
 
                 //console.log(d3.select(dom_parties[d.id]))
                 //dragging=dom_parties[d.id].parentNode
@@ -548,17 +559,21 @@ define([
                 dragged=d3.select(dom_parties[d.id]).datum();
 
                 d3.select(dragged_node).classed("hidden",false)
+                //console.log("nodeMouseDown",coords);
+
+                //console.log(dragged.x,dragged.y,"vs",d.x,d.y,d)
 
                 //console.log(d.y,dragged.y)
                 
                 dragged.x=d.x;
+                dragged.y=d.y+height_bn;
                 //dragged.y=d.y+height_bn;//+=(d.y-(dragged.y+height_bn));
                 //dragged.y=d.y;//-(d.y-dragged.y);
 
-                dragged.dx=0;
-                dragged.dy=0;
+                dragged.dx=coords[0];
+                dragged.dy=coords[1];
 
-                console.log(dragged,d)
+                
 
                 /*console.log(d,dragged)
 
@@ -599,11 +614,11 @@ define([
             var __node=node.enter()
                 .append("div")
                 .on("mousedown",function(d){
-                    nodeMouseDown(d);
+                    nodeMouseDown(d,d3.mouse(this));
                     d3.select(this).classed("blurred",true);
                 })
                 .on("touchstart",function(d){
-                    nodeMouseDown(d);
+                    nodeMouseDown(d,d3.touch(this));
                     d3.select(this).classed("blurred",true);
                 })
                 .attr("class", "node");
@@ -662,7 +677,7 @@ define([
                     return d.pool;
                 })
                 .classed("angry",function(d){
-                    console.log(this)
+                    //console.log(this)
                     return getAngry(d,1);
                 })
                 .classed("happy",function(d){
@@ -681,7 +696,7 @@ define([
                 /*svg_node = svg_node.data(force.nodes());
                 
                 svg_node.enter().append("circle").attr("class", function(d) { 
-                    console.log("adding node",d)
+                    //console.log("adding node",d)
                     return "node " + d.id; 
                 }).attr("r", function(d){return d.r;});
 

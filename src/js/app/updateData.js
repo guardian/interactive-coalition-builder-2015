@@ -23,7 +23,7 @@ define([
             { party: "ukip"  , color: "#7D0069", group: 2 }
         ];
 
-        console.log("analysisData",analysisData)
+        //console.log("analysisData",analysisData)
         var flat_attractions={};
 
         partyData.map(function(d, i) {            

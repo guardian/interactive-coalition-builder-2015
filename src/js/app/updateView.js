@@ -84,21 +84,55 @@ define([
             .classed("d-b", false);
         }
 
+
         //TODO: update summary
-        var el = d3.select(".js-parties .party-" + party); 
-        
+        // change face type
+        var el;
+        partyData.filter(function(d) {
+            return d.active;
+        }).forEach(function(d) {
+            var type,
+                isRepulsive= false,
+                repulsiveList = d.repulsion.concat(d.strong_repulsion).join(" ");
+            
+            isRepulsive = partyList.find(function(p) {
+                return repulsiveList.indexOf(p) > -1;
+            });
+
+            type = isRepulsive ? "a" : "h";
+            el = document.querySelector(".js-parties .party-" + d.party + " img"); 
+            el.src = "@@assetPath@@/imgs/pics/" + d.party + "-" + type + ".png";
+        });
+
+        // hide and show faces
+        el = d3.select(".js-parties .party-" + party); 
         if (isActive) { 
             el.classed("d-n", false).classed("d-ib", true); 
         } else if (!isActive) {
             el.classed("d-n", true).classed("d-ib", false); 
         }
-
+        
+        // update numbers and text
         var isMajority = updateData.getSum() > 325,
-            txtFlag = isMajority ? "" : " not ",
-            txtContext = isMajority ? "blablabla..." : "";
-        d3.select(".js-summary-flag").text(txtFlag);
-        d3.select(".js-summary-context").text(txtContext);
-
+            txtFlag = isMajority ? "" : " NOT ",
+            txtContext;
+        
+        var isConLd = false,
+            isLabSnp = false,
+            partyString = partyList.join(" ");
+        
+        d3.select(".js-not").text(txtFlag);
+        
+        isConLd  = (partyString.indexOf("con") > -1) && (partyString.indexOf("libdem") > -1);
+        isLabSnp = (partyString.indexOf("lab") > -1) && (partyString.indexOf("snp") > -1);
+        
+        if (isConLd)  { d3.select(".js-conlibdem").classed("d-b", true).classed("d-n", false);
+        } else { d3.select(".js-conlibdem").classed("d-b", false).classed("d-n", true);}
+        if (isLabSnp) { d3.select(".js-labsnp").classed("d-b", true).classed("d-n", false);       
+        } else { d3.select(".js-labsnp").classed("d-b", false).classed("d-n", true);}
+        //console.log(isConLd, isLabSnp); 
+        
+        
         //TODO: update analysis list
         partyList.forEach(function(d) {
             var table = data.indexTable[party],

@@ -24,23 +24,24 @@ define([
 
         var r = width / 2 - 32, //radius of octagon
             cx = r + 20,
-            cy = r - 15,
-            imgSize = 66; 
-
+            cy = r - 15;
         
         /* data */
-        var data = rawData.sheets.SUM,
+        var sumData = rawData.sheets.SUM,
+            textData = rawData.sheets.TEXT,
             analysisData = rawData.sheets.RESULT,
-            partyData = updateData.initParties(data, analysisData);
-
-
+            partyData = updateData.initParties(sumData, analysisData);
 
 
         /* view */
         // section 1
+        d3.select(".js-headline").textContent = textData[0].headline;
+        d3.select(".js-standfirst").textContent = textData[0].context;
+        
         //TODO: check the date
         var lastupdateData = new Date(rawData.updated),
             textLastupdate = lastupdateData.toString();
+
         textLastupdate = textLastupdate.slice(4, -18) + " " + textLastupdate.slice(-4, -1);
         document.querySelector("#jsLastUpdate").textContent = "Last update on " + textLastupdate;
 
@@ -50,7 +51,8 @@ define([
             playground:"#playground",
             data:partyData
         });
-
+        
+        //TODO: check position
         d3.select(".js-pickme")
         .style("top", cy - 50 + "px")
         .style("left", cx - 60 + "px")
@@ -59,6 +61,9 @@ define([
         // section 3
         yourCoalition(partyData, analysisData);    
         socialButtons();
+        
+        document.querySelector(".js-conlibdem").textContent = textData[2].context; 
+        document.querySelector(".js-labsnp").textContent = textData[3].context;
     }
 
 
