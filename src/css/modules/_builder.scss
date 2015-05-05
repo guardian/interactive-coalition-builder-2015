@@ -4,6 +4,9 @@
     overflow: hidden;
     position:relative;
 }
+.js-pickme {
+    left: calc(50% - 60px);
+}
 #bench {
     width:100%;
     height: 33%;

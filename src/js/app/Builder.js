@@ -108,6 +108,8 @@ define([
             .on("mouseup", mouseup)
             .on("touchmove", mousemove)
             .on("touchend", mouseup)
+            
+       
 
         var playground=d3.select(options.playground || "#playground");
         var bbox_playground=playground.node().getBoundingClientRect(),
@@ -129,11 +131,10 @@ define([
                 .attr("class","node")
                     .style("left",function(d){
                         d.bx=(d.ox * width_bn);
-                        return d.bx + "px";
+                        return (width_bn/2) + "px";
                     })
                     .style("top",function(d){
-                        d.by=(d.oy * height_bn);
-                        return d.by + "px";
+                        return (height_bn/2)+"px";
                     })
                     .on("mousedown", function(d) { dragged_node=this; dragged = d; mousedown();})
                     .on("touchstart",function(d) { dragged_node=this; dragged = d; mousedown();});
@@ -177,7 +178,51 @@ define([
                     .each(function(d){
                         //console.log("----->",this);
                         dom_parties[d.name]=this;
-                    })
+                    });
+
+        function update() {
+
+            bbox_playground=playground.node().getBoundingClientRect();
+            width_pg = bbox_playground.width;
+            height_pg = bbox_playground.height;
+            width=width_pg;
+            height=height_pg;
+
+        
+            bbox_bench=bench.node().getBoundingClientRect();
+            width_bn = bbox_bench.width;
+            height_bn = bbox_bench.height;
+
+            updateBench();
+
+            force.size([width_pg, height_pg]);
+            force.start();
+        }
+        
+        function updateBench() {
+            console.log("updateBench")
+            d3.select("#bench")
+                .selectAll("div.node")
+                    .transition()
+                    .duration(500)
+                        .style("left",function(d){
+                            d.bx=(d.ox * width_bn);
+                            return d.bx + "px";
+                        })
+                        .style("top",function(d){
+                            d.by=(d.oy * height_bn);
+                            return d.by + "px";
+                        })
+        }
+        updateBench();
+        var to=null;
+        window.addEventListener("resize",function(d){
+            if(to) {
+                clearTimeout(to);
+                to=null;
+            }
+            to=setTimeout(update,200);
+        })
 
         function redraw() {
             
@@ -250,13 +295,19 @@ define([
             dragged.x = m[0]-(dragged.dx);
             dragged.y = m[1]-(dragged.dy);
 
-
+            var isActive;
             if(dragged.y>height_bn) {
                 updateData.setActive(dragged.name);
+                isActive=true;
                 
+            } else {
+                isActive=false;
             }
+            var party = dragged.name;
+            updateData.setActive(party, isActive);
             updateData.setSum();
-            updateView.sum(updateData.getSum());
+
+            updateView.sum();
             
             
             

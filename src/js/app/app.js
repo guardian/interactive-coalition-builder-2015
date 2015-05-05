@@ -56,7 +56,6 @@ define([
         //builder.getPickMe()
         d3.select(".js-pickme")
             .style("top", 130 + "px")
-            .style("left", (width/2-100) + "px")
             .classed("animate-delay", true);
 
         // section 3
