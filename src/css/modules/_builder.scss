@@ -84,6 +84,9 @@
 .node.dragging .party .face {
     border:5px solid #bbb;
 }
+.node.dragging .party .face .pic {
+    border:1px solid transparent !important;
+}
 .active .node .party .face {
     border:5px solid transparent;
 }
@@ -123,7 +126,7 @@
     width:100%;
     height: 100%;
     position:relative;
-    opacity: 0.4;
+    opacity: 0;
 }
 
 .node .party .face .pic {
@@ -144,6 +147,7 @@
 @each $party, $color in $partyColors {
     .node .party.#{$party} .face  .pic { 
         background-image: url(../imgs/pics/#{$party}-n.png);
+        border:1px solid $color;
     }
     .node.happy .party.#{$party} .face .pic   { 
         background-image: url(../imgs/pics/#{$party}-h.png);
