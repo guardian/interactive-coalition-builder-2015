@@ -46,17 +46,18 @@ define([
         document.querySelector("#jsLastUpdate").textContent = "Last update on " + textLastupdate;
 
         // section 2
-        new Builder({
+        var builder=new Builder({
             bench:"#bench",
             playground:"#playground",
             data:partyData
         });
         
         //TODO: check position
+        //builder.getPickMe()
         d3.select(".js-pickme")
-        .style("top", cy - 50 + "px")
-        .style("left", cx - 60 + "px")
-        .classed("animate-delay", true);
+            .style("top", 130 + "px")
+            .style("left", (width/2-100) + "px")
+            .classed("animate-delay", true);
 
         // section 3
         yourCoalition(partyData, analysisData);    

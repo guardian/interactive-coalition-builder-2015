@@ -30,7 +30,7 @@ define([
         var attractionTable={
             "con":{
                 vname:"Con",
-                ox:0.3,
+                ox:0.4,
                 oy:0.6
             },
             "lab":{
@@ -55,23 +55,23 @@ define([
             },
             "green":{
                 vname:"Green",
-                ox:0.8,
+                ox:0.775,
                 oy:0.7
             },
             "pc":{
                 vname:"PC",
-                ox:0.1,
-                oy:0.6
+                ox:0.8,
+                oy:0.3
             },
             "dup":{
                 vname:"DUP",
-                ox:0.9,
+                ox:0.275,
                 oy:0.5
             },
             "sdlp":{
                 vname:"SDLP",
-                ox:0.45,
-                oy:0.55
+                ox:0.7,
+                oy:0.65
             }
         };
 
@@ -483,7 +483,7 @@ define([
         function tick(e) {
             
             node
-                //.each(collide(0.5))
+                .each(collide(0.5))
                 .style("left", function(d) { 
                     var delta=5;
                     d.x=Math.max(d.r+delta, Math.min(width - (d.r+delta), d.x))
@@ -550,7 +550,7 @@ define([
             });
             
             function nodeMouseDown(d,coords){
-                //console.log(d)
+                console.log("coords",coords)
 
 
                 //console.log(d3.select(dom_parties[d.id]))
@@ -618,7 +618,8 @@ define([
                     d3.select(this).classed("blurred",true);
                 })
                 .on("touchstart",function(d){
-                    nodeMouseDown(d,d3.touch(this));
+                    
+                    nodeMouseDown(d,d3.touches(this)[0]);
                     d3.select(this).classed("blurred",true);
                 })
                 .attr("class", "node");
