@@ -1,11 +1,13 @@
 define([
     'd3',
     'app/updateData',
-    'app/updateView'
+    'app/updateView',
+    'common/utilities'
 ], function(
     d3,
     updateData,
-    updateView
+    updateView,
+    utilities
 ){
     'use strict';
 
@@ -112,6 +114,12 @@ define([
             .on("mouseup", mouseup)
             .on("touchmove", mousemove)
             .on("touchend", mouseup)
+            .style("height",function(d){
+                var size=utilities.getWindowSize();
+                return Math.min(Math.max(400,size.height-80),500)+"px";
+            });
+
+
             
        
 
@@ -192,6 +200,11 @@ define([
                     });
 
         function update() {
+
+            coalitions.style("height",function(d){
+                var size=utilities.getWindowSize();
+                return Math.min(Math.max(400,size.height-80),500)+"px";
+            })
 
             bbox_playground=playground.node().getBoundingClientRect();
             width_pg = bbox_playground.width;
@@ -427,10 +440,10 @@ define([
             updateView.sum();
 
             //TODO: improve speed on mouseup
-            //setTimeout(function(){
+            setTimeout(function(){
                 updateView.analysis(party, isActive);
                 updateView.animation(party, isActive);    
-            //},500);
+            },500);
             
 
             dragged = null;
