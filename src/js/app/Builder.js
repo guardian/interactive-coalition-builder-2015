@@ -23,55 +23,58 @@ define([
 
         var maxRadius=60,
             padding=2;
+        var radiuses={
+            mobile:[20,40],
+            restoftheworld:[32,60]
+        }
         var rscale=d3.scale.sqrt()
-                .domain([1,d3.max(options.data,function(d){return d.seat;})])
-                .range([32,maxRadius]);
+                .domain([1,d3.max(options.data,function(d){return d.seat;})]);
 
         var attractionTable={
             "con":{
                 vname:"Con",
-                ox:0.4,
+                ox:0.345,
                 oy:0.6
             },
             "lab":{
                 vname:"Lab",
-                ox:0.6,
+                ox:0.655,
                 oy:0.6
             },
             "snp":{
                 vname:"SNP",
-                ox:0.7,
-                oy:0.3
+                ox:0.76,
+                oy:0.18
             },
             "libdem":{
                 vname:"LD",
                 ox:0.5,
-                oy:0.3
+                oy:0.175
             },
             "ukip":{
                 vname:"Ukip",
-                ox:0.2,
-                oy:0.2
+                ox:0.165,
+                oy:0.15
             },
             "green":{
                 vname:"Green",
-                ox:0.775,
-                oy:0.7
+                ox:0.875,
+                oy:0.8
             },
             "pc":{
                 vname:"PC",
-                ox:0.8,
-                oy:0.3
+                ox:0.9,
+                oy:0.15
             },
             "dup":{
                 vname:"DUP",
-                ox:0.275,
+                ox:0.1,
                 oy:0.5
             },
             "sdlp":{
                 vname:"SDLP",
-                ox:0.7,
-                oy:0.65
+                ox:0.9,
+                oy:0.55
             }
         };
 
@@ -117,6 +120,13 @@ define([
             height_pg = bbox_playground.height,
             width=width_pg,
             height=height_pg;
+
+        if(width<480) {
+            rscale.range(radiuses.mobile);   
+        } else {
+            rscale.range(radiuses.restoftheworld);
+        }
+        
 
         var bench=d3.select(options.bench || "#bench");
         var bbox_bench=bench.node().getBoundingClientRect(),
@@ -185,23 +195,39 @@ define([
             bbox_playground=playground.node().getBoundingClientRect();
             width_pg = bbox_playground.width;
             height_pg = bbox_playground.height;
+            var mobile_bp=480;
+            var changing_radius=(width>mobile_bp && width_pg<mobile_bp || width<mobile_bp && width_pg>mobile_bp);
+
             width=width_pg;
             height=height_pg;
 
-        
             bbox_bench=bench.node().getBoundingClientRect();
             width_bn = bbox_bench.width;
             height_bn = bbox_bench.height;
 
-            updateBench();
+            if(changing_radius) {
+                if(width<mobile_bp) {
+                    rscale.range(radiuses.mobile);   
+                } else {
+                    rscale.range(radiuses.restoftheworld);
+                }
+
+                nodes.forEach(function(n){
+                    n.r=rscale(n.size);
+                });
+                
+            }
+
+            updateBench(changing_radius);
 
             force.size([width_pg, height_pg]);
             force.start();
+            
         }
         
-        function updateBench() {
+        function updateBench(changing_radius) {
             console.log("updateBench")
-            d3.select("#bench")
+            var bubble=d3.select("#bench")
                 .selectAll("div.node")
                     .transition()
                     .duration(500)
@@ -212,7 +238,26 @@ define([
                         .style("top",function(d){
                             d.by=(d.oy * height_bn);
                             return d.by + "px";
-                        })
+                        });
+
+            if(changing_radius) {
+                var bubble_inset=bubble
+                            .select("div.party")
+                                .style("width", function(d){return (rscale(d.size)*2)+"px";})
+                                .style("height", function(d){return (rscale(d.size)*2)+"px";})
+                                .style("margin-left", function(d){return -(rscale(d.size))+"px";})
+                                .style("margin-top", function(d){return -(rscale(d.size))+"px";})
+
+                var face=bubble_inset.select("div.face")
+                                .style("border-radius",function(d){return (rscale(d.size)*2)+"px";})
+
+                face
+                    .select("div.pic")
+                        .style("border-radius",function(d){return (rscale(d.size)*2)+"px";});
+                face
+                    .select("div.overlay")
+                        .style("border-radius",function(d){return (rscale(d.size)*2)+"px";});
+            }
         }
         updateBench();
         var to=null;
@@ -534,14 +579,14 @@ define([
         function tick(e) {
             
             node
-                .each(collide(0.5))
+                .each(collide(0.75))
                 .style("left", function(d) { 
-                    var delta=5;
+                    var delta=2;
                     d.x=Math.max(d.r+delta, Math.min(width - (d.r+delta), d.x))
                     return d.x+"px"; 
                 })
                 .style("top", function(d) { 
-                    var delta=15;
+                    var delta=2;
                     d.y=Math.max(d.r+delta, Math.min(height - (d.r+delta), d.y))
                     return d.y+"px"; 
                 })
