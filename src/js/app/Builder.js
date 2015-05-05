@@ -202,11 +202,13 @@ define([
         function mousedown() {
             var m = d3.mouse(coalitions.node());
             console.log(dragged,dragged,m)
-            dragged.dx=m[0]-dragged.bx;
-            dragged.dy=m[1]-dragged.by;
+            dragged.dx=m[0]-(dragged.x || dragged.bx);
+            dragged.dy=m[1]-(dragged.y || dragged.by);
             dragged.x = m[0]-(dragged.dx);
             dragged.y = m[1]-(dragged.dy);
             
+            
+
             d3.select("#bench")
                     .selectAll("div.node")
                         .filter(function(d){
@@ -292,6 +294,7 @@ define([
                                 return (__node.x) + "px";
                             })
                             .style("top",function(d){
+                                console.log("going to",(__node.y+height_bn))
                                 return (__node.y+height_bn) + "px";
                             })
                             //.style("opacity",0)
@@ -310,6 +313,9 @@ define([
                 removeParty(dragged.name);
 
                 isActive = false;
+
+                dragged.x=null;
+                dragged.y=null;
 
                 d3.select(dragged_node)
                     .transition()
@@ -531,7 +537,7 @@ define([
             
             nodes_flat=force.nodes().map(function(d){
                 return d.id;
-            })
+            });
             
             function nodeMouseDown(d){
                 //console.log(d)
@@ -543,13 +549,44 @@ define([
 
                 d3.select(dragged_node).classed("hidden",false)
 
+                //console.log(d.y,dragged.y)
+                
+                dragged.x=d.x;
+                //dragged.y=d.y+height_bn;//+=(d.y-(dragged.y+height_bn));
+                //dragged.y=d.y;//-(d.y-dragged.y);
+
+                dragged.dx=0;
+                dragged.dy=0;
+
+                console.log(dragged,d)
+
+                /*console.log(d,dragged)
+
+                var m = d3.mouse(coalitions.node());
+                console.log("mouse",m[0],dragged.y,d.y,height_bn)
+                dragged.dx=0;//m[0]-d.x;
+                dragged.dy=0;//m[1]-d.y;
                 dragged.x=d.x;
                 dragged.y=d.y+height_bn;
+                */
+
+                //console.log(dragged.dx,dragged.dy)
+
+                //dragged.x = m[0]-(dragged.dx);
+                //dragged.y = m[1]-(dragged.dy);
+
+                //dragged.dx=m[0]-d.x;
+                //dragged.dy=m[1]-d.y;
+                //console.log(dragged.dx,m[0],dragged.x,d.x)
+                //dragged.x=d.x+dragged.dx;
+                //dragged.y=d.y+height_bn;
+
+
 
                 d3.select("#bench")
                     .selectAll("div.node")
                         .filter(function(d){
-                            console.log(d.name,"==",dragged.name)
+                            //console.log(d.name,"==",dragged.name)
                             return d.name == dragged.name
                         })
                         .classed("dragging",true)
