@@ -155,28 +155,10 @@ define([
         });
     }   
     
-    function updateImage(isSelected, party, color) {
-        var el = document.querySelector("div[data-party=" + party + "] img"),
-            imgStr = "con lab snp ld",
-            hasImg = imgStr.indexOf(party) !== -1,
-            img = hasImg ? party : "others";
-
-        //TODO: remove src, use sprint instead
-        if (isSelected) {
-            el.style.borderColor = color;
-            el.src = "@@assetPath@@/imgs/" + img + "1.png";
-        } else {
-            el.style.borderColor = "#eee";
-            el.src = "@@assetPath@@/imgs/" + img + "3.png";
-        } 
-    }
-
-
+ 
     return {
         sum: updateSum,
         analysis: updateAnalysis,
         animation: updateAnimation,
-        image: updateImage
-    
     };
 });

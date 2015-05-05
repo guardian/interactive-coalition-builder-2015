@@ -16,17 +16,17 @@ define([
     'use strict';
 
     function handleRequestError(err, msg) {
-        console.error('Failed: ', err, msg);
+        //console.error('Failed: ', err, msg);
         coalitionBuilder(remoteData);
     }
 
     function afterRequest(resp) {
-        console.log('Finished', resp);
+        //console.log('Finished', resp);
     }
 
     function init(el, context, config, mediator) {
         // DEBUG: What we get given on boot
-        console.log(el, context, config, mediator);
+        //console.log(el, context, config, mediator);
 
         // DOM template example
         el.innerHTML = templateHTML;

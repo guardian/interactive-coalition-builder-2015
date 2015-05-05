@@ -7,7 +7,6 @@
         "green":  "Green",
         "pc":     "PC",
         "sdlp":   "SDLP",
-        "others": "Others",
         "dup":    "DUP",
         "ukip":   "Ukip"
     },
@@ -95,7 +94,8 @@
             "libdem":"21",
             "green":"24",
             "ukip":"26",
-            "sdlp": "34"
+            "sdlp": "34",
+            "pc": "36"
         },
         "pc": {
             "con":"7",
@@ -104,7 +104,8 @@
             "libdem":"22",
             "green":"25",
             "ukip":"27",
-            "sdlp": "35"
+            "sdlp": "35",
+            "dup": 36
         },
         "sdlp": {
             "con":"28",

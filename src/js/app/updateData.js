@@ -18,7 +18,6 @@ define([
             { party: "green" , color: "#33A22B", group: 2 },
             { party: "pc"    , color: "#868686", group: 2 },
             { party: "sdlp"  , color: "#008587", group: 2 },
-            { party: "others", color: "#B3B3B4", group: 2 },
             { party: "dup"   , color: "#99002E", group: 2 },
             { party: "ukip"  , color: "#7D0069", group: 2 }
         ];
@@ -90,7 +89,7 @@ define([
             return d;
         });
 
-        console.log("flat_attractions",flat_attractions)
+        //console.log("flat_attractions",flat_attractions)
 
         // group 1
         /*
