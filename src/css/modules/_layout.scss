@@ -56,19 +56,24 @@ ul {
 .pos-a-sum {
     position: absolute;
     left: 12px;
-    bottom: 10px;
+    top: 190px;
+    //bottom: 10px;
     z-index: 2;
+    pointer-events: none;
+    user-select: none;
 }
 .pos-a-done {
     position: absolute;
-    right: 5px;
-    bottom: 7px;
+    right: 12px;
+    top: 200px;
     z-index: 2;
 }
 .pos-a-feedback {
     position: absolute;
-    top: 210px;
+    top: 260px;
     left: 12px;
+    pointer-events: none;
+    user-select: none;
 }
 
 // in party list
@@ -129,7 +134,7 @@ ul {
         height: 80px;
     }
     .pos-a-done {
-        left: 12px;
+        top:220px;
         width: 40px;
         height: 60px;
     }

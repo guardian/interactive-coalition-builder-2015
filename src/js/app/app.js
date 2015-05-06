@@ -40,7 +40,8 @@ define([
             textLastupdate = lastupdateData.toString();
 
         textLastupdate = textLastupdate.slice(4, -18) + " " + textLastupdate.slice(-4, -1);
-        document.querySelector("#jsLastUpdate").textContent = "Last update on " + textLastupdate;
+        //document.querySelector("#jsLastUpdate").textContent = "Last update on " + textLastupdate;
+        
         //console.log(date);
         //console.log(new Date(date.currentdate + " "  + date.currenttime));
 

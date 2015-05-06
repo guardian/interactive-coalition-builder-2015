@@ -25,6 +25,9 @@ $guss-webfonts-base-url: '//pasteup.guim.co.uk/fonts/';
  * $ff-data: $f-data;                  //: 'Guardian Agate Sans 1 Web';
  *  */
 
+$f-serif-headline: 'Guardian Egyptian Web','Egyptian Display', Georgia;
+$f-sans-serif-text:'Guardian Text Sans Web', 'Agate Sans', Helvetica, sans-serif;
+
 $fz-12: 12px;
 $fz-14: 14px;
 $fz-18: 18px;
@@ -82,7 +85,7 @@ sdlp:   #008587
 #related {
       display: none;  
 }
-#article-body .article__body {
+#article-body.article__body {
     padding: 0;
 }
 
@@ -90,8 +93,11 @@ sdlp:   #008587
 #article-body li::before {
       display: none;
 }
-.prosp p {
-    margin: 0  !important;
-}
 
+.prose p {
+    margin: 0;
+}
+.prose h2 {
+	font-family: $f-serif-headline;
+}
 

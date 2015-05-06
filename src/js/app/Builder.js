@@ -22,11 +22,12 @@ define([
 
         var nodes=[];
         var links=[];
+        var nodes_flat=[];
 
         var maxRadius=60,
             padding=2;
         var radiuses={
-            mobile:[20,40],
+            mobile:[28,40],
             restoftheworld:[32,60]
         }
         var rscale=d3.scale.sqrt()
@@ -35,19 +36,19 @@ define([
         var attractionTable={
             "con":{
                 vname:"Con",
-                ox:0.345,
-                oy:0.6,
+                ox:0.35,
+                oy:0.61,
                 active:true
             },
             "lab":{
                 vname:"Lab",
-                ox:0.655,
-                oy:0.6,
+                ox:0.62,
+                oy:0.61,
                 active:true
             },
             "snp":{
                 vname:"SNP",
-                ox:0.76,
+                ox:0.73,
                 oy:0.215
             },
             "libdem":{
@@ -73,12 +74,12 @@ define([
             "dup":{
                 vname:"DUP",
                 ox:0.1,
-                oy:0.5
+                oy:0.6
             },
             "sdlp":{
                 vname:"SDLP",
                 ox:0.9,
-                oy:0.65
+                oy:0.55
             }
         };
         //console.log(options.active)
@@ -121,8 +122,9 @@ define([
             .on("touchend", mouseup)
             .style("height",function(d){
                 var size=utilities.getWindowSize();
+                var h=Math.max(480,size.height-80);
 
-                return Math.max(600,size.height-80)+"px";
+                return h+"px";
             });
 
 
@@ -209,7 +211,7 @@ define([
                 .append("h3")
                     .text(function(d){return d.vname;});
         */
-        var text = bubble_inset.append("p").style("text-align", "center");
+        var text = bubble_inset.append("p").attr("class","caption");
         text.append("span")
             .attr("class", "f-p-bb")    
             .text(function(d){ return d.vname; });
@@ -649,7 +651,11 @@ define([
             //console.log("initialize");
             
             if(options.active.length) {
-                activateBench();            
+                activateBench();
+
+                nodes_flat=force.nodes().map(function(d){
+                    return d.id;
+                });     
 
                 parties.forEach(function(party){
                     if(party.default) {
@@ -713,15 +719,15 @@ define([
             }
 
         }
-        var nodes_flat=[];
+        
         function getAngry(d) {
             var status=false;
             var party=parties.find(function(p){
                 return p.name == d.name;
             });
-            
-            status=nodes_flat.some(function(d){
-                return (party.repulsion.indexOf(d)>-1 || party.strong_repulsion.indexOf(d)>-1);
+            status=nodes_flat.some(function(p){
+                //console.log(p,party.repulsion)
+                return (party.repulsion.indexOf(p)>-1 || party.strong_repulsion.indexOf(p)>-1);
             });
             
             return status;
@@ -831,7 +837,7 @@ define([
                     .append("h3")
                         .text(function(d){return d.vname;});
             */
-            var text = bubble_inset.append("p").style("text-align", "center");
+            var text = bubble_inset.append("p").attr("class","caption");
             text.append("span")
                 .attr("class", "f-p-bb")    
                 .text(function(d){ return d.vname; });
@@ -955,9 +961,7 @@ define([
 
             
 
-            if(!nostart && parties.filter(function(d){return d.pool;}).length>1) {
-                updateView.updateFeedback(true,getAngry(party));    
-            }
+            
             
             
 
@@ -986,6 +990,11 @@ define([
                     }
                 }
             }
+
+            if(!nostart && parties.filter(function(d){return d.pool;}).length>1) {
+                updateView.updateFeedback(true,getAngry(party));    
+            }
+
             if(!nostart) {
                 start();
             }

@@ -43,7 +43,7 @@ define([
             el.classed("d-n", false)
             .classed("d-b", true)
             //.classed("animate", true)
-            .text(isAngry ? "bad match!" : "match!!"); 
+            .text(isAngry ? "Bad match!" : "Match!!"); 
             
             if(to) {
                 clearTimeout(to);
