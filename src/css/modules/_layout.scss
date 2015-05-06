@@ -36,12 +36,12 @@ ul {
 // custom css
 .hide { 
     max-height: 0; 
-    transition: max-height, 1s;
+    //transition: max-height, 1s;
 }
 .show { 
     height: auto;
     max-height: 500px; 
-    transition: max-height, 1s;
+    //transition: max-height, 1s;
     border-top: 1px dotted #eee;
     margin-top: 15px;
     padding-top: 5px;
@@ -55,7 +55,7 @@ ul {
 
 .pos-a-sum {
     position: absolute;
-    left: 5px;
+    left: 12px;
     bottom: 10px;
     z-index: 2;
 }
@@ -129,7 +129,7 @@ ul {
         height: 80px;
     }
     .pos-a-done {
-        left: 5px;
+        left: 12px;
         width: 40px;
         height: 60px;
     }
