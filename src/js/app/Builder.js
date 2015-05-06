@@ -614,34 +614,37 @@ define([
         ;(function initialize() {
             console.log("initialize");
             
-            activateBench();            
+            if(options.active.length) {
+                activateBench();            
 
-            parties.forEach(function(party){
-                if(party.default) {
-                    
-                    
-                    
-                    d3.selectAll("#bench .node").filter(function(d){
-                        return d.name == party.name;
-                    }).classed("hidden",true).classed("dragging",false);        
-                    
-                    updateData.setActive(party.name, true);
-                    updateView.analysis(party.name, true);
+                parties.forEach(function(party){
+                    if(party.default) {
+                        
+                        
+                        
+                        d3.selectAll("#bench .node").filter(function(d){
+                            return d.name == party.name;
+                        }).classed("hidden",true).classed("dragging",false);        
+                        
+                        updateData.setActive(party.name, true);
+                        updateView.analysis(party.name, true);
 
-                    addParty(party.name,width*party.ox,height_pg*party.oy,true);
-                    
-                }                
-            });
+                        addParty(party.name,width*party.ox,height_pg*party.oy,true);
+                        
+                    }                
+                });
 
+                
+                updateData.setSum();
+                updateView.sum();
+
+                
+
+                setPlaygroundStatus();
+
+                start();
+            }  
             
-            updateData.setSum();
-            updateView.sum();
-
-            
-
-            setPlaygroundStatus();
-
-            start();
 
         }());
 
