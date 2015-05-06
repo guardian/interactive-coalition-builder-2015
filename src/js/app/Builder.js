@@ -18,10 +18,7 @@ define([
         var DEBUG=false;
 
         //console.log("v0.6")
-
         //console.log(options)
-        
-        
 
         var nodes=[];
         var links=[];

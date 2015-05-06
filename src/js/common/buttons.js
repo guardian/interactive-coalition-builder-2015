@@ -23,13 +23,13 @@ define([
             var textCoalition = partyList.join("+");
             
             var pageUrl = "http://gu.com/p/47" + "zp2" /*+ "ctg"*/;
-            var shareUrl = pageUrl + "#playground?" + textCoalition;
+            var shareUrl = pageUrl + "?" + textCoalition;
             
             var sharemessage = "My coalition is " + 
                     textCoalition + ", " + updateData.getSum() + " seats " + 
                     shareUrl + " " + shareImage + " " + "#GE2015";
             
-            console.log(sharemessage);
+            //console.log(sharemessage);
             if(network === "twitter"){
                 shareWindow = 
                     twitterBaseUrl + 
