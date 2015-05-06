@@ -74,3 +74,24 @@ sdlp:   #008587
 @import 'modules/buttons';
 @import 'modules/builder';
 
+
+// hack for the app
+.article__header,
+#article-body .l-header,
+#article-body .l-footer,
+#related {
+      display: none;  
+}
+#article-body .article__body {
+    padding: 0;
+}
+
+#article-body ul::before,
+#article-body li::before {
+      display: none;
+}
+.prosp p {
+    margin: 0  !important;
+}
+
+

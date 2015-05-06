@@ -38,7 +38,7 @@ define([
             var network = e.currentTarget.getAttribute('data-source'); 
             var type = e.currentTarget.getAttribute('data-type'); 
 
-            console.log(network, type);
+            //console.log(network, type);
             if(network === "twitter"){
                 var message = (type === "page") ? pageMessage : myMessage; 
                 shareWindow = 
@@ -46,8 +46,7 @@ define([
                     encodeURIComponent(message);// + 
                     //"%20" + shareUrl; 
 
-                console.log(message);
-                console.log(shareWindow);
+                //console.log(message);
             }else if(network === "facebook"){
                 var url = (type === "page") ? pageUrl : myUrl; 
                 shareWindow = 
@@ -57,9 +56,10 @@ define([
                     encodeURIComponent(shareImage) + 
                     "&redirect_uri=http://www.theguardian.com";
                 
-                console.log(url);
-                console.log(shareWindow);
+                //console.log(url);
             }
+            //console.log(shareWindow);
+            
             window.open(shareWindow, network + "share", "width=640,height=320");
         }
     }
