@@ -110,7 +110,7 @@ define([
             if (isNeutral !== undefined) { type = "n"; } 
             if (isRepulsive !== undefined) { type = "a"; }
             
-            console.log(d.party, type);
+            //console.log(d.party, type);
             el = document.querySelector(".js-parties .party-" + d.party + " img"); 
             el.src = "@@assetPath@@/imgs/pics/" + d.party + "-" + type + ".png";
         });

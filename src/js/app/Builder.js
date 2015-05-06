@@ -156,7 +156,7 @@ define([
                 .append("div")
                 .attr("class","node")
                     .classed("blurred",function(d){
-                        console.log("blurred",d)
+                        //console.log("blurred",d)
                         return !d.active;
                     })
                     .style("left",function(d){
