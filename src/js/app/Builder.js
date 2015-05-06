@@ -627,7 +627,7 @@ define([
                     
                     updateData.setActive(party.name, true);
                     updateView.analysis(party.name, true);
-                    updateView.animation(party.name, true);    
+                    //updateView.animation(party.name, true);
 
                     addParty(party.name,width*party.ox,height_pg*party.oy,true);
                     
@@ -677,23 +677,16 @@ define([
             }
         }
         var nodes_flat=[];
-        function getAngry(d,debug) {
-            if(debug){
-                //console.log("getAngry",d,nodes_flat)
-            }
+        function getAngry(d) {
             var status=false;
             var party=parties.find(function(p){
                 return p.name == d.name;
             });
-            if(debug) {
-                //console.log("party",party)
-            }
+            
             status=nodes_flat.some(function(d){
                 return (party.repulsion.indexOf(d)>-1 || party.strong_repulsion.indexOf(d)>-1);
             });
-            if(debug) {
-                //console.log("status",status)
-            }
+            
             return status;
         }
         function getHappy(d) {
@@ -807,19 +800,22 @@ define([
                 .classed("happy",function(d){
                     return getHappy(d);
                 })
-
-            d3.select("#bench")
+            if(dragged) {
+                updateView.updateFeedback(getAngry(dragged));
+            }
+            
+            /*d3.select("#bench")
                 .selectAll("div.node")
                 .filter(function(d){
                     return d.pool;
                 })
                 .classed("angry",function(d){
                     //console.log(this)
-                    return getAngry(d,1);
+                    return getAngry(d);
                 })
                 .classed("happy",function(d){
                     return getHappy(d);
-                })
+                })*/
 
 
             if(DEBUG) {
