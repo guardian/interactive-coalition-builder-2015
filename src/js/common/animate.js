@@ -20,20 +20,20 @@ define([
         elem.style[style] = from+unit;
     }
     
-    function scrollTo(element, to, duration) {
+    function animateScroll(from, to, duration) {
         if (duration <= 0) { return; }
-        var from = element.scrollTop;
         var difference = to - from;
         var perTick = difference / duration * 10;
         
-        console.log(from, to);
+        //console.log(from, perTick, to); 
         setTimeout(function() {
-            element.scrollTop = from + perTick;
-            scrollTo(from, to, duration - 10);
-            console.log(from, to, "[after]");
+            //element.scrollTop = element.scrollTop + perTick;
+            window.scrollTo(0, from+perTick);
+            from += perTick;
+            animateScroll(from, to, duration - 10);
         }, 10);
     }
 
 
-    return scrollTo;
+    return animateScroll;
 });
