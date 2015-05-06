@@ -6,9 +6,9 @@ define([
     'use strict';
 
     var partyData, coalitionList, 
-        sum = 0;
-    
-    
+    sum = 0;
+
+
     function initParties(data, analysisData) {
         partyData  = [
             { party: "con"   , color: "#005789", group: 1 }, 
@@ -30,14 +30,6 @@ define([
             d.size = data[1][d.party]; //radius of image 
             d.active = false;
 
-            /*if(!flat_attractions[d.party]) {
-                flat_attractions[d.party]={
-                    a:[],
-                    r:[],
-                    aa:[],
-                    rr:[]
-                };
-            }*/
             analysisData.forEach(function(pair){
                 //console.log(pair,d.party)
                 var partyPair=pair.pair.split(",");
@@ -58,33 +50,15 @@ define([
                         }
                     }
                 })
-
-                /*
-                if(partyPair.indexOf(d.party)>-1) {
-                    partyPair.forEach(function(party){
-                        if(party!=d.party) {
-                            console.log(d.party,pair.mark,party);
-                            if(pair.mark!="") {
-                                flat_attractions[d.party][pair.mark].push(party);
-                            }
-                        }
-                    })
-
-                }
-                */
-            })
-
-            
+            });
 
             /*
             // group 2, calculate position
             if (d.group === 2) {
-                d.x = util.getOctagonX(i-1, r, cx, d.size);
-                d.y = util.getOctagonY(i-1, r, cy,  d.size);
+            d.x = util.getOctagonX(i-1, r, cx, d.size);
+            d.y = util.getOctagonY(i-1, r, cy,  d.size);
             }
             */
-
-
 
             return d;
         });
@@ -93,11 +67,11 @@ define([
 
         // group 1
         /*
-        partyData[0].x = cx + imgSize / 2 + 10 - partyData[0].size/2;
-        partyData[0].y  = cy - partyData[0].size/2;
-        partyData[1].x = cx - imgSize / 2 - 10 - partyData[1].size/2;
-        partyData[1].y  = cy - partyData[1].size/2;
-        */
+           partyData[0].x = cx + imgSize / 2 + 10 - partyData[0].size/2;
+           partyData[0].y  = cy - partyData[0].size/2;
+           partyData[1].x = cx - imgSize / 2 - 10 - partyData[1].size/2;
+           partyData[1].y  = cy - partyData[1].size/2;
+           */
 
         partyData.forEach(function(p){
             if(flat_attractions[p.party]) {
@@ -106,14 +80,14 @@ define([
                 p.repulsion=flat_attractions[p.party].r;
                 p.strong_repulsion=flat_attractions[p.party].rr;    
             }
-            
-        })
+
+        });
 
         return partyData;
     }
-    
+
     function setSum() {
-        
+
         sum = partyData.filter(function(d) {
             return d.active;
         }).map(function(d) {
@@ -122,15 +96,15 @@ define([
             return pre + cur;
         }, 0);
     }
-    
+
     function setActive(party, isActive) {
         var item = partyData.find(function(d) { 
             return d.party === party; 
         });
-        
+
         item.active = isActive;
     }   
-   
+
     function setCoalition(data) {
         coalitionList = data;
     }

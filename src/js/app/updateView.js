@@ -13,8 +13,18 @@ define([
         var sum = updateData.getSum(),
             txtSeat = (sum > 1) ? " seats" : " seat",
             txtShort = ((326-sum) > 0) ? "just " + (326-sum) + " short of majority" : "Bravo!",
-            elsSeat;
+            elsSeat, elSum, elFeedback;
         
+        elSum = d3.select(".js-sum");
+        elFeedback = d3.select(".js-feedback");
+        if (sum > 0) {
+            elSum.classed("d-n", false).classed("d-b", true); 
+            elFeedback.classed("d-n", false).classed("d-b", true); 
+        } else {
+            elSum.classed("d-n", true).classed("d-b", false); 
+            elFeedback.classed("d-n", true).classed("d-b", false); 
+        }    
+          
         document.querySelector(".js-seatshort").textContent = "(" + txtShort + ")";
         
         elsSeat = document.querySelectorAll(".js-seatcount");
