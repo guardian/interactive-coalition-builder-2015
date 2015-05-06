@@ -13,16 +13,14 @@ define([
         var sum = updateData.getSum(),
             txtSeat = (sum > 1) ? " seats" : " seat",
             txtShort = ((326-sum) > 0) ? "just " + (326-sum) + " short of majority" : "Bravo!",
-            elsSeat, elSum, elFeedback;
+            btnDone = d3.select(".js-done"),
+            elsSeat, elSum;
         
         elSum = d3.select(".js-sum");
-        elFeedback = d3.select(".js-feedback");
         if (sum > 0) {
             elSum.classed("d-n", false).classed("d-b", true); 
-            elFeedback.classed("d-n", false).classed("d-b", true); 
         } else {
             elSum.classed("d-n", true).classed("d-b", false); 
-            elFeedback.classed("d-n", true).classed("d-b", false); 
         }    
           
         document.querySelector(".js-seatshort").textContent = "(" + txtShort + ")";
@@ -30,31 +28,29 @@ define([
         elsSeat = document.querySelectorAll(".js-seatcount");
         elsSeat[0].textContent = sum + txtSeat;
         elsSeat[1].textContent = sum + txtSeat;
+
+        if (sum > 325) {
+            btnDone.classed("d-b", true).classed("d-n", false);
+        } else {
+            btnDone.classed("d-b", false).classed("d-n", true);
+        }
     }
 
-    function updateAnimation() {
-        var sum = updateData.getSum(),
-            partyData = updateData.getParties(),
-            isActive = partyData[0].active || partyData[1].active, 
-            txtPick = d3.select(".js-pickme"),
-            btnDone = d3.select(".js-done");
-        
-        // case: sum
+    function updateFeedback(isAngry) {
+        d3.select(".js-feedback")
+        .classed("animate-10s", true)
+        .text(isAngry ? "bad match!" : "match!!"); 
+  
+        /*/ case: sum
         if (sum > 325) {
             txtPick
             .classed("animate-delay", false)
             .classed("d-n", true);
-            btnDone
-            .classed("d-b", true)
-            .classed("d-n", false);
             return;
         } else {
             txtPick
             .classed("animate-delay", true)
             .classed("d-n", false);
-            btnDone
-            .classed("d-b", false)
-            .classed("d-n", true);
             return;
         }
         
@@ -67,7 +63,7 @@ define([
             txtPick
             .classed("animate-delay", true)
             .classed("d-n", false);
-        }
+        }*/
         //console.log(isActive, "group1");
         //console.log(sum>325, "majority");
     }
@@ -180,6 +176,6 @@ define([
     return {
         sum: updateSum,
         analysis: updateAnalysis,
-        animation: updateAnimation,
+        feedback: updateFeedback,
     };
 });
