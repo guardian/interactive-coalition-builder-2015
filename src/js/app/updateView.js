@@ -36,36 +36,25 @@ define([
         }
     }
 
-    function updateFeedback(isAngry) {
-        d3.select(".js-feedback")
-        .classed("animate-10s", true)
-        .text(isAngry ? "bad match!" : "match!!"); 
-  
-        /*/ case: sum
-        if (sum > 325) {
-            txtPick
-            .classed("animate-delay", false)
-            .classed("d-n", true);
-            return;
-        } else {
-            txtPick
-            .classed("animate-delay", true)
-            .classed("d-n", false);
-            return;
-        }
+    function updateFeedback(isActive, isAngry) {
+        var el = d3.select(".js-feedback");
+        if (isActive) { 
+            el.classed("d-n", false)
+            .classed("d-b", true)
+            //.classed("animate", true)
+            .text(isAngry ? "bad match!" : "match!!"); 
         
-        // case: group1 is active      
-        if (isActive) {
-            txtPick
-            .classed("animate-delay", false)
-            .classed("d-n", true);
+            /*setTimeout(function() {
+                el.classed("animate", false);
+            }, 1000);*/
+            setTimeout(function() {
+                el.classed("d-b", false)
+                .classed("d-n", true);
+            }, 7000);
         } else {
-            txtPick
-            .classed("animate-delay", true)
-            .classed("d-n", false);
-        }*/
-        //console.log(isActive, "group1");
-        //console.log(sum>325, "majority");
+            el.classed("d-b", false)
+            .classed("d-n", true);
+        } 
     }
     
     function updateAnalysis(party, isActive) {

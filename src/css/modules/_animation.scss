@@ -27,12 +27,8 @@
 }
 
 .animate {
-    animation: movement 2s infinite;
+    animation: movement 0.25s infinite;
 }
 .animate-delay {
     animation: movement-delay 20s infinite;
-}
-.animate-15s {
-    animation: movement 2s infinite;
-    animation-duration: 15s;
 }
