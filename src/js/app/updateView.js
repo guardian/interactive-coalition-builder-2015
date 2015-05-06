@@ -36,6 +36,7 @@ define([
         }
     }
 
+    var to;
     function updateFeedback(isActive, isAngry) {
         var el = d3.select(".js-feedback");
         if (isActive) { 
@@ -43,14 +44,19 @@ define([
             .classed("d-b", true)
             //.classed("animate", true)
             .text(isAngry ? "bad match!" : "match!!"); 
-        
-            /*setTimeout(function() {
-                el.classed("animate", false);
-            }, 1000);*/
-            setTimeout(function() {
+            
+            if(to) {
+                clearTimeout(to);
+                to=null;
+            }
+            
+            to=setTimeout(function() {
                 el.classed("d-b", false)
                 .classed("d-n", true);
             }, 7000);
+
+
+
         } else {
             el.classed("d-b", false)
             .classed("d-n", true);

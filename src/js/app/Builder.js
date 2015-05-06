@@ -160,6 +160,7 @@ define([
                     .classed("blurred",function(d){
                         return !d.active;
                     })
+                    .style("opacity",0)
                     .style("left",function(d){
                         return (width_bn/2) + "px";
                     })
@@ -273,6 +274,7 @@ define([
                 .selectAll("div.node")
                     .transition()
                     .duration(500)
+                        .style("opacity",1)
                         .style("left",function(d){
                             d.bx=(d.ox * width_bn);
                             return d.bx + "px";
@@ -482,7 +484,7 @@ define([
             //TODO: improve speed on mouseup
             setTimeout(function(){
                 updateView.analysis(party, isActive);
-            },500);
+            },1000);
             
 
             dragged = null;
@@ -677,6 +679,7 @@ define([
                     .attr('x2', function(d) { return d.target.x; })
                     .attr('y2', function(d) { return d.target.y; });
             }
+
         }
         var nodes_flat=[];
         function getAngry(d) {
@@ -804,7 +807,7 @@ define([
                 })
             
             
-            /*d3.select("#bench")
+            d3.select("#bench")
                 .selectAll("div.node")
                 .filter(function(d){
                     return d.pool;
@@ -815,7 +818,7 @@ define([
                 })
                 .classed("happy",function(d){
                     return getHappy(d);
-                })*/
+                })
 
 
             if(DEBUG) {
