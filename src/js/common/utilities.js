@@ -89,12 +89,18 @@ define([
     function getActiveList() {
 
         var hash=window.location.hash;
+        
+        if(hash.length<3 || hash.indexOf("?")<0) {
+            return [];
+        }
 
         var list=[];
         if(hash=="") {
             return list;
         }
+        
         var str_list=hash.split("?");
+        
         if(str_list.length<2) {
             return [];
         }
