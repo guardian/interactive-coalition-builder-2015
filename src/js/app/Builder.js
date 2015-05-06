@@ -17,7 +17,7 @@ define([
 
         var DEBUG=false;
 
-        console.log("v0.6")
+        //console.log("v0.6")
 
         //console.log(options)
         
@@ -84,7 +84,7 @@ define([
                 oy:0.65
             }
         };
-        console.log(options.active)
+        //console.log(options.active)
         options.active.forEach(function(p){
             attractionTable[p].default=true;
         });
@@ -269,7 +269,7 @@ define([
         }
         
         function updateBench(changing_radius) {
-            console.log("updateBench")
+            //console.log("updateBench")
             var bubble=d3.select("#bench")
                 .selectAll("div.node")
                     .transition()
@@ -461,7 +461,7 @@ define([
                     
                 party = dragged.name;
                 isActive = false;
-                
+
                 updateData.setActive(party, isActive);
                 updateData.setSum();
                 updateView.sum();
@@ -638,7 +638,7 @@ define([
         start();
 
         ;(function initialize() {
-            console.log("initialize");
+            //console.log("initialize");
             
             if(options.active.length) {
                 activateBench();            
@@ -739,7 +739,7 @@ define([
             });
             
             function nodeMouseDown(d,coords){
-                console.log("coords",coords)
+                //console.log("coords",coords)
 
                 dragged_node=dom_parties[d.id].parentNode;
                 dragged=d3.select(dom_parties[d.id]).datum();
