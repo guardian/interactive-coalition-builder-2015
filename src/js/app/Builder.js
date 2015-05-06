@@ -897,7 +897,10 @@ define([
             party.pool=true;
 
             //console.log("ANGRY",party.name,getAngry(party))
-            if(!nostart && parties.filter(function(d){return party.pool;}).length>1) {
+
+            
+
+            if(!nostart && parties.filter(function(d){return d.pool;}).length>1) {
                 updateView.updateFeedback(true,getAngry(party));    
             }
             
