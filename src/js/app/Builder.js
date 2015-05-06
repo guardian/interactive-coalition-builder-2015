@@ -872,7 +872,8 @@ define([
             party.pool=false;
 
             utilities.updateURL(parties.filter(function(d){return d.pool;}).map(function(d){return d.name;}))
-            
+            updateView.updateFeedback(false);
+
             nodes=nodes.filter(function(d){
                 return d.id!=party.name;
             });
@@ -895,7 +896,7 @@ define([
             }
 
             //console.log("ANGRY",party.name,getAngry(party))
-            updateView.updateFeedback(getAngry(party));
+            updateView.updateFeedback(true,getAngry(party));
             
 
             party.pool=true;
