@@ -115,12 +115,29 @@ define([
     function getParties() { return partyData; }
     function getCoalition() { return coalitionList; }
 
+    function getHashtaggedCoalition() { 
+        var hashtags={
+            "con":"#Conservative",
+            "lab":"#Labour",
+            "snp":"#SNP",
+            "green":"#Greens",
+            "ukip":"#UKIP",
+            "libdem":"#LibDems",
+            "sdlp":"#SDLP",
+            "pc":"#plaid15",
+            "dup":"#DUP"
+        }
+        return coalitionList.map(function(d){
+            return hashtags[d];
+        });
+    }
 
     return {
         initParties: initParties,
         getParties: getParties,
         setCoalition: setCoalition,
         getCoalition: getCoalition,
+        getHashtaggedCoalition:getHashtaggedCoalition,
         setSum: setSum,
         getSum: getSum,
         setActive: setActive

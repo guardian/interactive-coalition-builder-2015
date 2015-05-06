@@ -16,25 +16,28 @@ define([
             var network = e.currentTarget.getAttribute('data-source'); 
             var twitterBaseUrl = "https://twitter.com/home?status=";
             var facebookBaseUrl = "https://www.facebook.com/dialog/feed?display=popup&app_id=741666719251986&link=";
-            var shareImage = "pic.twitter.com/vpDUQxkrJXi"; //TODO: replace
+            var shareImage = "pic.twitter.com/iDYuBxY4Ep";
             var shareWindow = "";
 
-            var partyList = updateData.getCoalition();
+            var partyList = updateData.getHashtaggedCoalition();
+            var hashtaggedCoalition = partyList.join("+");
+
+            partyList = updateData.getCoalition();
             var textCoalition = partyList.join("+");
             
             var pageUrl = "http://gu.com/p/47" + "zp2" /*+ "ctg"*/;
-            var shareUrl = pageUrl + "?" + textCoalition;
+            var shareUrl = pageUrl + "#?" + textCoalition;
             
-            var sharemessage = "My coalition is " + 
-                    textCoalition + ", " + updateData.getSum() + " seats " + 
-                    shareUrl + " " + shareImage + " " + "#GE2015";
+            var sharemessage = "My #GE2015 bloc: " + 
+                    hashtaggedCoalition + " = " + updateData.getSum() + " " + 
+                    shareUrl + " " + shareImage;
             
             //console.log(sharemessage);
             if(network === "twitter"){
                 shareWindow = 
                     twitterBaseUrl + 
-                    encodeURIComponent(sharemessage) + 
-                    "%20" + shareUrl; 
+                    encodeURIComponent(sharemessage);// + 
+                    //"%20" + shareUrl; 
 
             }else if(network === "facebook"){
                 shareWindow = 
