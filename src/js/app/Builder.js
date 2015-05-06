@@ -84,7 +84,7 @@ define([
                 oy:0.65
             }
         };
-
+        console.log(options.active)
         options.active.forEach(function(p){
             attractionTable[p].default=true;
         });
@@ -415,7 +415,18 @@ define([
             var party, isActive;
             if(dragged.y>height_bn) {
                 
-                
+                isActive = true;
+
+                party = dragged.name;
+                updateData.setActive(party, isActive);
+                updateData.setSum();
+                updateView.sum();
+
+                //TODO: improve speed on mouseup
+                //setTimeout(function(){
+                    updateView.analysis(party, isActive);
+                //},1000);
+
                 if(!dragged.pool) {
                     addParty(dragged.name,dragged.x,dragged.y - height_bn);
                     d3.select(dragged_node).classed("hidden",true).classed("dragging",false);
@@ -444,13 +455,25 @@ define([
                 }
                 
 
-                isActive = true;
+                
             }
             if(dragged.y<height_bn) {
+                    
+                party = dragged.name;
+                isActive = false;
                 
+                updateData.setActive(party, isActive);
+                updateData.setSum();
+                updateView.sum();
+
+                //TODO: improve speed on mouseup
+                //setTimeout(function(){
+                    updateView.analysis(party, isActive);
+                //},1000);
+
                 removeParty(dragged.name);
 
-                isActive = false;
+                
 
                 dragged.x=null;
                 dragged.y=null;
@@ -475,17 +498,18 @@ define([
                         .classed("happy",false)
                         .classed("angry",false);
             }
-           
+            
+            /*
             party = dragged.name;
             updateData.setActive(party, isActive);
             updateData.setSum();
             updateView.sum();
 
             //TODO: improve speed on mouseup
-            setTimeout(function(){
+            //setTimeout(function(){
                 updateView.analysis(party, isActive);
-            },1000);
-            
+            //},1000);
+            */
 
             dragged = null;
             dragged_node = null;
@@ -661,7 +685,7 @@ define([
                     return d.x+"px"; 
                 })
                 .style("top", function(d) { 
-                    var delta=2;
+                    var delta=5;
                     d.y=Math.max(d.r+delta, Math.min(height - (d.r+delta), d.y))
                     return d.y+"px"; 
                 })

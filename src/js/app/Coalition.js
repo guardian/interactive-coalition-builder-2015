@@ -50,9 +50,9 @@ define([
         .selectAll("li")
         .data(analysisData).enter()
         .append("li")
-        .attr("class", "o-h hide")
-        .attr("data-index", function(d) {
-            return d.index;
+        //.attr("class", "o-h hide")
+        .attr("class", function(d) {
+            return "o-h hide index-"+d.index;
         });
         
         txtList

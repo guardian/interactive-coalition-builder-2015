@@ -155,12 +155,14 @@ define([
             
             if (isActive && (partyList.length > 1)) {
                 //console.log("select");
-                d3.select("[data-index='"+index+"']")
+                //d3.select("[data-index='"+index+"']")
+                d3.select(".index-"+index)
                 .classed("show", true)
                 .classed("hide", false);
             } else if (!isActive) {
                 //console.log("deselect");
-                d3.select("[data-index='"+index+"']")
+                //d3.select("[data-index='"+index+"']")
+                d3.select(".index-"+index)
                 .classed("show", false)                   
                 .classed("hide", true);                   
             }
