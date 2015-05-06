@@ -482,7 +482,6 @@ define([
             //TODO: improve speed on mouseup
             setTimeout(function(){
                 updateView.analysis(party, isActive);
-                updateView.animation(party, isActive);    
             },500);
             
 
@@ -627,7 +626,6 @@ define([
                     
                     updateData.setActive(party.name, true);
                     updateView.analysis(party.name, true);
-                    //updateView.animation(party.name, true);
 
                     addParty(party.name,width*party.ox,height_pg*party.oy,true);
                     

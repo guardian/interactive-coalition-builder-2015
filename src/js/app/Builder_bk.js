@@ -287,7 +287,6 @@ define([
             
             updateView.sum();
             updateView.analysis(party, isActive);
-            updateView.animation(party, isActive);
 
             dragged = null;
             dragged_node = null;

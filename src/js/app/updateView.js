@@ -176,6 +176,6 @@ define([
     return {
         sum: updateSum,
         analysis: updateAnalysis,
-        feedback: updateFeedback,
+        updateFeedback: updateFeedback,
     };
 });
