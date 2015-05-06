@@ -76,10 +76,37 @@ define([
         };
     };
 
+    function updateURL(parties) {
+        console.log("updateURL",parties);
+        
+        var hash=window.location.hash.split("?")[0];
+        
+        hash+="?"+parties.join("+");
+
+        window.location.hash=hash;
+
+    }
+    function getActiveList() {
+
+        var hash=window.location.hash;
+
+        var list=[];
+        if(hash=="") {
+            return list;
+        }
+        var str_list=hash.split("?");
+        if(str_list.length<2) {
+            return [];
+        }
+        return str_list[1].split("+");
+    }
+
     return {
         getWindowSize: getWindowSize,
         getOctagonX: getOctagonX,
         getOctagonY: getOctagonY,
-        throttle: throttle
+        throttle: throttle,
+        getActiveList:getActiveList,
+        updateURL:updateURL
     };
 });

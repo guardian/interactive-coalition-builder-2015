@@ -901,6 +901,8 @@ define([
 
             party.pool=true;
 
+            utilities.updateURL(parties.filter(function(d){return d.pool;}).map(function(d){return d.name;}))
+
             nodes.push({
                 name:party.name,
                 vname:party.vname,

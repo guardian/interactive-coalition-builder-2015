@@ -4,14 +4,16 @@ define([
     'app/Coalition',
     'app/updateData',
     'common/animate.js',
-    'common/buttons.js'
+    'common/buttons.js',
+    'common/utilities'
 ], function(
     d3,
     Builder,
     yourCoalition,
     updateData,
     animateScroll,
-    socialButtons
+    socialButtons,
+    utilities
 ) {
     'use strict';
 
@@ -54,7 +56,7 @@ define([
             playground:"#playground",
             data:partyData,
             analysis:analysisData,
-            active:window.location.search.replace("?","").split("+")
+            active:utilities.getActiveList()
         });
           
         socialButtons();
