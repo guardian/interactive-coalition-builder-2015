@@ -42,36 +42,24 @@ define([
         //console.log(date);
         //console.log(new Date(date.currentdate + " "  + date.currenttime));
 
+        // section 3
+        yourCoalition(partyData, analysisData);
+        
+        document.querySelector(".js-conlib").textContent = textData[2].context; 
+        document.querySelector(".js-labsnp").textContent = textData[3].context;
+
         // section 2
         var builder=new Builder({
             bench:"#bench",
             playground:"#playground",
-            data:partyData
+            data:partyData,
+            analysis:analysisData,
+            active:window.location.search.replace("?","").split("+")
         });
           
-
-        /*d3.select(".js-pickme")
-        .style("top", 130 + "px")
-        .classed("animate-delay", true);
-        */
-
-        /*var el = document.querySelector(".js-btn-done"), 
-            anchor  = document.querySelector(".js-coalition"); 
-        el.addEventListener("click",runScroll,false);
-        function runScroll() {
-        animateScroll(
-            el,
-            anchor.offsetTop,
-            1000
-        );}*/
-        
-        
-        // section 3
-        yourCoalition(partyData, analysisData);    
         socialButtons();
         
-        document.querySelector(".js-conlib").textContent = textData[2].context; 
-        document.querySelector(".js-labsnp").textContent = textData[3].context;
+        
     }
 
 

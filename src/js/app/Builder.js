@@ -2,12 +2,14 @@ define([
     'd3',
     'app/updateData',
     'app/updateView',
-    'common/utilities'
+    'common/utilities',
+    'app/Coalition'
 ], function(
     d3,
     updateData,
     updateView,
-    utilities
+    utilities,
+    yourCoalition
 ){
     'use strict';
 
@@ -64,7 +66,7 @@ define([
             "green":{
                 vname:"Green",
                 ox:0.8,
-                oy:0.8
+                oy:0.76
             },
             "pc":{
                 vname:"PC",
@@ -83,6 +85,10 @@ define([
             }
         };
 
+        options.active.forEach(function(p){
+            attractionTable[p].default=true;
+        });
+
         var parties=[];
 
         options.data.forEach(function(d){
@@ -93,7 +99,6 @@ define([
                 //console.log(party,d)
                 party.name=d.party;
                 party.size=d.seat;
-                party.pool=d.active;
                 party.repulsion=d.repulsion;
                 party.attraction=d.attraction;
                 party.strong_attraction=d.strong_attraction;
@@ -156,7 +161,6 @@ define([
                         return !d.active;
                     })
                     .style("left",function(d){
-                        d.bx=(d.ox * width_bn);
                         return (width_bn/2) + "px";
                     })
                     .style("top",function(d){
@@ -380,6 +384,18 @@ define([
             redraw();
         }
 
+        function activateBench() {
+            bench.classed("show-active",false);
+            
+            d3.select("#bench")
+                .selectAll("div.node")
+                    .classed("dragging",false)
+                    .classed("blurred",false)
+                    .each(function(d){
+                        d.active=true;
+                    });
+        }
+
         function mouseup() {
             if (!dragged) return;
             //console.log("mouseup")
@@ -391,15 +407,8 @@ define([
             
             node.classed("blurred",false);
             playground.classed("dropping",false);
-            bench.classed("show-active",false);
             
-            d3.select("#bench")
-                .selectAll("div.node")
-                    .classed("dragging",false)
-                    .classed("blurred",false)
-                    .each(function(d){
-                        d.active=true;
-                    });
+            activateBench();
             
             var party, isActive;
             if(dragged.y>height_bn) {
@@ -448,11 +457,13 @@ define([
                     .transition()
                     .duration(500)
                         .style("left",function(d){
-                            return (d.ox * width) + "px";
+                            d.bx=(d.ox * width_bn);
+                            return d.bx + "px";
                         })
                         .style("top",function(d){
-                            return (d.oy * height/2) + "px";
-                        })
+                            d.by=(d.oy * height_bn);
+                            return d.by + "px";
+                        });
 
                 d3.select("#bench")
                     .selectAll("div.node")
@@ -460,7 +471,7 @@ define([
                             return !d.pool;
                         })
                         .classed("happy",false)
-                        .classed("angry",false)
+                        .classed("angry",false);
             }
            
             party = dragged.name;
@@ -599,6 +610,41 @@ define([
         force.on('tick',tick);
 
         start();
+
+        ;(function initialize() {
+            console.log("initialize");
+            
+            activateBench();            
+
+            parties.forEach(function(party){
+                if(party.default) {
+                    
+                    
+                    
+                    d3.selectAll("#bench .node").filter(function(d){
+                        return d.name == party.name;
+                    }).classed("hidden",true).classed("dragging",false);        
+                    
+                    updateData.setActive(party.name, true);
+                    updateView.analysis(party.name, true);
+                    updateView.animation(party.name, true);    
+
+                    addParty(party.name,width*party.ox,height_pg*party.oy,true);
+                    
+                }                
+            });
+
+            
+            updateData.setSum();
+            updateView.sum();
+
+            
+
+            setPlaygroundStatus();
+
+            start();
+
+        }());
 
         function tick(e) {
             
@@ -845,7 +891,7 @@ define([
             start();
 
         }
-        function addParty(partyName,x,y) {
+        function addParty(partyName,x,y,nostart) {
             var party=parties.find(function(p){
                 return p.name == partyName;
             });
@@ -876,7 +922,9 @@ define([
                     }
                 }
             }
-            start();
+            if(!nostart) {
+                start();
+            }
         }   
 
     }
