@@ -69,7 +69,8 @@ define([
             return d.active;
         }).map(function(d) {
             return d.party;
-        });      
+        }); 
+        updateData.setCoalition(partyList);     
         //console.log(party, isActive);
         //console.log(partyList);
 
@@ -114,7 +115,7 @@ define([
         
         // update numbers and text
         var isMajority = updateData.getSum() > 325,
-            txtFlag = isMajority ? "" : " NOT ";
+            txtFlag = isMajority ? "" : "not";
         
         var isConLib = false,
             isLabSnp = false,

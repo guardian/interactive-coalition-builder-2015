@@ -5,7 +5,7 @@ define([
 ){
     'use strict';
 
-    var partyData, 
+    var partyData, coalitionList, 
         sum = 0;
     
     
@@ -130,14 +130,21 @@ define([
         
         item.active = isActive;
     }   
-    
+   
+    function setCoalition(data) {
+        coalitionList = data;
+    }
+
     function getSum() { return sum; }
     function getParties() { return partyData; }
+    function getCoalition() { return coalitionList; }
 
 
     return {
         initParties: initParties,
         getParties: getParties,
+        setCoalition: setCoalition,
+        getCoalition: getCoalition,
         setSum: setSum,
         getSum: getSum,
         setActive: setActive
