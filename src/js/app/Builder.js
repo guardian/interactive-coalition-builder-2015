@@ -564,6 +564,7 @@ define([
 
         //force.gravity(0.1);
         force.charge(0)
+        force.friction(0.7)
         //force.charge(-120)
 
         force.linkStrength(function(d){
@@ -798,9 +799,7 @@ define([
                 .classed("happy",function(d){
                     return getHappy(d);
                 })
-            if(dragged) {
-                updateView.updateFeedback(getAngry(dragged));
-            }
+            
             
             /*d3.select("#bench")
                 .selectAll("div.node")
@@ -872,6 +871,8 @@ define([
 
             party.pool=false;
 
+            utilities.updateURL(parties.filter(function(d){return d.pool;}).map(function(d){return d.name;}))
+            
             nodes=nodes.filter(function(d){
                 return d.id!=party.name;
             });
@@ -892,6 +893,10 @@ define([
             if(party.pool) {
                 return;
             }
+
+            //console.log("ANGRY",party.name,getAngry(party))
+            updateView.updateFeedback(getAngry(party));
+            
 
             party.pool=true;
 
