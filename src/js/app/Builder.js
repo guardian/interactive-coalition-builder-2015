@@ -156,9 +156,9 @@ define([
                 .append("div")
                 .attr("class","node")
                     .classed("blurred",function(d){
+                        console.log("blurred",d)
                         return !d.active;
                     })
-                    .style("opacity",0)
                     .style("left",function(d){
                         return (width_bn/2) + "px";
                     })
@@ -272,7 +272,6 @@ define([
                 .selectAll("div.node")
                     .transition()
                     .duration(500)
-                        .style("opacity",1)
                         .style("left",function(d){
                             d.bx=(d.ox * width_bn);
                             return d.bx + "px";
