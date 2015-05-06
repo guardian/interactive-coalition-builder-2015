@@ -13,39 +13,52 @@ define([
         }
 
         function openShareWindow(e){
-            var network = e.currentTarget.getAttribute('data-source'); 
             var twitterBaseUrl = "https://twitter.com/home?status=";
             var facebookBaseUrl = "https://www.facebook.com/dialog/feed?display=popup&app_id=741666719251986&link=";
+            
             var shareImage = "pic.twitter.com/iDYuBxY4Ep";
-            var shareWindow = "";
 
             var partyList = updateData.getHashtaggedCoalition();
             var hashtaggedCoalition = partyList.join("+");
 
             partyList = updateData.getCoalition();
             var textCoalition = partyList.join("+");
+            var pageUrl = "http://gu.com/p/47zp2";
+            var myUrl = pageUrl + "#?" + textCoalition;
             
-            var pageUrl = "http://gu.com/p/47" + "zp2" /*+ "ctg"*/;
-            var shareUrl = pageUrl + "#?" + textCoalition;
-            
-            var sharemessage = "My #GE2015 bloc: " + 
+            var pageMessage = "#GE2015 interactive: Can you form a stable government? " + 
+                    //hashtaggedCoalition + " = " + updateData.getSum() + " " + 
+                    pageUrl + " " + shareImage;
+
+            var myMessage = "My #GE2015 bloc: " + 
                     hashtaggedCoalition + " = " + updateData.getSum() + " " + 
-                    shareUrl + " " + shareImage;
+                    myUrl + " " + shareImage;
             
-            //console.log(sharemessage);
+            var shareWindow = "";
+            var network = e.currentTarget.getAttribute('data-source'); 
+            var type = e.currentTarget.getAttribute('data-type'); 
+
+            console.log(network, type);
             if(network === "twitter"){
+                var message = (type === "page") ? pageMessage : myMessage; 
                 shareWindow = 
                     twitterBaseUrl + 
-                    encodeURIComponent(sharemessage);// + 
+                    encodeURIComponent(message);// + 
                     //"%20" + shareUrl; 
 
+                console.log(message);
+                console.log(shareWindow);
             }else if(network === "facebook"){
+                var url = (type === "page") ? pageUrl : myUrl; 
                 shareWindow = 
                     facebookBaseUrl + 
-                    encodeURIComponent(shareUrl) + 
+                    encodeURIComponent(url) + 
                     "&picture=" + 
                     encodeURIComponent(shareImage) + 
                     "&redirect_uri=http://www.theguardian.com";
+                
+                console.log(url);
+                console.log(shareWindow);
             }
             window.open(shareWindow, network + "share", "width=640,height=320");
         }
