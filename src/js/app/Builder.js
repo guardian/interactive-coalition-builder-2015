@@ -894,15 +894,16 @@ define([
             if(party.pool) {
                 return;
             }
+            party.pool=true;
 
             //console.log("ANGRY",party.name,getAngry(party))
-            if(!nostart) {
+            if(!nostart && parties.filter(function(d){return party.pool;}).length>1) {
                 updateView.updateFeedback(true,getAngry(party));    
             }
             
             
 
-            party.pool=true;
+            
 
             utilities.updateURL(parties.filter(function(d){return d.pool;}).map(function(d){return d.name;}))
 
