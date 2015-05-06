@@ -93,15 +93,24 @@ define([
         partyData.filter(function(d) {
             return d.active;
         }).forEach(function(d) {
-            var type,
+            var type = "h",
                 isRepulsive= false,
-                repulsiveList = d.repulsion.concat(d.strong_repulsion).join(" ");
+                repulsiveList = d.repulsion.concat(d.strong_repulsion).join(" "),
+                isNeutral = false,
+                neutralList = d.neutral.join(" ");
             
+            isNeutral = partyList.find(function(p) {
+                return neutralList.indexOf(p) > -1;
+            });
+
             isRepulsive = partyList.find(function(p) {
                 return repulsiveList.indexOf(p) > -1;
             });
-
-            type = isRepulsive ? "a" : "h";
+            
+            if (isNeutral !== undefined) { type = "n"; } 
+            if (isRepulsive !== undefined) { type = "a"; }
+            
+            console.log(d.party, type);
             el = document.querySelector(".js-parties .party-" + d.party + " img"); 
             el.src = "@@assetPath@@/imgs/pics/" + d.party + "-" + type + ".png";
         });
