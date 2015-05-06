@@ -37,6 +37,7 @@ define([
                 partyPair.forEach(function(party){
                     if(!flat_attractions[party]) {
                         flat_attractions[party]={
+                            n:[],
                             a:[],
                             r:[],
                             aa:[],
@@ -75,6 +76,7 @@ define([
 
         partyData.forEach(function(p){
             if(flat_attractions[p.party]) {
+                p.neutral=flat_attractions[p.party].n;
                 p.attraction=flat_attractions[p.party].a;
                 p.strong_attraction=flat_attractions[p.party].aa;
                 p.repulsion=flat_attractions[p.party].r;

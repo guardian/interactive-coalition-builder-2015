@@ -103,6 +103,7 @@ define([
                 party.attraction=d.attraction;
                 party.strong_attraction=d.strong_attraction;
                 party.strong_repulsion=d.strong_repulsion;
+                party.neutral=d.neutral;
 
                 parties.push(party)
 
@@ -527,7 +528,18 @@ define([
         var distances={}
         var factor=1;
         parties.forEach(function(p){
-
+            p.neutral.forEach(function(party_name){
+                var party=parties.find(function(d){
+                    return d.name==party_name;
+                }),
+                    //dist=(rscale(Math.max(p.size,party.size))*1.1)
+                    dist=(rscale(p.size)+rscale(party.size)*1.2);
+                dist=d3.max([dist,rscale(p.size)+rscale(party.size)]);
+                distances[p.name+"-"+party.name]=dist;
+                distances[party.name+"-"+p.name]=dist;
+                //distances[p.name+"-"+party.name]=(rscale(p.size)*factor+rscale(party.size)*factor)*distance.attraction;
+                //distances[party.name+"-"+p.name]=(rscale(p.size)*factor+rscale(party.size)*factor)*distance.attraction;
+            })
             p.repulsion.forEach(function(party_name){
                 var party=parties.find(function(d){
                     return d.name==party_name;
@@ -729,6 +741,17 @@ define([
 
             return status;
         }
+        function getNeutral(d) {
+            var status=false;
+            var party=parties.find(function(p){
+                return p.name == d.name;
+            });
+            status=nodes_flat.some(function(d){
+                return (party.neutral.indexOf(d)>-1);
+            });
+
+            return status;
+        }
 
         function start() {
             
@@ -829,6 +852,9 @@ define([
                 .classed("happy",function(d){
                     return getHappy(d);
                 })
+                .classed("neutral",function(d){
+                    return getNeutral(d);
+                })
             
             
             d3.select("#bench")
@@ -842,6 +868,9 @@ define([
                 })
                 .classed("happy",function(d){
                     return getHappy(d);
+                })
+                .classed("neutral",function(d){
+                    return getNeutral(d);
                 })
 
 

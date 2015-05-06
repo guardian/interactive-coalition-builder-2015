@@ -168,7 +168,21 @@
     .node.happy .party.#{$party} .face .pic   { 
         background-image: url(../imgs/pics/#{$party}-h.png);
     }
+
+    .node.neutral .party.#{$party} .face  .pic { 
+        background-image: url(../imgs/pics/#{$party}-n.png);
+    }
+    .node.happy.neutral .party.#{$party} .face  .pic { 
+        background-image: url(../imgs/pics/#{$party}-n.png);
+    }
+
     .node.angry .party.#{$party} .face  .pic { 
+        background-image: url(../imgs/pics/#{$party}-a.png);
+    }
+    .node.neutral.angry .party.#{$party} .face  .pic { 
+        background-image: url(../imgs/pics/#{$party}-a.png);
+    }
+    .node.neutral.happy.angry .party.#{$party} .face  .pic { 
         background-image: url(../imgs/pics/#{$party}-a.png);
     }
 }
