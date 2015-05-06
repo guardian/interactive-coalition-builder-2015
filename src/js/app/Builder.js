@@ -896,7 +896,10 @@ define([
             }
 
             //console.log("ANGRY",party.name,getAngry(party))
-            updateView.updateFeedback(true,getAngry(party));
+            if(!nostart) {
+                updateView.updateFeedback(true,getAngry(party));    
+            }
+            
             
 
             party.pool=true;
