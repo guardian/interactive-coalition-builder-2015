@@ -5,8 +5,9 @@ define([
 ){
     'use strict';
 
-    var partyData, coalitionList, 
-    sum = 0;
+    var partyData, 
+        coalitionList = [], 
+        sum = 0;
 
 
     function initParties(data, analysisData) {

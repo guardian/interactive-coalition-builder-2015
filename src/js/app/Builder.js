@@ -667,6 +667,7 @@ define([
                         }).classed("hidden",true).classed("dragging",false);        
                         
                         updateData.setActive(party.name, true);
+                        updateData.setSum(); //TODO: quick fix!!!
                         updateView.analysis(party.name, true);
 
                         addParty(party.name,width*party.ox,height_pg*party.oy,true);

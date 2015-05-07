@@ -196,7 +196,7 @@
 }
 
 
-
+.interactive {
 svg {
     position: absolute;
     top: 0;
@@ -218,6 +218,8 @@ svg line.axis {
     stroke: #eee;
     stroke-width: 1px;   
 }
+}
+
 @media(min-width:660px){
     #bench {
         height: 200px;
