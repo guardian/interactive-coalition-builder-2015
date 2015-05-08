@@ -26,6 +26,14 @@ p {
     color: $c-grey2;
 }
 
+a {
+    color: $c-brand;
+    text-decoration: none;
+    &:hover,{
+        text-decoration: underline;
+}}
+
+// style
 .f-h1 { @extend h1; font-size: 32px; }
 .f-h2 { @extend h2; }
 .f-p-bb { 
@@ -50,9 +58,17 @@ p {
     z-index: 5;
 }
 
+.f-credit {
+    font-family: $f-serif-text;
+    font-size: $fz-15;
+    font-weight: bold;
+    color: $c-grey2;    
+    margin-top: 15px;
+}
+
 .f-footnote {
     font-family: $f-sans-serif-text;
-    font-size: 13px;
+    font-size: $fz-13;
     color: #ababab; //$c-grey9
     line-height: 1.3;
 }

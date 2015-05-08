@@ -107,7 +107,13 @@ define([
 
         item.active = isActive;
     }   
-
+    
+    function setActiveAll(isActive) {
+        partyData.forEach(function(d) { 
+            d.active = isActive; 
+        });
+    }
+    
     function setCoalition(data) {
         coalitionList = data;
     }
@@ -127,7 +133,7 @@ define([
             "sdlp":"#SDLP",
             "pc":"#plaid15",
             "dup":"#DUP"
-        }
+        };
         return coalitionList.map(function(d){
             return hashtags[d];
         });
@@ -141,6 +147,7 @@ define([
         getHashtaggedCoalition:getHashtaggedCoalition,
         setSum: setSum,
         getSum: getSum,
-        setActive: setActive
+        setActive: setActive,
+        setActiveAll: setActiveAll
     };
 });

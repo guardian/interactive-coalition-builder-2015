@@ -12,7 +12,7 @@ define([
     function updateSum() {
         var sum = updateData.getSum(),
             txtSeat = (sum > 1) ? " seats" : " seat",
-            txtShort = ((326-sum) > 0) ? "just " + (326-sum) + " short of majority" : "Bravo!",
+            txtShort = ((326-sum) > 0) ? "(just " + (326-sum) + " short of majority)" : "",
             btnDone = d3.select(".js-done"),
             elsSeat, elSum;
         
@@ -23,7 +23,7 @@ define([
             elSum.classed("d-n", true).classed("d-b", false); 
         }    
           
-        document.querySelector(".js-seatshort").textContent = "(" + txtShort + ")";
+        document.querySelector(".js-seatshort").textContent = txtShort;
         
         elsSeat = document.querySelectorAll(".js-seatcount");
         elsSeat[0].textContent = sum + txtSeat;
