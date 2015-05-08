@@ -427,6 +427,7 @@ define([
                 //},1000);
 
                 if(!dragged.pool) {
+
                     addParty(dragged.name,dragged.x,dragged.y - height_bn);
                     d3.select(dragged_node).classed("hidden",true).classed("dragging",false);
                 } else {
@@ -514,6 +515,71 @@ define([
             dragged_node = null;
 
             setPlaygroundStatus();
+        }
+        this.reset=function() {
+            reset();
+        }
+        function reset() {
+
+            var current_nodes=d3.select("#bench")
+                                .selectAll("div.node").data();
+
+            force.nodes().forEach(function(d){
+                var node=current_nodes.find(function(n){
+                    console.log(d,n);
+                    return n.name==d.name;
+                });
+                node.cx=d.x;
+                node.cy=d.y+height_bn;
+                console.log("!",node)
+            });
+            nodes=[];
+            links=[];
+            force.nodes(nodes);
+            force.links(links);
+            start();
+
+            utilities.updateURL([])
+
+            d3.select("#bench")
+                .selectAll("div.node")
+                    .filter(function(d){
+                        return d.pool;
+                    })
+                        .style("left",function(d){
+                            return d.cx + "px";
+                        })
+                        .style("top",function(d){
+                            return d.cy + "px";
+                        })
+                        .classed("neutral",false)
+                        .classed("happy",false)
+                        .classed("angry",false)
+
+            d3.select("#bench")
+                .selectAll("div.node")
+                    .classed("hidden",false)
+                        .each(function(d){
+                            d.pool=false;
+                        })
+                        .transition()
+                        .duration(500)
+                            .style("left",function(d){
+                                d.bx=(d.ox * width_bn);
+                                return d.bx + "px";
+                            })
+                            .style("top",function(d){
+                                d.by=(d.oy * height_bn);
+                                return d.by + "px";
+                            });
+
+            dragged = null;
+            dragged_node = null;
+
+            setPlaygroundStatus();
+
+            
+                    
         }
 
         function setPlaygroundStatus() {
@@ -979,7 +1045,7 @@ define([
                 size:party.size,
                 r:rscale(party.size)
             });
-            
+            console.log("->",nodes)
             for(var i=0;i<nodes.length;i++) {
                 for(var j=i+1;j<nodes.length;j++) {
                     var __link={
@@ -993,7 +1059,7 @@ define([
             }
 
             if(!nostart && parties.filter(function(d){return d.pool;}).length>1) {
-                updateView.updateFeedback(true,getAngry(party));    
+                updateView.updateFeedback(true,party.name);
             }
 
             if(!nostart) {

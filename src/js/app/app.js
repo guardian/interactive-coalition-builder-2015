@@ -59,6 +59,12 @@ define([
             analysis:analysisData,
             active:utilities.getActiveList()
         });
+        
+        //TODO: reset button
+        var reset=document.querySelector(".reset");
+        reset.addEventListener("click",function(){
+            builder.reset();
+        },false);
 
         // misc: link and btns 
         var el = document.querySelector(".js-btn-done"), 
