@@ -526,12 +526,12 @@ define([
 
             force.nodes().forEach(function(d){
                 var node=current_nodes.find(function(n){
-                    console.log(d,n);
+                    //console.log(d,n);
                     return n.name==d.name;
                 });
                 node.cx=d.x;
                 node.cy=d.y+height_bn;
-                console.log("!",node)
+                //console.log("!",node)
             });
             nodes=[];
             links=[];
@@ -578,8 +578,11 @@ define([
 
             setPlaygroundStatus();
 
-            
-                    
+            // reset data and view
+            updateData.setActiveAll(false);
+            updateData.setSum();
+
+            updateView.reset();
         }
 
         function setPlaygroundStatus() {
@@ -1000,7 +1003,7 @@ define([
             party.pool=false;
 
             utilities.updateURL(parties.filter(function(d){return d.pool;}).map(function(d){return d.name;}))
-            updateView.updateFeedback(false);
+            updateView.feedback(false);
 
             nodes=nodes.filter(function(d){
                 return d.id!=party.name;
@@ -1045,7 +1048,7 @@ define([
                 size:party.size,
                 r:rscale(party.size)
             });
-            console.log("->",nodes)
+            //console.log("->",nodes)
             for(var i=0;i<nodes.length;i++) {
                 for(var j=i+1;j<nodes.length;j++) {
                     var __link={
@@ -1059,7 +1062,7 @@ define([
             }
 
             if(!nostart && parties.filter(function(d){return d.pool;}).length>1) {
-                updateView.updateFeedback(true,party.name);
+                updateView.feedback(true,party.name);
             }
 
             if(!nostart) {

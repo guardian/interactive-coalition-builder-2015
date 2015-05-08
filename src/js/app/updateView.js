@@ -8,65 +8,58 @@ define([
     data
 ){
     'use strict';
+    
+    var eCoalition;   
 
     function updateSum() {
+        var eSum = d3.select(".js-sum"),
+            eSeatshort = document.querySelector(".js-seatshort"),
+            eSeats = document.querySelectorAll(".js-seatcount");
+
         var sum = updateData.getSum(),
             txtSeat = (sum > 1) ? " seats" : " seat",
-            txtShort = ((326-sum) > 0) ? "(just " + (326-sum) + " short of majority)" : "",
-            btnDone = d3.select(".js-done"),
-            elsSeat, elSum;
+            txtShort = ((326-sum) > 0) ? "(just " + (326-sum) + " short of majority)" : "";
         
-        elSum = d3.select(".js-sum");
         if (sum > 0) {
-            elSum.classed("d-n", false).classed("d-b", true); 
+            eSum.classed("d-n", false).classed("d-b", true); 
         } else {
-            elSum.classed("d-n", true).classed("d-b", false); 
+            eSum.classed("d-n", true).classed("d-b", false); 
         }    
           
-        document.querySelector(".js-seatshort").textContent = txtShort;
+        eSeatshort.textContent = txtShort;
         
-        elsSeat = document.querySelectorAll(".js-seatcount");
-        elsSeat[0].textContent = sum + txtSeat;
-        elsSeat[1].textContent = sum + txtSeat;
-
-        if (sum > 325) {
-            btnDone.classed("d-b", true).classed("d-n", false);
-        } else {
-            btnDone.classed("d-b", false).classed("d-n", true);
-        }
+        eSeats[0].textContent = sum + txtSeat;
+        eSeats[1].textContent = sum + txtSeat;
     }
 
-    var to;
     function updateFeedback(isActive, isAngry) {
-        var el = d3.select(".js-feedback");
-        if (isActive) { 
-            el.classed("d-n", false)
-            .classed("d-b", true)
-            //.classed("animate", true)
-            .text(isAngry ? "Bad match!" : "Match!!"); 
-            
-            if(to) {
-                clearTimeout(to);
-                to=null;
-            }
-            
-            to=setTimeout(function() {
-                el.classed("d-b", false)
-                .classed("d-n", true);
-            }, 7000);
-
-
-
+        var eFeedback = d3.select(".js-feedback"),
+            tFeedback = ""; 
+         
+        if (!isActive) {
+            eFeedback.classed("d-b", false).classed("d-n", true);
+            return;
         } else {
-            el.classed("d-b", false)
-            .classed("d-n", true);
+            tFeedback = ""; 
+            console.log(isAngry);
+       
+            //TODO: move this update to Feedback
+            /*if (sum > 325) {
+                btnDone.classed("d-b", true).classed("d-n", false);
+            } else {
+                btnDone.classed("d-b", false).classed("d-n", true);
+            }*/
         } 
     }
-    
-    function updateAnalysis(party, isActive) {
-        var partyData = updateData.getParties();
 
-        var partyList = partyData.filter(function(d) {
+
+    function updateAnalysis(party, isActive) {
+        var eTxtNot = d3.select(".js-not"),
+            eConLib = d3.select(".js-conlib"),
+            eLabSnp = d3.select(".js-labsnp");
+
+        var partyData = updateData.getParties(),
+            partyList = partyData.filter(function(d) {
             return d.active;
         }).map(function(d) {
             return d.party;
@@ -76,12 +69,13 @@ define([
         //console.log(partyList);
 
         //TODO: update section
+        eCoalition = d3.select(".js-coalition");
         if (partyList.length > 0) {
-            d3.select(".js-coalition")
+            eCoalition
             .classed("d-n", false)            
             .classed("d-b", true);            
         } else {
-            d3.select(".js-coalition")
+            eCoalition
             .classed("d-n", true)            
             .classed("d-b", false);
         }
@@ -131,25 +125,25 @@ define([
             isLabSnp = false,
             partyString = partyList.join(" ");
         
-        d3.select(".js-not").text(txtFlag);
+        eTxtNot.text(txtFlag);
         
         isConLib = (partyString.indexOf("con") > -1) && (partyString.indexOf("libdem") > -1);
         isLabSnp = (partyString.indexOf("lab") > -1) && (partyString.indexOf("snp") > -1);
        
         if (isConLib) { 
-            d3.select(".js-conlib").classed("d-b", true).classed("d-n", false);
+            eConLib.classed("d-b", true).classed("d-n", false);
         } else { 
-            d3.select(".js-conlib").classed("d-b", false).classed("d-n", true); 
+            eConLib.classed("d-b", false).classed("d-n", true); 
         }
         if (isLabSnp) {
-            d3.select(".js-labsnp").classed("d-b", true).classed("d-n", false); 
+            eLabSnp.classed("d-b", true).classed("d-n", false); 
         } else {
-            d3.select(".js-labsnp").classed("d-b", false).classed("d-n", true);
+            eLabSnp.classed("d-b", false).classed("d-n", true);
         }
     
         if (isConLib && isLabSnp) { 
-            d3.select(".js-conlib").classed("d-b", false).classed("d-n", true);
-            d3.select(".js-labsnp").classed("d-b", false).classed("d-n", true);
+            eConLib.classed("d-b", false).classed("d-n", true);
+            eLabSnp.classed("d-b", false).classed("d-n", true);
         }       
         //console.log(isConLib, isLabSnp); 
         
@@ -163,25 +157,41 @@ define([
             if (index === undefined) { return; }
             
             if (isActive && (partyList.length > 1)) {
-                //console.log("select");
-                //d3.select("[data-index='"+index+"']")
-                d3.select(".index-"+index)
+                d3.select(".index-" + index)
                 .classed("show", true)
                 .classed("hide", false);
             } else if (!isActive) {
-                //console.log("deselect");
-                //d3.select("[data-index='"+index+"']")
-                d3.select(".index-"+index)
+                d3.select(".index-" + index)
                 .classed("show", false)                   
                 .classed("hide", true);                   
             }
         });
     }   
     
- 
+    function reset() {
+        // update sum
+        updateSum();
+         
+        // update feedback
+        //TODO: updateFeedback();
+
+        // update analysis
+        eCoalition
+        .classed("d-b", false)
+        .classed("d-n", true);
+        d3.selectAll(".js-parties li")
+        .classed("d-ib", false)
+        .classed("d-n", true);
+        d3.selectAll(".js-analysis li")
+        .classed("show", false)
+        .classed("hide", true);
+    }
+
+
     return {
         sum: updateSum,
         analysis: updateAnalysis,
-        updateFeedback: updateFeedback,
+        feedback: updateFeedback,
+        reset: reset
     };
 });

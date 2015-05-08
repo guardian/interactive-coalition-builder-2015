@@ -61,7 +61,7 @@ define([
         });
         
         //TODO: reset button
-        var reset=document.querySelector(".reset");
+        var reset=document.querySelector(".js-btn-reset");
         reset.addEventListener("click",function(){
             builder.reset();
         },false);
