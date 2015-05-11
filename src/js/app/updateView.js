@@ -171,6 +171,7 @@ define([
             }
         });
     }   
+
     
     function reset() {
         // update sum
@@ -189,6 +190,8 @@ define([
         d3.selectAll(".js-analysis li")
         .classed("show", false)
         .classed("hide", true);
+
+        d3.selectAll(".js-btn-reset").classed("hidden",true);
     }
 
 

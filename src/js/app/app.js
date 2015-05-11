@@ -62,7 +62,7 @@ define([
         
         //TODO: reset button
         var reset=document.querySelector(".js-btn-reset");
-        reset.addEventListener("click",function(){
+        reset.addEventListener("mousedown",function(){
             builder.reset();
         },false);
 

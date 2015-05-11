@@ -48,13 +48,17 @@ a {
 
 .btn-reset {
     position: absolute;
+    z-index: 9;
     top: 10px;
-    right: 0;
+    right: 10px;
     font-size: $fz-12;
     font-family: $f-sans-serif-text;
 }
+.btn-reset.hidden {
+    display: none;
+}
 .btn-reset a {
-    background-color:#f1f1f1;
+    background-color:#dcdcdc;
     color:#333;
 
     height: 30px;

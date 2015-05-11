@@ -565,10 +565,12 @@ define([
                         .transition()
                         .duration(500)
                             .style("left",function(d){
+                                d.x=null;
                                 d.bx=(d.ox * width_bn);
                                 return d.bx + "px";
                             })
                             .style("top",function(d){
+                                d.y=null;
                                 d.by=(d.oy * height_bn);
                                 return d.by + "px";
                             });
@@ -583,6 +585,8 @@ define([
             updateData.setSum();
 
             updateView.reset();
+
+
         }
 
         function setPlaygroundStatus() {
@@ -1034,7 +1038,7 @@ define([
             
             
             
-
+            d3.selectAll(".js-btn-reset").classed("hidden",false);
             
 
             utilities.updateURL(parties.filter(function(d){return d.pool;}).map(function(d){return d.name;}))
