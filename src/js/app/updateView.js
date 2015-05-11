@@ -41,8 +41,12 @@ define([
             return;
         } else {
             tFeedback = ""; 
-            console.log(isAngry);
-       
+            eFeedback.classed("d-b", true).classed("d-n", false);
+            
+            d3.select(".js-feedback-match")
+            .text(isAngry ? "It's a bad match" : "It's a match");
+            //console.log(isAngry);
+
             //TODO: move this update to Feedback
             /*if (sum > 325) {
                 btnDone.classed("d-b", true).classed("d-n", false);

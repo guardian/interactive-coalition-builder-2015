@@ -27,6 +27,7 @@ ul {
 .pos-a { position: absolute; }
 
 .mt--5 { margin-top: -5px; }
+.mt-5  { margin-top:  5px; }
 .mt-10 { margin-top: 10px; }
 .mt-30 { margin-top: 30px; }
 
@@ -72,8 +73,8 @@ ul {
     position: absolute;
     top: 260px;
     left: 12px;
-    pointer-events: none;
-    user-select: none;
+    //pointer-events: none;
+    //user-select: none;
 }
 
 // in party list

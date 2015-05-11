@@ -1062,7 +1062,8 @@ define([
             }
 
             if(!nostart && parties.filter(function(d){return d.pool;}).length>1) {
-                updateView.feedback(true,party.name);
+                updateView.feedback(true,getAngry(party)); 
+                //updateView.feedback(true,party.name);
             }
 
             if(!nostart) {
