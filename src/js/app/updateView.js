@@ -178,7 +178,7 @@ define([
         updateSum();
          
         // update feedback
-        //TODO: updateFeedback();
+        updateFeedback();
 
         // update analysis
         eCoalition
