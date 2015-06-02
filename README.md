@@ -1,10 +1,22 @@
-in order to view this javascript and css you are going to have to install some things (yes really), instructions in readme here: https://github.com/guardian/interactive-uk-cartogram-2015
-
-coalition-builder pulls data from the poll of polls http://interactive.guim.co.uk/spreadsheetdata/1YilVzArect3kcE1rzJvYivXkfs1oL0MLCrvC9GjPF6E.json
-
-grab some parties and try to form a coalition with enough seat for a majority - get told about possible disagreements in policies
-
-parties attract and repel eachother based on this data from Sean: https://docs.google.com/a/guardian.co.uk/spreadsheets/d/1CbB35uPuh9f50Sb7AQW9g7K240A2KMfQOK4JbRTdImw/edit?usp=sharing
+# interactive-election2015-coalition-builder
+[Can you form a stable government?](http://www.theguardian.com/politics/ng-interactive/2015/may/07/election-2015-interactive-coalition-builder)
 
 
+## Getting started
+If you haven't already installed the following requirements:
 
+* [nodejs](http://nodejs.org/download/)
+* [grunt-cli](http://gruntjs.com/getting-started) 
+* [bower](http://bower.io/)
+* [ruby](https://www.ruby-lang.org/en/documentation/installation/)
+* [sass](http://sass-lang.com/install)
+
+
+Next, install all the dependency packages and start the app:
+```bash
+> npm install
+> bower install
+> grunt
+```
+
+You can now view the example project running at [http://localhost:9000/](http://localhost:9000/)
